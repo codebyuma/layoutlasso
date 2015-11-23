@@ -43,7 +43,7 @@ var encryptPassword = function (plainText, salt) {
     return hash.digest('hex');
 };
 
-schema.pre('save', function (next) {
+UserSchema.pre('save', function (next) {
 
     if (this.isModified('password')) {
         this.salt = this.constructor.generateSalt();
@@ -54,10 +54,10 @@ schema.pre('save', function (next) {
 
 });
 
-schema.statics.generateSalt = generateSalt;
-schema.statics.encryptPassword = encryptPassword;
+UserSchema.statics.generateSalt = generateSalt;
+UserSchema.statics.encryptPassword = encryptPassword;
 
-schema.method('correctPassword', function (candidatePassword) {
+UserSchema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
 
