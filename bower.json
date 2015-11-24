@@ -1,0 +1,21 @@
+{
+  "name": "FullstackGeneratedApp",
+  "description": "A generated project at Fullstack Academy",
+  "main": "server/start.js",
+  "authors": [
+    "Sunil Unka <sunil.unka@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/codebyuma/layoutlasso",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "gridstack-angular": "~0.2.0"
+  }
+}
