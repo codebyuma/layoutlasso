@@ -27,6 +27,9 @@ var UserSchema = new mongoose.Schema({
     },
     google: {
         id: String
+    },
+    github: {
+        id: String
     }
 });
 
