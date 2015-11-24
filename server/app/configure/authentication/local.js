@@ -54,4 +54,35 @@ module.exports = function (app) {
 
     });
 
+    app.post('/signup', function (req, res, next){
+
+         var authCb = function (err, user) {
+
+            if (err) return next(err);
+
+            if (!user) {
+
+                User.create(req.body)
+                .then(function(user){
+                     req.logIn(user, function (loginErr) {
+                        if (loginErr) return next(loginErr);
+                        // We respond with a response object that has user with _id and email.
+                        res.status(200).send({
+                            user: _.omit(user.toJSON(), ['password', 'salt'])
+                        });
+                    });
+                }, function (err){
+                    res.status(404).send("Please enter a unique and valid email address")
+                })
+
+            }
+
+            // req.logIn will establish our session.
+           
+
+        };
+
+        passport.authenticate('local', authCb)(req, res, next);
+    })
+
 };
