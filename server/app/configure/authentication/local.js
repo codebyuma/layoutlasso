@@ -68,17 +68,17 @@ module.exports = function(app) {
             if (!user) {
                 //console.log("SIGN UP NO USER", req.body);
 
-                // User.findOne({
-                //         'email': req.body.email
-                //     }).exec()
-                //     .then(function(user) {
-                //         if (user){
-                //             console.log("USER FOUND", user);
-                //             var error = new Error('User with this email address already exists.');
-                //             error.status = 401;
-                //             return next(error);
-                //         }
-                //         else {
+                User.findOne({
+                        'email': req.body.email
+                    }).exec()
+                    .then(function(user) {
+                        if (user){
+                            console.log("USER FOUND", user);
+                            var error = new Error('User with this email address already exists.');
+                            error.status = 401;
+                            return next(error);
+                        }
+                        else {
 
                             User.create(req.body)
                                 .then(function(user) {
@@ -92,8 +92,8 @@ module.exports = function(app) {
                                 }, function(err) {
                                     res.status(404).send("Please enter a unique and valid email address")
                                 })
-                    //     }
-                    // })
+                        }
+                    })
 
             } else {
                 var error = new Error('User with this email address already exists.');

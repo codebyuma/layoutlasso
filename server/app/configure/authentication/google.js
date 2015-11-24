@@ -17,6 +17,7 @@ module.exports = function (app) {
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
         console.log("in the google verify callback");
+        
         UserModel.findOne({ 'google.id': profile.id }).exec()
             .then(function (user) {
 
