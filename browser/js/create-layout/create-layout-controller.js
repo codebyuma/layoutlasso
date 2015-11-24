@@ -1,25 +1,19 @@
 app.controller("CreateLayoutCtrl", function($scope){
 
-  var mainGrid = $(".gridster").gridster({
-    widget_margins: [0, 0],
-    widget_base_dimensions: [100, 100],
-    max_cols: 10,
-    min_cols: 10,
-    min_rows: 15,
-    max_size_x: true,
-    autogenerate_stylesheet: true,
-    resize: {
-      enabled: true,
-      axes: ["both"],
+  $(function () {
+      var options = {
+          cell_height: 80,
+          vertical_margin: 10
+      };
+      $('.grid-stack').gridstack(options);
+  });
 
-    },
-    avoid_overlapped_widgets: true
-  }).data("gridster");
-
-  console.log(mainGrid);
-
-
-  $scope.addNewGridElement = function(){
-    mainGrid.add_widget("<div class='new new-element'><p>Here is a new widget!</p></div>", 10, 1)
-  }
+  //
+  // var options = {
+  //     cell_height: 80,
+  //     vertical_margin: 10,
+  //     height: 15
+  // }
+  //
+  // console.log("GRIDSTACK", $('.grid-stack').gridstack(options));
 })
