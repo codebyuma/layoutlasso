@@ -1,6 +1,8 @@
 navbar {
 
-  display: block;
+  position: fixed;
+  top: 0px;
+  width: 100vw;
   background: white;
   border-bottom: 1px solid black;
   box-shadow: 1px 1px 14px -3px black;

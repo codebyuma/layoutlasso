@@ -3,15 +3,22 @@
   position: relative;
   width: 100vw;
   margin-top: 0px;
+  z-index: 0;
 
   #page-layout {
     position: relative;
     margin: 20px auto;
     width: calc(100% - 450px);
     height: 1000px;
-    z-index: -2;
+    z-index: 0;
     background-color: yellow;
     box-shadow: 0px 0px 10px grey;
+
+
+  }
+
+  .new-element {
+    background-color: lightgreen;
   }
 
 
@@ -19,17 +26,19 @@
 
 .toolbar {
   position: fixed;
+  padding: 100px 0px 0px 0px;
   top: 0px;
   width: 200px;
   height: 1000px;
   background-color: #555;
-  z-index: -1;
 }
 
 #toolbar-left {
  left: 0px;
+ z-index: 1;
 }
 
 #toolbar-right {
   right: 0px;
+  z-index: 1;
 }
