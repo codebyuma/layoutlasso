@@ -19,7 +19,6 @@ module.exports = function (app) {
         console.log("in the github verify callback", profile);
         UserModel.findOne({ 'github.id': profile.id }).exec() 
             .then(function (user) {
-
                 if (user) {
                     return user;
                 } else {

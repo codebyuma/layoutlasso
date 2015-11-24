@@ -90,7 +90,7 @@
             return $http.post('/signup', credentials)
                 .then(onSuccessfulLogin)
                 .catch(function () {
-                    return $q.reject({ message: 'Invalid. Please try again.' });
+                    return $q.reject({ message: 'User already exists with this email address.' });
                 });
         };
 

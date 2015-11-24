@@ -1,4 +1,4 @@
-<form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && sendSignUp(login)">
+<form id="signup-form" name="signupForm" ng-submit="signupForm.$valid && sendSignUp(signup)">
 
     <alert type="danger" ng-show="error">
         {{ error }}
@@ -6,11 +6,11 @@
 
     <div class="form-group">
         <label for="email">Email address</label>
-        <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+        <input type="text" ng-model="signup.email" class="form-control" id="email" placeholder="Enter email">
     </div>
     <div class="form-group">
         <label for="login-password">Password</label>
-        <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+        <input type="password" ng-model="signup.password" class="form-control" id="signup-password" placeholder="Password">
     </div>
         <div>
     
