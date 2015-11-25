@@ -1,9 +1,10 @@
 .idea
+bower_components
 node_modules
 npm-debug.log
-public
+public/main.js
+public/style.css
 .DS_Store
 coverage
 goauth.js
 githubauth.js
-bower_components
