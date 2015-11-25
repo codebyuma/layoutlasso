@@ -17,50 +17,73 @@ app.controller("CreateLayoutCtrl", function($scope){
   //     $scope.widgets.splice(index, 1);
   // };
 
-  var options = {
-      cell_height: 80,
-      vertical_margin: 0,
-      animate: true,
-      margin: 0,
-      draggable: true
-  };
-  
-  // function addItemsToGrid(items){
+   // function addItemsToGrid(items){
   //   items.forEach(function(item){
   //     grid.add_widget(item, item.x, item.y, item.width, item.height);
   //   })
   // }
-  
-  
-  var grid = $('.grid-stack').gridstack(options).data('gridstack');
-  // console.log(grid);
+
+    // console.log(grid);
   
   // $('.grid-stack').on('change', function(event, items){
   //   $scope.gridElements = items;
   //   addItemsToGrid($scope.gridElements);
   // })
+
+ // $scope.gridElements = [];
+ //  $scope.grid = grid;
+
+ // BELOW HERE WORKS
+
+  var options = {
+      cell_height: 80,
+      vertical_margin: 0,
+      margin: 0,
+      //draggable: true,
+      width: 6,
+      float: true
+  };
+
   
-  $scope.grid = grid;
-  
-  // $scope.gridElements = [];
+  var grid = $('.grid-stack').gridstack(options).data('gridstack');
+
+
+ 
   
   $scope.addNewGridElement = function(){
     console.log(grid);
   
-    var el = $("<div></div>").addClass("new-element");
-    var newWidget = grid.add_widget(el, 0, 0, 1, 1, false);
-    // console.log("new widget", newWidget);
-    // newWidget.draggable = true;
-    // grid.add_widget(newWidget);
-  
+    var el = $("<div class='grid-stack-item'><div class='grid-stack-item-content new-element'></div></div>");
+    var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+    console.log("grid now", grid);
+
   }
 
-  $(function () {
-    var options = {
-        cell_height: 80,
-        vertical_margin: 10
-    };
-    $('.grid-stack').gridstack(options);
-});
+
+// $(function () {
+//             var options = {
+//                 width: 6,
+//                 float: true
+//             };
+//             $('#grid1').gridstack(options);
+//             // $('#grid2').gridstack(options);
+
+//             var items = [
+//                 {x: 0, y: 0, width: 2, height: 2},
+//                 {x: 3, y: 1, width: 1, height: 2},
+//                 {x: 4, y: 1, width: 1, height: 1},
+//                 {x: 2, y: 3, width: 3, height: 1},
+//                 {x: 2, y: 5, width: 1, height: 1}
+//             ];
+
+//             $('.grid-stack').each(function () {
+//                 var grid = $(this).data('gridstack');
+
+//                 _.each(items, function (node) {
+//                     grid.add_widget($('<div><div class="grid-stack-item-content" /><div/>'),
+//                         node.x, node.y, node.width, node.height);
+//                 }, this);
+//             });
+//         });
 
 })
