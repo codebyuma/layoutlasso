@@ -31,7 +31,19 @@
   width: 200px;
   height: 1000px;
   background-color: #555;
+  box-shadow: 0px 0px 10px black;
+
+  .button-holder {
+    position: relative;
+    text-align: center;
+    height: auto;
+    width: 100%;
+
+  }
+
 }
+
+
 
 #toolbar-left {
  left: 0px;

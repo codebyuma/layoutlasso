@@ -1,16 +1,18 @@
 <aside id="toolbar-left" class="toolbar">
-  <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button>
+  <div class="button-holder">
+    <button ng-click="addNewGridElement()" class="btn btn-default btn-left">Add Element</button>
+  </div>
 </aside>
 <aside id="toolbar-right" class="toolbar">
 </aside>
 
-<section id="create-layout">
+<section id="create-layout" class="">
   <div id="page-layout">
 
-<div class="grid-stack">
-   <div class="grid-stack-item"
+    <div class="grid-stack">
+      <div class="grid-stack-item"
           data-gs-x="10" data-gs-y="10"
-          data-gs-width="4" data-gs-height="2"> 
+          data-gs-width="4" data-gs-height="2">
               <div class="grid-stack-item-content" style="background-color: blue" > <div style="background-color: white">THIS IS MY ELEMENT</div><button ng-click='removeWidget()'>x</button>
               </div>
             </div>
@@ -18,11 +20,11 @@
       <div class="grid-stack-item"
           data-gs-x="4" data-gs-y="0"
           data-gs-width="4" data-gs-height="4">
-              <div class="grid-stack-item-content" style="background-color: red"><button ng-click='removeWidget()'>x</button></div>
+            <div class="grid-stack-item-content" style="background-color: red"><button ng-click='removeWidget()'>x</button></div>
       </div>
 
-</div>
+    </div>
 
-    
+
   </div>
 </section>
