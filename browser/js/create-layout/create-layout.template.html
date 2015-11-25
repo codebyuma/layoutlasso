@@ -6,45 +6,22 @@
 
 <section id="create-layout">
   <div id="page-layout">
-<!-- 
-    <div  class="grid-stack" options="options">  --><!-- grid-stack: the canvas -->
-<!-- 
-      <div  ng-repeat="w in widgets" class="grid-stack-item" data-gs-x="{{w.x}}" data-gs-y="{{w.y}}" data-gs-width="{{w.width}}" data-gs-height="{{w.height}}" data-gs-auto-position="1">
-        <div class="grid-stack-item-content">
-            <a class="btn btn-primary" ng-click="removeWidget(w)" href="#">remove</a>
-        </div>
-      </div>
- -->      
-
-
-    <!-- </div> -->
-
 
 <div class="grid-stack">
    <div class="grid-stack-item"
           data-gs-x="10" data-gs-y="10"
           data-gs-width="4" data-gs-height="2"> 
-              <div class="grid-stack-item-content" style="background-color: blue" > <div style="background-color: white">THIS IS MY ELEMENT</div>
+              <div class="grid-stack-item-content" style="background-color: blue" > <div style="background-color: white">THIS IS MY ELEMENT</div><button ng-click='removeWidget()'>x</button>
               </div>
             </div>
 
       <div class="grid-stack-item"
           data-gs-x="4" data-gs-y="0"
           data-gs-width="4" data-gs-height="4">
-              <div class="grid-stack-item-content" style="background-color: red"></div>
+              <div class="grid-stack-item-content" style="background-color: red"><button ng-click='removeWidget()'>x</button></div>
       </div>
-<!--     <div class="grid-stack-item" 
-        data-gs-x="0" data-gs-y="0" 
-        data-gs-width="4" data-gs-height="2">
-            <div class="grid-stack-item-content"></div>
-    </div>
-    <div class="grid-stack-item" 
-        data-gs-x="4" data-gs-y="0" 
-        data-gs-width="4" data-gs-height="4">
-            <div class="grid-stack-item-content"></div>
-    </div> -->
-</div>
 
+</div>
 
     
   </div>
