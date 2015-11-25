@@ -17,6 +17,7 @@ module.exports = function (app) {
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
         console.log("in the github verify callback", profile);
+        
         UserModel.findOne({ 'github.id': profile.id }).exec() 
             .then(function (user) {
                 if (user) {
