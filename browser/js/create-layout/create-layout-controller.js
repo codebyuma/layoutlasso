@@ -6,7 +6,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
       vertical_margin: 0,
       margin: 0,
       //draggable: true,
-      width: 6,
+      width: 12,
       float: true
   };
 
@@ -19,27 +19,18 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
 
   $scope.addNewGridElement = function(){
     $scope.counter++;
-    var el = $compile("<div class='grid-stack-item' id=" + $scope.counter + "><div class='grid-stack-item-content new-element'><button ng-click='removeWidget()'> {{ text }} </button></div></div>")($scope);
+    var el = $compile("<div class='grid-stack-item' id=" + $scope.counter + "><div class='grid-stack-item-content new-element'><button ng-click='removeWidget(" + $scope.counter + ")'> {{ text }} </button></div></div>")($scope);
     var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
 
   }
 
 
-  $scope.removeWidget = function (widget){
-    console.log("grid", grid);
-    $(document).click(function(event){
-      // console.log("here", event.toElement.parentNode);
-      // grid.remove_widget(event.toElement.parentNode);
+  $scope.removeWidget = function (idNum){
+    
         var grid = $('.grid-stack').data('gridstack'),
-        //el = $(this).closest('.grid-stack-item')
-        el = event.toElement.parentNode.parentNode;
-
-        console.log("el", $(el).attr('id'));
-
+        el = $('#' + idNum);
         grid.remove_widget(el);
-    })
 
-    //grid.remove_widget(widget);
   }
 
 
