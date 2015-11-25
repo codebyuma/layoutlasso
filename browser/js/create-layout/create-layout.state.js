@@ -4,4 +4,4 @@ app.config(function($stateProvider){
     templateUrl: "/js/create-layout/create-layout.template.html",
     controller: "CreateLayoutCtrl"
   })
-})
+});

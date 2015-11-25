@@ -11,7 +11,6 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "angular": "^1.5.0-beta.0",
     "angular-animate": "^1.4.7",
     "angular-mocks": "^1.4.0",
     "angular-ui-bootstrap": "^0.14.3",
