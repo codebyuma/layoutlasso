@@ -15,17 +15,30 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
 
 
   $scope.text = "x";
-  
+  $scope.counter = 0;
+
   $scope.addNewGridElement = function(){
-  
-    var el = $compile("<div class='grid-stack-item'><div class='grid-stack-item-content new-element'><button ng-click='removeWidget()'> {{ text }} </button></div></div>")($scope);
+    $scope.counter++;
+    var el = $compile("<div class='grid-stack-item' id=" + $scope.counter + "><div class='grid-stack-item-content new-element'><button ng-click='removeWidget()'> {{ text }} </button></div></div>")($scope);
     var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
 
   }
 
 
-  $scope.removeWidget = function (){
-    console.log("in remove");
+  $scope.removeWidget = function (widget){
+    console.log("grid", grid);
+    $(document).click(function(event){
+      // console.log("here", event.toElement.parentNode);
+      // grid.remove_widget(event.toElement.parentNode);
+        var grid = $('.grid-stack').data('gridstack'),
+        //el = $(this).closest('.grid-stack-item')
+        el = event.toElement.parentNode.parentNode;
+
+        console.log("el", $(el).attr('id'));
+
+        grid.remove_widget(el);
+    })
+
     //grid.remove_widget(widget);
   }
 
