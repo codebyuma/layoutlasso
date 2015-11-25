@@ -6,3 +6,5 @@ public/main.js
 public/style.css
 .DS_Store
 coverage
+goauth.js
+githubauth.js
