@@ -12,6 +12,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   $scope.remove = "x";
   $scope.counter = 0;
   $scope.grid_counter = 1;
+  $scope.res = [];
 
   // key is the gridId, value is the grid object
   $scope.nestedGrids = {};
@@ -63,9 +64,51 @@ var createElement = function(id, content) {
   }
 
   $scope.removeWidget = function (idNum){
-        var grid = $('.grid-stack').data('gridstack'),
+        var grid = $('.grid-stack').data('gridstack')
         el = $('#' + idNum);
         grid.remove_widget(el);
   }
+
+  $scope.saveGrid = function (){
+    $scope.res = _.map($('.grid-stack .grid-stack-item:visible'), function (el) {
+        el = $(el);
+        var node = el.data('_gridstack_node');
+        return {
+            id: el.attr('data-custom-id'),
+            x: node.x,
+            y: node.y,
+            width: node.width,
+            height: node.height
+        };
+    });
+    alert(JSON.stringify($scope.res));
+  }
+
+  $scope.clearGrid = function (){
+    $scope.main_grid.remove_all();
+  }
+
+  // $scope.loadGrid = function (){
+  //   var serialization = [
+  //     {x: 0, y: 0, width: 2, height: 2},
+  //     {x: 3, y: 1, width: 1, height: 2},
+  //     {x: 4, y: 1, width: 1, height: 1},
+  //     {x: 2, y: 3, width: 3, height: 1},
+  //     {x: 1, y: 4, width: 1, height: 1},
+  //     {x: 1, y: 3, width: 1, height: 1},
+  //     {x: 2, y: 4, width: 1, height: 1},
+  //     {x: 2, y: 5, width: 1, height: 1}
+  //   ];
+
+  //   serialization = GridStackUI.Utils.sort(serialization);
+
+  //   var grid = $('.grid-stack').data('gridstack');
+  //   grid.remove_all();
+
+  //   _.each(serialization, function (node) {
+  //       grid.add_widget($('<div><div class="grid-stack-item-content" /></div>'), 
+  //           node.x, node.y, node.width, node.height);
+  //   });
+  // }
 
 })
