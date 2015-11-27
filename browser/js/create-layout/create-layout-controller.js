@@ -16,6 +16,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   $scope.counter = 0;
   $scope.grid_counter = 1;
 
+  // key is the gridId, value is the number of widgets inside that grid
   $scope.nestedGrids = {};
 
 // helper function to create a new element
@@ -26,7 +27,7 @@ var createElement = function(id, content) {
   <div class='row'>\
   <div class='col-xs-12'><div>" + content + "</div></div></div>\
   <div class='row'>\
-  <div class='button-box'>\
+  <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'> {{ text }} REMOVE </button>\
   <button class='lasso-x'id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
@@ -56,10 +57,9 @@ var createElement = function(id, content) {
       newGridID+ "'></div>");
 
       // add an AddWidget Button to the new grid
-      // TODO button is not appearing
-      $('#' + newGridID).find('.button-box').append("<button>Add Nested Widget</button>");
+      $( "#" + idNum + " .lasso-button-box").append("<button>Add Nested Widget</button>");
 
-      // save new grid to nestedGrids object
+      // save the new grid to nestedGrids object
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
       $scope.nestedGrids[newGridID] = 0;
 
