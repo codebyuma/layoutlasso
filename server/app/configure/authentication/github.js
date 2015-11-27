@@ -16,18 +16,27 @@ module.exports = function (app) {
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-        console.log("in the github verify callback", profile);
+        console.log("in the github verify callback", typeof profile.emails[0].value);
         
-        UserModel.findOne({ 'github.id': profile.id }).exec() 
+        UserModel.findOne({ 
+            $or: [
+                { 'github.id': profile.id },
+                { email: profile.emails[0].value }
+            ]
+        }).exec() 
             .then(function (user) {
                 if (user) {
-                    return user;
+                    if (user.email === profile.emails[0].value && user.github.id === profile.id)
+                        return user;
+                    else {
+                        throw new Error ("User with this email address already exists")
+                    }
                 } else {
                     return UserModel.create({
+                        email: profile.emails[0].value,
                         github: {
                             id: profile.id
-                        }, 
-                        email: profile.emails[0].value
+                        }
                     });
                 }
 
@@ -37,7 +46,6 @@ module.exports = function (app) {
                 console.error('Error creating user from Github authentication', err);
                 done(err);
             });
-
     };
 
     passport.use(new GitHubStrategy (githubCredentials, verifyCallback));

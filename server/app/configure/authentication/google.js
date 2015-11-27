@@ -16,19 +16,29 @@ module.exports = function (app) {
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-        console.log("in the google verify callback");
+        console.log("in the google verify callback", typeof profile.emails[0].value);
         
-        UserModel.findOne({ 'google.id': profile.id }).exec()
+        UserModel.findOne({ 
+            $or: [
+                { 'google.id': profile.id },
+                { email: profile.emails[0].value }
+            ]
+        })
+        .exec()
             .then(function (user) {
 
                 if (user) {
-                    return user;
+                    if (user.email === profile.emails[0].value && user.google.id === profile.id)
+                        return user;
+                    else {
+                        throw new Error ("User with this email address already exists")
+                    }
                 } else {
                     return UserModel.create({
+                        email: profile.emails[0].value,
                         google: {
                             id: profile.id
-                        },
-                        email: profile.emails[0].value
+                        }
                     });
                 }
 

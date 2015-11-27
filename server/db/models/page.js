@@ -6,7 +6,8 @@ var PageSchema = new mongoose.Schema({
 	project: {type: ObjectId, ref: "Project", required: true},
 	name: { type: String, unique: true, required: true},
 	html: String,
-	css: String
+	css: String,
+	grid: {}
 })
 
-mongoose.model('Page', PageSchema);
+module.exports = mongoose.model('Page', PageSchema);

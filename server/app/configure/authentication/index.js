@@ -11,10 +11,6 @@ var ENABLED_AUTH_STRATEGIES = [
     'local',
     'google',
     'github'
-    //'twitter',
-    //'facebook',
-    //'google',
-    // github
 ];
 
 module.exports = function (app) {
