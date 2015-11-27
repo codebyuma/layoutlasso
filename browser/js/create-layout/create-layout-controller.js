@@ -4,14 +4,11 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
       cell_height: 80,
       vertical_margin: 0,
       margin: 0,
-      //draggable: true,
       width: 12,
       float: true
   };
 
-  // var grid = $('.grid-stack').gridstack(options).data('gridstack');
   $scope.main_grid = $('#main-grid').gridstack(options).data('gridstack');
-
   $scope.remove = "x";
   $scope.counter = 0;
   $scope.grid_counter = 1;
@@ -29,7 +26,7 @@ var createElement = function(id, content) {
   <div class='row'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'> {{ remove }} </button>\
-  <button class='lasso-x'id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
+  <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
   id +"'>Nest Grid</button>\
   </div></div></div>")($scope);
@@ -44,11 +41,11 @@ var createElement = function(id, content) {
     var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
   }
 
-  $scope.addNestedGrid = function(idNum){
-      var thisWidget = $('#' + idNum);
-      // remove buttons - they won't work when widget becomes a grid
-      $('#lasso-nest-btn-'+idNum).remove();
-      $('#lasso-x-btn-'+idNum).remove();
+  $scope.addNestedGrid = function(id){
+      var thisWidget = $('#' + id);
+      // remove buttons
+      $('#lasso-nest-btn-'+id).remove();
+      $('#lasso-x-btn-'+id).remove();
 
       // make selected widget into a grid
       $scope.grid_counter++;
@@ -56,18 +53,13 @@ var createElement = function(id, content) {
       thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
       newGridID+ "'></div>")($scope));
 
-      // save the new grid to nestedGrids object
+      // save the new grid to nestedGrids object on the $scope
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
       $scope.nestedGrids[newGridID] = newGrid;
 
-      // add an Add Widget Button to the new grid
-      $( "#" + idNum + " .lasso-button-box")
+      // add an Add Widget Button to the newly nested grid
+      $( "#" + id + " .lasso-button-box")
       .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")($scope));
-
-      // put new widget into that grid
-      // $scope.counter++;
-      // var el = createElement($scope.counter);
-      // newGrid.add_widget(el, 0, 0, 1, 1, true);
   }
 
   $scope.removeWidget = function (idNum){
@@ -75,6 +67,5 @@ var createElement = function(id, content) {
         el = $('#' + idNum);
         grid.remove_widget(el);
   }
-
 
 })
