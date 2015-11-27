@@ -28,7 +28,7 @@ var createElement = function(id, content) {
   <div class='col-xs-12'><div>" + content + "</div></div></div>\
   <div class='row'>\
   <div class='lasso-button-box'>\
-  <button ng-click='removeWidget(" + id + ")'> {{ text }} REMOVE </button>\
+  <button ng-click='removeWidget(" + id + ")'> {{ text }} </button>\
   <button class='lasso-x'id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
   id +"'>Nest Grid</button>\
@@ -37,7 +37,16 @@ var createElement = function(id, content) {
 }
 
 // adds a new grid to the main grid
-  $scope.addNewGridElement = function(grid){
+  $scope.addNewGridElement = function(gridId){
+    console.log("addNewGridElement clicked with", gridId);
+    var grid;
+
+    if (!gridId) { // if no gridId provided, use main grid
+      grid = $scope.main_grid;
+    } else {  // if gridId provided, get that grid object
+      grid = $('#' + gridId).gridstack(options).data('gridstack');
+    }
+
     var grid = grid || $scope.main_grid;
     $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
     var el = createElement($scope.counter);
@@ -56,12 +65,15 @@ var createElement = function(id, content) {
       thisWidget.append("<div class='grid-stack grid-stack-nested' id='" +
       newGridID+ "'></div>");
 
-      // add an AddWidget Button to the new grid
-      $( "#" + idNum + " .lasso-button-box").append("<button>Add Nested Widget</button>");
-
       // save the new grid to nestedGrids object
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
       $scope.nestedGrids[newGridID] = 0;
+
+      // add an AddWidget Button to the new grid
+      $( "#" + idNum + " .lasso-button-box")
+      .append($compile("<button ng-click='addNewGridElement(" +
+       newGridID + ")'>Add Widget</button>")($scope));
+      //addNewGridElement(" + newGrid + ")
 
       // put new widget into that grid
       $scope.counter++;
