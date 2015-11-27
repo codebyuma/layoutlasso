@@ -12,11 +12,11 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   // var grid = $('.grid-stack').gridstack(options).data('gridstack');
   $scope.main_grid = $('#main-grid').gridstack(options).data('gridstack');
 
-  $scope.text = "x";
+  $scope.remove = "x";
   $scope.counter = 0;
   $scope.grid_counter = 1;
 
-  // key is the gridId, value is the number of widgets inside that grid
+  // key is the gridId, value is the grid object
   $scope.nestedGrids = {};
 
 // helper function to create a new element
@@ -28,7 +28,7 @@ var createElement = function(id, content) {
   <div class='col-xs-12'><div>" + content + "</div></div></div>\
   <div class='row'>\
   <div class='lasso-button-box'>\
-  <button ng-click='removeWidget(" + id + ")'> {{ text }} </button>\
+  <button ng-click='removeWidget(" + id + ")'> {{ remove }} </button>\
   <button class='lasso-x'id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
   id +"'>Nest Grid</button>\
@@ -37,17 +37,8 @@ var createElement = function(id, content) {
 }
 
 // adds a new grid to the main grid
-  $scope.addNewGridElement = function(gridId){
-    console.log("addNewGridElement clicked with", gridId);
-    var grid;
-
-    if (!gridId) { // if no gridId provided, use main grid
-      grid = $scope.main_grid;
-    } else {  // if gridId provided, get that grid object
-      grid = $('#' + gridId).gridstack(options).data('gridstack');
-    }
-
-    var grid = grid || $scope.main_grid;
+  $scope.addNewGridElement = function(grid){
+    grid = grid || $scope.main_grid;
     $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
     var el = createElement($scope.counter);
     var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
@@ -62,23 +53,21 @@ var createElement = function(id, content) {
       // make selected widget into a grid
       $scope.grid_counter++;
       var newGridID = "grid" + $scope.grid_counter;
-      thisWidget.append("<div class='grid-stack grid-stack-nested' id='" +
-      newGridID+ "'></div>");
+      thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
+      newGridID+ "'></div>")($scope));
 
       // save the new grid to nestedGrids object
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
-      $scope.nestedGrids[newGridID] = 0;
+      $scope.nestedGrids[newGridID] = newGrid;
 
-      // add an AddWidget Button to the new grid
+      // add an Add Widget Button to the new grid
       $( "#" + idNum + " .lasso-button-box")
-      .append($compile("<button ng-click='addNewGridElement(" +
-       newGridID + ")'>Add Widget</button>")($scope));
-      //addNewGridElement(" + newGrid + ")
+      .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")($scope));
 
       // put new widget into that grid
-      $scope.counter++;
-      var el = createElement($scope.counter);
-      newGrid.add_widget(el, 0, 0, 1, 1, true);
+      // $scope.counter++;
+      // var el = createElement($scope.counter);
+      // newGrid.add_widget(el, 0, 0, 1, 1, true);
   }
 
   $scope.removeWidget = function (idNum){
