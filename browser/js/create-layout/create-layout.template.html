@@ -4,14 +4,25 @@
   </div>
 </aside>
 <aside id="toolbar-right" class="toolbar">
+  <button ng-click="convertToHTML()">Convert to HTML</button>
+  <p> {{ convertedHTML }}</p>
 </aside>
 
-<section id="create-layout" class="">
-  <div id="page-layout">
-    <div class="grid-stack">
+<section class="create-layout">
+  <div class="page-layout">
 
+    <div class="grid-stack" id="main-grid">
     </div>
 
+  </div>
+</section>
+
+<section class="create-layout">
+  <h3>Exportable View</h3>
+  <div class="page-layout">
+
+    <div class="grid-stack" id="export-grid">
+    </div>
 
   </div>
 </section>
