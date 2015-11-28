@@ -14,8 +14,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   $scope.grid_counter = 1;
 
   // key is the gridId, value is the grid object
-  $scope.allGrids = {};
-  $scope.allGrids["main-grid"] = $scope.main_grid;
+  $scope.nestedGrids = {};
+  $scope.nestedGrids["main-grid"] = $scope.main_grid;
 
 // helper function to create a new element
 var createElement = function(id, content) {
@@ -58,7 +58,7 @@ var createElement = function(id, content) {
 
       // save the new grid to nestedGrids object on the $scope
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
-      $scope.allGrids[newGridID] = newGrid;
+      $scope.nestedGrids[newGridID] = newGrid;
 
       // add an Add Widget Button to the newly nested grid
       $( "#" + id + " .lasso-button-box")
@@ -78,7 +78,7 @@ var createElement = function(id, content) {
   // This exportation uses the Gridstack system and requires a bower-install of Gridstack (not Bootstrap).
 
   $scope.convertedHTML = "";
-  var userContentRegex = /<div class="lasso-user-content">[\s\S]*<\/div><div class="lasso-end-user-content"><\/div>/igm;
+  var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
 
   // static grid that does not allow modification
   var export_options = {
@@ -107,11 +107,9 @@ var createElement = function(id, content) {
 
   $scope.convertToHTML = function() {
     console.log("button clicked!");
-    var nodes, parentGrid;
-    for(var key in $scope.allGrids) {  // for each gridget
-      nodes = $scope.allGrids[key].grid.nodes;
-      parentGrid = $scope.allGrids[key].grid;
-      console.log("parentGrid", parentGrid);
+    var nodes;
+    for(var key in $scope.nestedGrids) {  // for each gridget
+      nodes = $scope.nestedGrids[key].grid.nodes;
       for (var i = 0; i < nodes.length; i++) {  // for each widget in that gridget
          var matches = nodes[i].el[0].innerHTML.match(userContentRegex);
          if (matches.length == 0) {
