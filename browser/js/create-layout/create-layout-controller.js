@@ -68,9 +68,8 @@ var createElement = function(id, content) {
   }
 
   $scope.removeWidget = function (idNum){
-        var grid = $('.grid-stack').data('gridstack')
-        el = $('#' + idNum);
-        grid.remove_widget(el);
+        var el = $('#' + idNum);
+        $scope.main_grid.remove_widget(el);
   }
 
 
