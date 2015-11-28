@@ -18,6 +18,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
     $scope.nestedGrids = {};
     $scope.nestedGrids["main-grid"] = $scope.main_grid;
 
+
     // helper function to create a new element
     var createElement = function(id, content) {
         var content = content || "Your content here";
@@ -47,6 +48,9 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
             var el = createElement($scope.counter, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
     }
+
+  $scope.text = "x";
+  $scope.counter = 0;
 
     $scope.addNestedGrid = function(id) {
         var thisWidget = $('#' + id);
