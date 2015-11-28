@@ -101,6 +101,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
 
     $scope.clearGrid = function() {
         $scope.main_grid.remove_all();
+        $scope.nestedGrids = {};
     }
 
     $scope.loadGrid = function() {
@@ -112,19 +113,23 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
                 var el = createElement(node.id);
                 var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
-                console.log("after adding widget if parent is main-grid", $scope.main_grid)
+                
 
             } else {
                 // call loadNestedGrid with parent's id, so it can grab that widget and modify it to add the nested widget
+                console.log("sub node:", node);
                 console.log("sub node id:", node.id);
                 console.log("it's parent's id:", node.parentId);
-                $scope.loadNestedGrid(node.parentId, node.id);
+                $scope.loadNestedGrid(node.parentId, node.id, node); 
+                // should i send the whole node instead because it has its own coordinates? Then create new element with those coordinates on top?
             }
         });
+        $scope.nestedGrids["main-grid"] = $scope.main_grid; // ===== not sure if I need to do this?????? 
+
 
     }
 
-    $scope.loadNestedGrid = function(parentId, nodeId) {
+    $scope.loadNestedGrid = function(parentId, nodeId, node) {
         var thisWidget = $('#' + parentId); // this will already have 'grid' in the id as it's a parent of a nested grid
 
         console.log("in load nested grid", thisWidget);
@@ -133,11 +138,14 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
         var newGrid = $('#' + nodeId).gridstack(options).data('gridstack');
         $scope.nestedGrids[nodeId] = newGrid;
 
+        //var el = createExportElement(node.id);
+        //$scope.main_grid.add_widget(node, node.x, node.y, node.w, node.h, false);
+
         console.log("updated nested grids", $scope.nestedGrids); // this object now contains the nested grids
+        //console.log("updated main grid?", $scope.main_grid);
 
 
         // ======   WHY DOESNT IT SHOW UP NOW ON THE SCREEN?
-
 
 
         //$scope.main_grid = $scope.nestedGrids;
@@ -181,6 +189,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
     // adds a new EXPORTABLE grid to the export_grid - a static grid that cannot be modified in Layout Lasso
     var addExportWidget = function(grid, id, content, x, y, w, h) {
         grid = grid || $scope.export_grid;
+        // do we even need to increase counter here? === 
         $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
         var el = createExportElement(id, content);
         var newWidget = grid.add_widget(el, x, y, w, h, false);
