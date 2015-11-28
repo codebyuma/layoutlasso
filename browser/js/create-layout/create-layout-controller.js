@@ -17,6 +17,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   // key is the gridId, value is the grid object
   $scope.nestedGrids = {};
   $scope.nestedGrids["main-grid"] = $scope.main_grid;
+  $scope.savedGrid = {};
 
 // helper function to create a new element
 var createElement = function(id, content) {
@@ -76,12 +77,16 @@ var createElement = function(id, content) {
 
   // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
   $scope.saveGrid = function (){
-    console.log("scope res", $scope.res);
-    console.log("nestedgrids", _.isEmpty($scope.nestedGrids)); 
-    if (_.isEmpty($scope.nestedGrids)){
+    console.log("scope main_grid", $scope.main_grid);
+    $scope.nestedGrids["main-grid"] = $scope.main_grid;
+    console.log("nestedgrids", $scope.nestedGrids); 
+
+
       $scope.res = _.map($('.grid-stack .grid-stack-item:visible'), function (el) {
           el = $(el);
           var node = el.data('_gridstack_node');
+          console.log("element", el)
+          console.log("node", node)
           return {
               id: el.attr('id'),
               x: node.x,
@@ -90,47 +95,24 @@ var createElement = function(id, content) {
               height: node.height
           };
       });
-    } else {
-       console.log("nestedgrids", $scope.nestedGrids); 
-       // for each grid within nestedgrids, save the grid using the map funx as above
 
-    }
     alert(JSON.stringify($scope.res));
-    console.log("updated", $scope.res);
   }
+
+
+
 
   $scope.clearGrid = function (){
     $scope.main_grid.remove_all();
   }
 
   $scope.loadGrid = function (){
-    // var serialization = [
-    //   {x: 0, y: 0, width: 2, height: 2},
-    //   {x: 3, y: 1, width: 1, height: 2},
-    //   {x: 4, y: 1, width: 1, height: 1},
-    //   {x: 2, y: 3, width: 3, height: 1},
-    //   {x: 1, y: 4, width: 1, height: 1},
-    //   {x: 1, y: 3, width: 1, height: 1},
-    //   {x: 2, y: 4, width: 1, height: 1},
-    //   {x: 2, y: 5, width: 1, height: 1}
-    // ];
-
-    // serialization = GridStackUI.Utils.sort(serialization);
-
-    // var grid = $('.grid-stack').data('gridstack');
-    // grid.remove_all();
-   
-    console.log("nested grid object", $scope.nestedGrids);
 
     _.each($scope.res, function (node) {
-
+          console.log("NODES", node);
           var el = createElement(node.id);
           var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
 
-
-     // $scope.addNewGridElement(node);
-        // $scope.main_grid.add_widget($('<div><div class="grid-stack-item-content" /></div>'), 
-        //     node.x, node.y, node.width, node.height);
     });
   }
 
