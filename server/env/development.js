@@ -1,3 +1,14 @@
+var goauth = require ('../../goauth.js');
+var gClientId = goauth.GoogleClientID;
+var gClientSecret = goauth.GoogleClientSecret;
+var gCallbackURL = goauth.GoogleCallbackURL;
+
+
+var ghauth = require ('../../githubauth.js');
+var ghClientId = ghauth.GithubClientID;
+var ghClientSecret = ghauth.GithubClientSecret;
+var ghCallbackURL = ghauth.GithubCallbackURL;
+
 module.exports = {
   "DATABASE_URI": "mongodb://localhost:27017/fsg-app",
   "SESSION_SECRET": "Optimus Prime is my real dad",
@@ -12,8 +23,15 @@ module.exports = {
     "callbackURL": "INSERT_FACEBOOK_CALLBACK_HERE"
   },
   "GOOGLE": {
-    "clientID": "INSERT_GOOGLE_CLIENTID_HERE",
-    "clientSecret": "INSERT_GOOGLE_CLIENT_SECRET_HERE",
-    "callbackURL": "INSERT_GOOGLE_CALLBACK_HERE"
+    "clientID": gClientId,
+    "clientSecret": gClientSecret,
+    "callbackURL": gCallbackURL
+  },
+    "GITHUB": {
+    "clientID": ghClientId,
+    "clientSecret": ghClientSecret,
+    "callbackURL": ghCallbackURL
   }
 };
+
+
