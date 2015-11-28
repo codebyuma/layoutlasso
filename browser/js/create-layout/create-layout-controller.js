@@ -18,8 +18,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
     $scope.nestedGrids = {};
     $scope.nestedGrids["main-grid"] = $scope.main_grid;
 
-
-
     // helper function to create a new element
     var createElement = function(id, content) {
         var content = content || "Your content here";
@@ -147,8 +145,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
         //$scope.main_grid.add_widget(newGrid);
 
         // add an Add Widget Button to the newly nested grid
-        //$( "#" + nodeId + " .lasso-button-box")
-        // .append($compile("<button ng-click='addNewGridElement(nestedGrids." + nodeId + ")'>Add Widget</button>")($scope));
+        $( "#" + nodeId + " .lasso-button-box")
+        .append($compile("<button ng-click='addNewGridElement(nestedGrids," + nodeId + ")'>Add Widget</button>")($scope));
     }
 
 
