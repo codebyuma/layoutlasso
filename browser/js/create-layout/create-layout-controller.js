@@ -98,7 +98,7 @@ var createElement = function(id, content) {
   }
 
 // adds a new EXPORTABLE grid to the main grid - static grid that cannot be modified in Layout Lasso
-  $scope.addExportWidget = function(grid, id, x, y, w, h){
+  var addExportWidget = function(grid, id, x, y, w, h){
     grid = grid || $scope.export_grid;
     $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
     var el = createElement(id);
@@ -108,9 +108,9 @@ var createElement = function(id, content) {
   $scope.convertToHTML = function() {
     console.log("button clicked!");
     var nodes;
-    for(var key in $scope.nestedGrids) {  // for each gridget
+    for(var key in $scope.nestedGrids) {  // for each grid
       nodes = $scope.nestedGrids[key].grid.nodes;
-      for (var i = 0; i < nodes.length; i++) {  // for each widget in that gridget
+      for (var i = 0; i < nodes.length; i++) {  // for each widget in that grid
          var matches = nodes[i].el[0].innerHTML.match(userContentRegex);
          if (matches.length == 0) {
            throw new Error("Error converting to html - No user content found.");
