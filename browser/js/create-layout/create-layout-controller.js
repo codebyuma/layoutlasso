@@ -13,7 +13,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   
   var grid = $('.grid-stack').gridstack(options).data('gridstack');
 
-
   $scope.text = "x";
   $scope.counter = 0;
 
