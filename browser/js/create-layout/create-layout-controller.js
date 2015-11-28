@@ -14,8 +14,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile){
   $scope.grid_counter = 1;
 
   // key is the gridId, value is the grid object
-  $scope.nestedGrids = {};
-  $scope.nestedGrids["main-grid"] = $scope.main_grid;
+  $scope.allGrids = {};
+  $scope.allGrids["main-grid"] = $scope.main_grid;
 
 // helper function to create a new element
 var createElement = function(id, content) {
@@ -58,7 +58,7 @@ var createElement = function(id, content) {
 
       // save the new grid to nestedGrids object on the $scope
       var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
-      $scope.nestedGrids[newGridID] = newGrid;
+      $scope.allGrids[newGridID] = newGrid;
 
       // add an Add Widget Button to the newly nested grid
       $( "#" + id + " .lasso-button-box")
@@ -97,26 +97,28 @@ var createElement = function(id, content) {
     return el;
   }
 
-  // adds a new EXPORTABLE grid to the main grid - static grid that cannot be modified in Layout Lasso
-    $scope.addNewGridElement = function(grid){
-      grid = grid || $scope.main_grid;
-      $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-      var el = createElement($scope.counter);
-      var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
-    }
+// adds a new EXPORTABLE grid to the main grid - static grid that cannot be modified in Layout Lasso
+  $scope.addExportWidget = function(grid, id, x, y, w, h){
+    grid = grid || $scope.export_grid;
+    $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
+    var el = createElement(id);
+    var newWidget = grid.add_widget(el, x, y, w, h, false);
+  }
 
   $scope.convertToHTML = function() {
-    var nodes;
-    for(var key in $scope.nestedGrids) {  // for each widget on the main grid
-
-      nodes = $scope.nestedGrids[key].grid.nodes;
-      for (var i = 0; i < nodes.length; i++) {  // for each widget in that widget
+    console.log("button clicked!");
+    var nodes, parentGrid;
+    for(var key in $scope.allGrids) {  // for each gridget
+      nodes = $scope.allGrids[key].grid.nodes;
+      parentGrid = $scope.allGrids[key].grid;
+      console.log("parentGrid", parentGrid);
+      for (var i = 0; i < nodes.length; i++) {  // for each widget in that gridget
          var matches = nodes[i].el[0].innerHTML.match(userContentRegex);
          if (matches.length == 0) {
-           throw new Error("Error converting to html - No user content found in widget.");
+           throw new Error("Error converting to html - No user content found.");
          } else {
            // create a new grid element matching the properties of that one
-
+          console.log("content:", matches[0]);
          }
       }
     }
