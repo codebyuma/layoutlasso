@@ -138,7 +138,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
         console.log("updated nested grids", $scope.nestedGrids); // this object now contains the nested grids
 
 
-        // WHY DOESNT IT SHOW UP NOW ON THE SCREEN?
+        // ======   WHY DOESNT IT SHOW UP NOW ON THE SCREEN?
 
 
 
