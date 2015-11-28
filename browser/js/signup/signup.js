@@ -17,7 +17,8 @@ app.controller('SignUpCtrl', function ($scope, AuthService, $state) {
 
         $scope.error = null;
 
-        AuthService.signup(signupInfo).then(function () {
+        AuthService.signup(signupInfo).then(function (user) {
+            $scope.user = user;
             console.log("in authservice login function in signup control")
             $state.go('home');
         }).catch(function () {

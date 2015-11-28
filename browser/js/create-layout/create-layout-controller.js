@@ -1,4 +1,10 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService) {
+
+    AuthService.getLoggedInUser().then(function (user) {
+        if(user) {
+            $scope.user = user;
+        }
+    });
 
     var options = {
         cell_height: 80,
@@ -99,7 +105,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile) {
                 height: node.height
             };
         });
-
+        
         alert(JSON.stringify($scope.savedGrid));
     }
 
