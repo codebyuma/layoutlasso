@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile){
+app.controller("CreateLayoutCtrl", function($scope, $compile, LayoutComponentFactory){
 
   var options = {
       cell_height: 80,
@@ -28,10 +28,10 @@ var createElement = function(id, content) {
   </div></div>\
   <div class='row'>\
   <div class='lasso-button-box'>\
-  <button ng-click='removeWidget(" + id + ")'> {{ remove }} </button>\
+  <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
-  id +"'>Nest Grid</button>\
+  id +"'><span class='glyphicon glyphicon-th'></span></button>\
   </div></div></div>")($scope);
   return el;
 }
@@ -42,6 +42,15 @@ var createElement = function(id, content) {
     $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
     var el = createElement($scope.counter);
     var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+  }
+
+  $scope.addNavBar = function(){
+    // Nav bar can only be added to the main grid...for now.
+    var grid = $scope.main_grid
+    /* LayoutComponentFactory just holds code to generate basic HTML and bootstrap components. */
+    var el = createElement($scope.counter, LayoutComponentFactory.addNavBar())
+    // Navbar takes up whole width of grid.
+    var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
   }
 
   $scope.addNestedGrid = function(id){
