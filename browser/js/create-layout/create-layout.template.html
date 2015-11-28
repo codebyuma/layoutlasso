@@ -2,13 +2,24 @@
   <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button>
 </aside>
 <aside id="toolbar-right" class="toolbar">
+  <button ng-click="convertToHTML()">Convert to HTML</button>
+  <p> {{ convertedHTML }}</p>
 </aside>
 
-<section id="create-layout">
+<section class="create-layout">
   <div id="page-layout">
 
-<div class="grid-stack" id="main-grid">
-</div>
+    <div class="grid-stack" id="main-grid">
+    </div>
+
+  </div>
+</section>
+
+<section class="create-layout">
+  <div id="page-layout">
+
+    <div class="grid-stack" id="export-grid">
+    </div>
 
   </div>
 </section>
