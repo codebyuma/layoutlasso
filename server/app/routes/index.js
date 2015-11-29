@@ -3,12 +3,9 @@ var router = require('express').Router();
 module.exports = router;
 
 router.use('/members', require('./members'));
-
-router.use('/user', require('./user'));
-
-router.use('/project', require('./project'));
-
-router.use('/page', require('./page'));
+router.use('/users', require('./user'));
+router.use('/projects', require('./project'));
+router.use('/pages', require('./page'));
 
 // Make sure this is after all of
 // the registered routes!

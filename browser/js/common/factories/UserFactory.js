@@ -2,7 +2,7 @@ app.factory('UserFactory', function($rootScope, $http){
     var UserFactory = {};
 
     UserFactory.createUser = function(_name, _userId){
-        return $http.post('/api/user', {name: _name, user: _userId})
+        return $http.post('/api/users', {name: _name, user: _userId})
         .then(function(user){
             return user.data
         }, function(err){
@@ -11,7 +11,7 @@ app.factory('UserFactory', function($rootScope, $http){
     }
 
     UserFactory.getUsers = function (){
-        return $http.put('/api/user/')
+        return $http.put('/api/users/')
         .then(function(users){
             return users.data
         }, function(err){
@@ -20,7 +20,7 @@ app.factory('UserFactory', function($rootScope, $http){
     }
 
     UserFactory.saveUser = function(id, updatedPage){
-        return $http.put('/api/user/' + id, updatedPage)
+        return $http.put('/api/users/' + id, updatedPage)
         .then(function(user){
             return user.data
         }, function(err){
@@ -29,7 +29,7 @@ app.factory('UserFactory', function($rootScope, $http){
     }
 
     UserFactory.getUser = function(id){
-        return $http.get('/api/user/' + id)
+        return $http.get('/api/users/' + id)
         .then(function(user){
             return user.data
         }, function(err){
@@ -38,7 +38,7 @@ app.factory('UserFactory', function($rootScope, $http){
     }
 
     UserFactory.deleteUser = function(id){
-        return $http.delete('/api/user/' + id)
+        return $http.delete('/api/users/' + id)
         .then(function(user){
             return user.data
         }, function(err){
