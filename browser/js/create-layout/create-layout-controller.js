@@ -32,6 +32,7 @@ var createElement = function(id, content) {
   <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
   id +"'><span class='glyphicon glyphicon-th'></span></button>\
+  <apply-styling></apply-styling>\
   </div></div></div>")($scope);
   return el;
 }
@@ -47,6 +48,7 @@ var createElement = function(id, content) {
   $scope.addNavBar = function(){
     // Nav bar can only be added to the main grid...for now.
     var grid = $scope.main_grid
+    $scope.counter++;
     /* LayoutComponentFactory just holds code to generate basic HTML and bootstrap components. */
     var el = createElement($scope.counter, LayoutComponentFactory.addNavBar())
     // Navbar takes up whole width of grid.
@@ -158,6 +160,16 @@ var createElement = function(id, content) {
       }
     }
   }
+
+// CSS Setting and Getting on elements
+
+// This is to keep a tally on what elements are currently being styled.
+$scope.styleGroup = [];
+
+$scope.stylingModeActive = false;
+
+
+
 
 
 }) // end of controller

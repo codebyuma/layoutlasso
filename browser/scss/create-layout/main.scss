@@ -1,5 +1,5 @@
 h3    {
-  color: blue;
+  color: #3FA9F5;
   font-size: 12px;
   text-align: center;
 }
@@ -38,7 +38,7 @@ h3    {
   top: 0px;
   width: 120px;
   height: calc(100% + 100px);
-  background-color: #999999;
+  background-color: #666;
   box-shadow: 0px 0px 10px black;
 
   .button-holder {
@@ -48,8 +48,20 @@ h3    {
     width: 100%;
 
   .lasso-toolbar-btn {
-    background-color: #F06400;
+    background-color: #3FA9F5;
     margin: 5px auto;
+    border-radius: 0px;
+    width: 100%;
+    outline: none;
+    transition: all 0.25s;
+    border: none;
+    &:hover {
+      box-shadow: 0px 5px 10px #222;
+    }
+    &:active {
+      box-shadow: 0px 5px 10px #222 inset;
+      color: #fff;
+    }
   }
 
   }
