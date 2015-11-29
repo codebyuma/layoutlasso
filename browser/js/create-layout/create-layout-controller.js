@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, ProjectFactory) {
 
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
@@ -106,6 +106,16 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService) {
             };
         });
         
+        //console.log("USERRRR", $scope.user._id);
+
+        // ====== maybe we should store project on the scope when the user opens/loads one? 
+        // just creating a new project each time for now: 
+        // ProjectFactory.createProject("project"+$scope.counter, $scope.user._id)
+        // .then (function (project){
+        //     console.log("project", project);
+        // })
+
+
         alert(JSON.stringify($scope.savedGrid));
     }
 
@@ -144,10 +154,16 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService) {
 
         console.log("in load nested grid", thisWidget);
 
+
+        var el = createElement(nodeId);
+        console.log("elll", el);
+        $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
+
         // save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + nodeId).gridstack(options).data('gridstack');
         $scope.nestedGrids[nodeId] = newGrid;
 
+        console.log("what is this:", $scope.nestedGrids[nodeId]);
         //var el = createExportElement(node.id);
         //$scope.main_grid.add_widget(node, node.x, node.y, node.w, node.h, false);
 
