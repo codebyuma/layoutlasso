@@ -114,35 +114,34 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         //      add the project to the user's array of projects?
 
         // just creating a new project each time for now to test saving
-        // Should instead create one at a time with a user inputted name 
-        // and then put to the project instead of creating new one each time
+        // Should instead create one with a user inputted name and save that one until they close it
         // same with the page - don't create a new one each time
+
         ProjectFactory.createProject("project"+$scope.counter, $scope.user._id)
         .then (function (project){
             console.log("project", project);
-            $scope.project = project;
-            $scope.user.projects.push(project._id);
-            return UserFactory.saveUser($scope.user)
+            $scope.project = project; // store newly created project on scope
+            $scope.user.projects.push(project._id); // add that project id to the user on scope
+            return UserFactory.saveUser($scope.user) // save the updated user
             
         })
         .then (function (user){
             $scope.user = user;
             return PageFactory.createPage($scope.project._id, "page"+$scope.counter, $scope.user._id, $scope.savedGrid)
             .then (function (page){
-                $scope.page = page;
+                $scope.page = page; // store the newly created page on the scope
                 console.log('saved page', page);
                 return page;
             })
         })
         .then (function (page){
-            $scope.project.pages.push(page._id);
-            ProjectFactory.saveProject($scope.project)
+            $scope.project.pages.push(page._id); // add the newly create page to the project on scope
+            ProjectFactory.saveProject($scope.project) // save that project to the backend
             .then (function (updatedProject){
                 $scope.project = updatedProject;
                 console.log("updated project", $scope.project);
             })
         })
-
 
 
         console.log(JSON.stringify($scope.savedGrid));
