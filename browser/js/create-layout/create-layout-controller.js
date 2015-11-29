@@ -92,8 +92,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
 
         $scope.nestedGrids["main-grid"] = $scope.main_grid;
 
-        console.log('in saved grid, what are we doing with the real names', $('.grid-stack .grid-stack-item:visible'))
-
         $scope.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
             el = $(el);
             var node = el.data('_gridstack_node');
@@ -122,26 +120,18 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
     }
 
     $scope.clearGrid = function() {
-        console.log("cleared", $scope.nestedGrids);
         $scope.main_grid.remove_all();
         $scope.nestedGrids = {};
     }
 
     $scope.loadGrid = function() {
         $scope.clearGrid();
-        console.log("saved grid is", $scope.savedGrid)
 
         _.each($scope.savedGrid, function(node) {
-            console.log("NODES", node);
-
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
-                console.log(" a node id", node.id);
                 var el = createElement(node.id);
                 var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
-                console.log("updated main_grid", $scope.main_grid);
             } else {
-                console.log(" a node id", node.id);
-                console.log("parent node id", node.parentId)
                 // call loadNestedGrid with the node to add
                 $scope.loadNestedGrid(node); 
            }
@@ -151,12 +141,11 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
     }
 
     $scope.loadNestedGrid = function(node) {
-        var thisWidget = $('#' + node.parentId.slice(4)); // assume we had nested grid to parent with the same id number
+        var thisWidget = $('#' + node.parentId.slice(4)); // assume we had nested a grid to a parent grid that has the same id number
 
         // add a subclass to the parent widget with the actual grid-# id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
       node.parentId + "'></div>")($scope));
-
         
         // save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
@@ -165,7 +154,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
 
         var el = createElement(node.id);
         $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
-
 
 
     }
