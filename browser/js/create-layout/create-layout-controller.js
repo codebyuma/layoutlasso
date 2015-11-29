@@ -66,8 +66,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
         $('#lasso-x-btn-' + id).remove();
 
         // make selected widget into a grid
-        $scope.grid_counter++;
-        var newGridID = "grid" + $scope.grid_counter;
+        //$scope.grid_counter++;
+        var newGridID = "grid" + id; // use the id number of the cell clicked
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             newGridID + "'></div>")($scope));
 
@@ -91,6 +91,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
     $scope.saveGrid = function() {
 
         $scope.nestedGrids["main-grid"] = $scope.main_grid;
+
+        console.log('in saved grid, what are we doing with the real names', $('.grid-stack .grid-stack-item:visible'))
 
         $scope.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
             el = $(el);
@@ -120,57 +122,52 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
     }
 
     $scope.clearGrid = function() {
+        console.log("cleared", $scope.nestedGrids);
         $scope.main_grid.remove_all();
         $scope.nestedGrids = {};
     }
 
     $scope.loadGrid = function() {
         $scope.clearGrid();
+        console.log("saved grid is", $scope.savedGrid)
 
         _.each($scope.savedGrid, function(node) {
             console.log("NODES", node);
 
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
+                console.log(" a node id", node.id);
                 var el = createElement(node.id);
                 var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
-                
-
+                console.log("updated main_grid", $scope.main_grid);
             } else {
-                // call loadNestedGrid with parent's id, so it can grab that widget and modify it to add the nested widget
-              
+                console.log(" a node id", node.id);
+                console.log("parent node id", node.parentId)
+                // call loadNestedGrid with the node to add
                 $scope.loadNestedGrid(node); 
-                // should i send the whole node instead because it has its own coordinates? Then create new element with those coordinates on top?
-            }
+           }
         });
         $scope.nestedGrids["main-grid"] = $scope.main_grid; // ===== not sure if I need to do this?????? 
-
 
     }
 
     $scope.loadNestedGrid = function(node) {
-        var thisWidget = $('#' + node.parentId); // this will already have 'grid' in the id as it's a parent of a nested grid
+        var thisWidget = $('#' + node.parentId.slice(4)); // assume we had nested grid to parent with the same id number
+
+        // add a subclass to the parent widget with the actual grid-# id in it.
+        thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
+      node.parentId + "'></div>")($scope));
+
+        
+        // save the grid to nestedGrids object on the $scope
+        var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
+        $scope.nestedGrids[node.parentId] = newGrid;
+
 
         var el = createElement(node.id);
-        $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
-
-        // save the grid to nestedGrids object on the $scope
-        var newGrid = $('#' + node.id).gridstack(options).data('gridstack');
-        $scope.nestedGrids[node.id] = newGrid;
-
-        console.log("updated nested grids", $scope.nestedGrids); // this object now contains the nested grids
-        //console.log("updated main grid?", $scope.main_grid);
+        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
 
-        // ======   WHY DOESNT IT SHOW UP NOW ON THE SCREEN?
 
-
-        //$scope.main_grid = $scope.nestedGrids;
-
-        //$scope.main_grid.add_widget(newGrid);
-
-        // add an Add Widget Button to the newly nested grid
-        $( "#" + node.id + " .lasso-button-box")
-        .append($compile("<button ng-click='addNewGridElement(nestedGrids," + node.id + ")'>Add Widget</button>")($scope));
     }
 
 
