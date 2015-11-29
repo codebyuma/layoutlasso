@@ -116,7 +116,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
         // })
 
 
-        alert(JSON.stringify($scope.savedGrid));
+        console.log(JSON.stringify($scope.savedGrid));
     }
 
     $scope.clearGrid = function() {
@@ -141,17 +141,19 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
     }
 
     $scope.loadNestedGrid = function(node) {
-        var thisWidget = $('#' + node.parentId.slice(4)); // assume we had nested a grid to a parent grid that has the same id number
+        // parentId will be in form of grid#, like grid2
+        // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
+        var thisWidget = $('#' + node.parentId.slice(4)); 
 
-        // add a subclass to the parent widget with the actual grid-# id in it.
+        // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
       node.parentId + "'></div>")($scope));
         
-        // save the grid to nestedGrids object on the $scope
+        // great a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
         $scope.nestedGrids[node.parentId] = newGrid;
 
-
+        // create a new element using the node and add it to the grid-# parent div with the node's coordinates
         var el = createElement(node.id);
         $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
