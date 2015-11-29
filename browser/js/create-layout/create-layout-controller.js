@@ -129,6 +129,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
             $scope.user = user;
             return PageFactory.createPage($scope.project._id, "page"+$scope.counter, $scope.user._id, $scope.savedGrid)
             .then (function (page){
+                $scope.page = page;
                 console.log('saved page', page);
                 return page;
             })
@@ -154,6 +155,16 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
     $scope.loadGrid = function() {
         $scope.clearGrid();
+
+        // ===== LOAD GRID FROM BACKEND ==== 
+        // need to review this process / user flow for saving and loading from the backend
+        if (_.isEmpty($scope.savedGrid)){
+            // assuming you must create/load a project and page before you start
+            if ($scope.project && $scope.user && $scope.page){ 
+                $scope.savedGrid = $scope.page.grid;
+            }
+
+        } 
 
         _.each($scope.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
