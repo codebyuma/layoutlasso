@@ -1,8 +1,8 @@
 app.factory('PageFactory', function($rootScope, $http){
     var PageFactory = {};
 
-    PageFactory.createPage = function(_name, _userId){
-        return $http.post('/api/pages', {name: _name, user: _userId})
+    PageFactory.createPage = function(projectId, pageName, _userId, pageGrid){
+        return $http.post('/api/pages', {project: projectId, name: pageName, user: _userId, grid: pageGrid})
         .then(function(page){
             return page.data
         }, function(err){
@@ -19,8 +19,8 @@ app.factory('PageFactory', function($rootScope, $http){
         })
     }
 
-    PageFactory.savePage = function(id, updatedPage){
-        return $http.put('/api/pages/' + id, updatedPage)
+    PageFactory.savePage = function(id, updatedPageGrid){
+        return $http.put('/api/pages/' + id, updatedPageGrid)
         .then(function(page){
             return page.data
         }, function(err){

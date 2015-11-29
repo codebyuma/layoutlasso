@@ -19,8 +19,8 @@ app.factory('UserFactory', function($rootScope, $http){
         })
     }
 
-    UserFactory.saveUser = function(id, updatedPage){
-        return $http.put('/api/users/' + id, updatedPage)
+    UserFactory.saveUser = function(updatedUser){
+        return $http.put('/api/users/' + updatedUser._id, updatedUser)
         .then(function(user){
             return user.data
         }, function(err){

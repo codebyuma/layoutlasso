@@ -37,11 +37,16 @@ router.put('/:id', function (req, res, next){
 
 router.post('/', function (req, res, next){
 	Project.create(req.body)
-	.then(function ( project ){
-		res.status(201).send( project );
+	.then(function(project){
+		res.status(201).send(project);
 	})
-	.then(null, next);
+	.then(null, function(err){
+		console.log("in post project router fail")
+		err.status = 400;
+		next(err);
+	})
 })
+
 
 router.delete('/:id', function (req, res, next){
 	Project.findByIdAndRemove( req.params.id)

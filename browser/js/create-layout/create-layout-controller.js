@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, ProjectFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageFactory, ProjectFactory, UserFactory) {
 
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
@@ -106,14 +106,42 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, Proje
             };
         });
         
-        //console.log("USERRRR", $scope.user._id);
+        // ==== saving to the backend ==== 
+        // need to review our models, too many circular references. For now:
+        //      create project
+        //      create page with the project's id
+        //      add the page to the project's array of pages?
+        //      add the project to the user's array of projects?
 
-        // ====== maybe we should store project on the scope when the user opens/loads one? 
-        // just creating a new project each time for now: 
-        // ProjectFactory.createProject("project"+$scope.counter, $scope.user._id)
-        // .then (function (project){
-        //     console.log("project", project);
-        // })
+        // just creating a new project each time for now to test saving
+        // Should instead create one at a time with a user inputted name 
+        // and then put to the project instead of creating new one each time
+        // same with the page - don't create a new one each time
+        ProjectFactory.createProject("project"+$scope.counter, $scope.user._id)
+        .then (function (project){
+            console.log("project", project);
+            $scope.project = project;
+            $scope.user.projects.push(project._id);
+            return UserFactory.saveUser($scope.user)
+            
+        })
+        .then (function (user){
+            $scope.user = user;
+            return PageFactory.createPage($scope.project._id, "page"+$scope.counter, $scope.user._id, $scope.savedGrid)
+            .then (function (page){
+                console.log('saved page', page);
+                return page;
+            })
+        })
+        .then (function (page){
+            $scope.project.pages.push(page._id);
+            ProjectFactory.saveProject($scope.project)
+            .then (function (updatedProject){
+                $scope.project = updatedProject;
+                console.log("updated project", $scope.project);
+            })
+        })
+
 
 
         console.log(JSON.stringify($scope.savedGrid));
