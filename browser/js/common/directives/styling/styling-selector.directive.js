@@ -13,9 +13,7 @@ app.directive("stylingSelector", function(){
 
             scope.styleGroup.push(elementToStyle);
           }
-          scope.styleGroup.forEach(function(el){
-            
-          })
+
           console.log(scope.styleGroup);
         }
     }
