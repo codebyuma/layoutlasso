@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageFactory, ProjectFactory, UserFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageFactory, ProjectFactory, UserFactory, LayoutComponentFactory) {
 
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
@@ -36,13 +36,15 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
   </div></div>\
   <div class='row'>\
   <div class='lasso-button-box'>\
-  <button ng-click='removeWidget(" + id + ")'> {{ remove }} </button>\
-  <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
-            id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
-            id + "'>Nest Grid</button>\
+  <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+  <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
+  id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
+  id +"'><span class='glyphicon glyphicon-th'></span></button>\
+  <styling-selector ng-click='getElementToStyle("+ id +")'></styling-selector>\
   </div></div></div>")($scope);
-        return el;
-    }
+  return el;
+  }
+
 
     // adds a new grid to the main grid
     $scope.addNewGridElement = function(grid, content) {
@@ -53,6 +55,16 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         else
             var el = createElement($scope.counter, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+    }
+
+    $scope.addNavBar = function(){
+      // Nav bar can only be added to the main grid...for now.
+      var grid = $scope.main_grid
+      $scope.counter++;
+      /* LayoutComponentFactory just holds code to generate basic HTML and bootstrap components. */
+      var el = createElement($scope.counter, LayoutComponentFactory.addNavBar())
+      // Navbar takes up whole width of grid.
+      var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
     }
 
   $scope.text = "x";
@@ -105,8 +117,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
                 height: node.height
             };
         });
-        
-        // ==== saving to the backend ==== 
+
+        // ==== saving to the backend ====
         // need to review our models, too many circular references. For now:
         //      create project
         //      create page with the project's id
@@ -123,7 +135,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
             $scope.project = project; // store newly created project on scope
             $scope.user.projects.push(project._id); // add that project id to the user on scope
             return UserFactory.saveUser($scope.user) // save the updated user
-            
+
         })
         .then (function (user){
             $scope.user = user;
@@ -155,45 +167,45 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
     $scope.loadGrid = function() {
         $scope.clearGrid();
 
-        // ===== LOAD GRID FROM BACKEND ==== 
+        // ===== LOAD GRID FROM BACKEND ====
         // need to review this process / user flow for saving and loading from the backend
         if (_.isEmpty($scope.savedGrid)){
             // assuming you must create/load a project and page before you start
-            if ($scope.project && $scope.user && $scope.page){ 
+            if ($scope.project && $scope.user && $scope.page){
                 $scope.savedGrid = $scope.page.grid;
             }
 
-        } 
+        }
 
         _.each($scope.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
                 var el = createElement(node.id);
-                var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
+                var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
             } else {
                 // call loadNestedGrid with the node to add
-                $scope.loadNestedGrid(node); 
+                $scope.loadNestedGrid(node);
            }
         });
-        $scope.nestedGrids["main-grid"] = $scope.main_grid; // ===== not sure if I need to do this?????? 
+        $scope.nestedGrids["main-grid"] = $scope.main_grid; // ===== not sure if I need to do this??????
 
     }
 
     $scope.loadNestedGrid = function(node) {
         // parentId will be in form of grid#, like grid2
         // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
-        var thisWidget = $('#' + node.parentId.slice(4)); 
+        var thisWidget = $('#' + node.parentId.slice(4));
 
         // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
       node.parentId + "'></div>")($scope));
-        
+
         // great a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
         $scope.nestedGrids[node.parentId] = newGrid;
 
         // create a new element using the node and add it to the grid-# parent div with the node's coordinates
         var el = createElement(node.id);
-        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, true);
+        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
 
     }
@@ -230,7 +242,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
     // adds a new EXPORTABLE grid to the export_grid - a static grid that cannot be modified in Layout Lasso
     var addExportWidget = function(grid, id, content, x, y, w, h) {
         grid = grid || $scope.export_grid;
-        // do we even need to increase counter here? === 
+        // do we even need to increase counter here? ===
         $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
         var el = createExportElement(id, content);
         var newWidget = grid.add_widget(el, x, y, w, h, false);
@@ -280,9 +292,9 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         }
     }
 
+    // CSS Setting and Getting on elements
 
-
-
-
+    // This is to keep a tally on what elements are currently being styled.
+    $scope.styleGroup = [];
 
 })
