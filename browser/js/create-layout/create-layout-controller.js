@@ -8,7 +8,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
 
     $scope.main_grid = GridFactory.main_grid;
 
-    // $scope.counter = GridFactory.counter;
 
     // key is the gridId, value is the grid object
     $scope.nestedGrids = GridFactory.nestedGrids;
@@ -19,7 +18,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     }
 
     $scope.addNewGridElement = function (grid, content){
-      // when you call on nested element once we reload, it doesn't know what grid is in nestedGrids
       GridFactory.addNewGridElement($scope, grid, content);
       $scope.updateLocalGrids();
     }
