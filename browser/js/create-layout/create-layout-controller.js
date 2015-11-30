@@ -180,7 +180,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         _.each($scope.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
                 var el = createElement(node.id);
-                var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, true);
+                var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
             } else {
                 // call loadNestedGrid with the node to add
                 $scope.loadNestedGrid(node);
@@ -205,7 +205,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
         // create a new element using the node and add it to the grid-# parent div with the node's coordinates
         var el = createElement(node.id);
-        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, true);
+        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
 
     }
