@@ -243,6 +243,10 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         return '<div class="col-' + sz + '-' + span + '">';
       }
 
+      // Strategy - find all things with the same parent..
+      // make container/rows/cols for that parent.
+      // start innermost..?
+
       $scope.convertToHTML = function() {
     // Use $scope.savedGrid to construct Bootstrap html to export
         console.log("button clicked!");
@@ -266,16 +270,15 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
             for (var i = 0; i < rows; i++) {
                 newHTML += bits.row;
                 for (var j = 0; j < cols; j++){
-                    // check the hash obj
-                    key = "r" + i + "c" + j;
+                    // make column
                     newHTML += colMaker(sz, span);
-                    if (coordinateHash.hasOwnProperty(key)) { // add content
-                        newHTML += coordinateHash[key];
-                    }
+                    // add content to column
+                    newHTML += node.content;
+                    // close column
                     newHTML += bits.close;
-                }
+                } // close row
                 newHTML += bits.close;
-            }
+            } // close container
             newHTML += bits.close;
 
         });
