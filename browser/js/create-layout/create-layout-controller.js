@@ -32,7 +32,7 @@ var createElement = function(id, content) {
   <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
   id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
   id +"'><span class='glyphicon glyphicon-th'></span></button>\
-  <apply-styling></apply-styling>\
+  <styling-selector ng-click='getElementToStyle("+ id +")'></styling-selector>\
   </div></div></div>")($scope);
   return el;
 }
