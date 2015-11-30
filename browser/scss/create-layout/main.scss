@@ -1,7 +1,7 @@
 h3    {
-  color: blue;
+  color: #3FA9F5;
   font-size: 12px;
-  text-align: center;  
+  text-align: center;
 }
 
 .create-layout {
@@ -14,7 +14,7 @@ h3    {
     position: relative;
     margin: 20px auto;
     width: calc(100% - 450px);
-    min-height: 800px;
+    min-height: 1000px;
     height: auto;
     z-index: 0;
     background-color: yellow;
@@ -29,6 +29,7 @@ h3    {
   .lasso-button-box {
     position: absolute;
     bottom: 0;
+    z-index: 1000;
   }
 }
 
@@ -36,10 +37,39 @@ h3    {
   position: fixed;
   padding: 100px 0px 0px 0px;
   top: 0px;
-  width: 200px;
-  height: 1000px;
-  background-color: #555;
+  width: 120px;
+  height: calc(100% + 100px);
+  background-color: #666;
+  box-shadow: 0px 0px 10px black;
+
+  .button-holder {
+    position: relative;
+    text-align: center;
+    height: auto;
+    width: 100%;
+
+  .lasso-toolbar-btn {
+    background-color: #3FA9F5;
+    margin: 5px auto;
+    border-radius: 0px;
+    width: 100%;
+    outline: none;
+    transition: all 0.25s;
+    border: none;
+    &:hover {
+      box-shadow: 0px 5px 10px #222;
+    }
+    &:active {
+      box-shadow: 0px 5px 10px #222 inset;
+      color: #fff;
+    }
+  }
+
+  }
+
 }
+
+
 
 #toolbar-left {
  left: 0px;

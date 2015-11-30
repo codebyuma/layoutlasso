@@ -1,10 +1,13 @@
 <aside id="toolbar-left" class="toolbar">
-  <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button><br>
-  <button ng-click="saveGrid()" class="btn btn-default">Save Grid</button>
-  <br>
-  <button ng-click="clearGrid()" class="btn btn-default">Clear Grid</button>
-  <br>
-  <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
+  <div class="button-holder">
+    <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button><br>
+    <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
+    <button ng-click="saveGrid()" class="btn btn-default">Save Grid</button>
+    <br>
+    <button ng-click="clearGrid()" class="btn btn-default">Clear Grid</button>
+    <br>
+    <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
+  </div>
 </aside>
 <aside id="toolbar-right" class="toolbar">
   <button ng-click="convertToHTML()">Convert to HTML</button>
