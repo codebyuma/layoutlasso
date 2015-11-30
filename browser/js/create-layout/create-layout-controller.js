@@ -96,7 +96,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
             el = $(el);
             var node = el.data('_gridstack_node');
 
-            return {
+            return { // store content here too.
                 id: el.attr('id'),
                 parentId: el[0].offsetParent.id,
                 x: node.x,
@@ -193,7 +193,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
         // create a new element using the node and add it to the grid-# parent div with the node's coordinates
         var el = createElement(node.id);
-        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
+        $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, true);
 
 
     }
