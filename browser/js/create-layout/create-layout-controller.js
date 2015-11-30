@@ -15,7 +15,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
     };
 
     $scope.main_grid = $('#main-grid').gridstack(options).data('gridstack');
-    $scope.remove = "x";
     $scope.counter = 0;
     $scope.grid_counter = 1;
     $scope.savedGrid = [];
@@ -69,7 +68,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
       var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
     }
 
-  $scope.text = "x";
   $scope.counter = 0;
 
     $scope.addNestedGrid = function(id) {
@@ -297,6 +295,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
     // CSS Setting and Getting on elements
 
     // This is to keep a tally on what elements are currently being styled.
-    $scope.styleGroup = [];
+    $scope.styleGroup = {};
 
 })
