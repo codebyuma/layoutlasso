@@ -1,27 +1,34 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile){
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageFactory, ProjectFactory, UserFactory) {
 
-  var options = {
-      cell_height: 80,
-      vertical_margin: 0,
-      margin: 0,
-      width: 12,
-      float: true
-  };
+    AuthService.getLoggedInUser().then(function (user) {
+        if(user) {
+            $scope.user = user;
+        }
+    });
 
-  $scope.main_grid = $('#main-grid').gridstack(options).data('gridstack');
-  $scope.remove = "x";
-  $scope.counter = 0;
-  $scope.grid_counter = 1;
+    var options = {
+        cell_height: 80,
+        vertical_margin: 0,
+        margin: 0,
+        width: 12,
+        float: true
+    };
 
-  // key is the gridId, value is the grid object
-  $scope.nestedGrids = {};
-  $scope.nestedGrids["main-grid"] = $scope.main_grid;
+    $scope.main_grid = $('#main-grid').gridstack(options).data('gridstack');
+    $scope.remove = "x";
+    $scope.counter = 0;
+    $scope.grid_counter = 1;
+    $scope.savedGrid = [];
 
-// helper function to create a new element
-var createElement = function(id, content) {
-  var content = content || "Your content here";
-  var el = $compile("<div class='grid-stack-item' id=" +
-  id + "><div class='grid-stack-item-content new-element container'>\
+    // key is the gridId, value is the grid object
+    $scope.nestedGrids = {};
+    $scope.nestedGrids["main-grid"] = $scope.main_grid;
+
+    // helper function to create a new element
+    var createElement = function(id, content) {
+        var content = content || "Your content here";
+        var el = $compile("<div class='grid-stack-item' id=" +
+            id + "><div class='grid-stack-item-content new-element container'>\
   <div class='row'>\
   <div class='col-xs-12'>\
   <div class='lasso-user-content'>" + content + "</div><div class='lasso-end-user-content'></div>\
@@ -29,10 +36,11 @@ var createElement = function(id, content) {
   <div class='row'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'> {{ remove }} </button>\
-  <button class='lasso-x' id='lasso-x-btn-"+ id +"' ng-click='addNestedGrid(" +
-  id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-"+
-  id +"'>Nest Grid</button>\
+  <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
+            id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
+            id + "'>Nest Grid</button>\
   </div></div></div>")($scope);
+
   return el;
 }
 

@@ -12,7 +12,8 @@ var UserSchema = new mongoose.Schema({
     password: {
         type: String
     },
-    projects: [{type: ObjectId, ref: 'Project'}],
+    // a few circular references between users, projects and pages - need to review what we actually need
+    projects: [{type: ObjectId, ref: 'Project'}], 
     salt: {
         type: String
     },
@@ -26,6 +27,9 @@ var UserSchema = new mongoose.Schema({
         id: String
     },
     google: {
+        id: String
+    },
+    github: {
         id: String
     }
 });
@@ -61,6 +65,6 @@ UserSchema.method('correctPassword', function (candidatePassword) {
     return encryptPassword(candidatePassword, this.salt) === this.password;
 });
 
-mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema);
 
 

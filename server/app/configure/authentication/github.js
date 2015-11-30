@@ -1,34 +1,32 @@
 'use strict';
 
 var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var GitHubStrategy = require('passport-github2').Strategy; 
 var mongoose = require('mongoose');
 var UserModel = mongoose.model('User');
 
 module.exports = function (app) {
 
-    var googleConfig = app.getValue('env').GOOGLE;
+    var githubConfig = app.getValue('env').GITHUB;
 
-    var googleCredentials = {
-        clientID: googleConfig.clientID,
-        clientSecret: googleConfig.clientSecret,
-        callbackURL: googleConfig.callbackURL
+    var githubCredentials = {
+        clientID: githubConfig.clientID,
+        clientSecret: githubConfig.clientSecret,
+        callbackURL: githubConfig.callbackURL
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-        console.log("in the google verify callback", typeof profile.emails[0].value);
+        console.log("in the github verify callback", typeof profile.emails[0].value);
         
         UserModel.findOne({ 
             $or: [
-                { 'google.id': profile.id },
+                { 'github.id': profile.id },
                 { email: profile.emails[0].value }
             ]
-        })
-        .exec()
+        }).exec() 
             .then(function (user) {
-
                 if (user) {
-                    if (user.email === profile.emails[0].value && user.google.id === profile.id)
+                    if (user.email === profile.emails[0].value && user.github.id === profile.id)
                         return user;
                     else {
                         throw new Error ("User with this email address already exists")
@@ -36,7 +34,7 @@ module.exports = function (app) {
                 } else {
                     return UserModel.create({
                         email: profile.emails[0].value,
-                        google: {
+                        github: {
                             id: profile.id
                         }
                     });
@@ -45,23 +43,17 @@ module.exports = function (app) {
             }).then(function (userToLogin) {
                 done(null, userToLogin);
             }, function (err) {
-                console.error('Error creating user from Google authentication', err);
+                console.error('Error creating user from Github authentication', err);
                 done(err);
             });
-
     };
 
-    passport.use(new GoogleStrategy(googleCredentials, verifyCallback));
+    passport.use(new GitHubStrategy (githubCredentials, verifyCallback));
 
-    app.get('/auth/google', passport.authenticate('google', {
-        scope: [
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email'
-        ]
-    }));
+    app.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
-    app.get('/auth/google/callback',
-        passport.authenticate('google', { failureRedirect: '/login' }),
+    app.get('/auth/github/callback',
+        passport.authenticate('github', { failureRedirect: '/login' }),
         function (req, res) {
             res.redirect('/');
         });
