@@ -22,6 +22,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
        GridFactory.removeWidget(idNum);
     }
 
+
+
     $scope.saveGrid = function (){
       GridFactory.saveGrid($scope.user);
     }
@@ -30,7 +32,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
         GridFactory.clearGrid();
     }
 
-    $scope.loadGrid = function() {
+    $scope.loadGrid = function(){
         GridFactory.loadGrid($scope);
         $scope.nestedGrids = GridFactory.getNestedGrids();
     }
