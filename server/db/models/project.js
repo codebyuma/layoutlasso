@@ -1,4 +1,4 @@
-
+'use strict';
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
@@ -8,4 +8,4 @@ var ProjectSchema = new mongoose.Schema({
 	pages: [{type: ObjectId, ref: 'Page'}] 
 })
 
-mongoose.model('Project', ProjectSchema);
+module.exports = mongoose.model('Project', ProjectSchema);
