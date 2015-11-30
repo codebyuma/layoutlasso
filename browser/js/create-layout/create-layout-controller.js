@@ -214,7 +214,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
         var el = createElement(node.id);
         $scope.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
-
     }
 
     var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
@@ -256,12 +255,10 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
             var sz = "md";
             var newHTML = "";
-            var dim = $scope.main_grid;
 
-            // TODO get number of rows and columns
-            var rows = parent.grid.width;
+            var rows = parent.grid.width; // ???
             var cols = 0; // idk how to find number of columns
-            var span = 12 / dim[1]; // number of Bootstrap columns to span across
+            var span = 0; // number of Bootstrap columns to span across
             var key;
 
             // generate the html
