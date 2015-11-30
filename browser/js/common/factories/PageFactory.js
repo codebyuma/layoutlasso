@@ -6,7 +6,7 @@ app.factory('PageFactory', function($rootScope, $http){
         .then(function(page){
             return page.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -15,7 +15,7 @@ app.factory('PageFactory', function($rootScope, $http){
         .then(function(pages){
             return pages.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -24,7 +24,7 @@ app.factory('PageFactory', function($rootScope, $http){
         .then(function(page){
             return page.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -33,7 +33,7 @@ app.factory('PageFactory', function($rootScope, $http){
         .then(function(page){
             return page.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -42,7 +42,7 @@ app.factory('PageFactory', function($rootScope, $http){
         .then(function(page){
             return page.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 

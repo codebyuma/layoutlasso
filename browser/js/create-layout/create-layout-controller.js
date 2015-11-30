@@ -1,5 +1,6 @@
 app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory) {
 
+    // @OB/ND could use resolve instead
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
             $scope.user = user;
@@ -11,13 +12,14 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
     $scope.addNewGridElement = function (grid, content){
-      GridFactory.addNewGridElement($scope, grid, content);
+      GridFactory.addNewGridElement($scope, grid, content); // @OB/ND we don't think you need to pass scope through (though you'd have to refactor the factory method)
     }
 
     $scope.addNestedGrid = function(id) {
        GridFactory.addNestedGrid($scope, id);
     }
 
+    // @OB/ND $scope.removeWidget = GridFactory.removeWidget
     $scope.removeWidget = function(idNum) {
        GridFactory.removeWidget(idNum);
     }

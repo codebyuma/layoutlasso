@@ -28,6 +28,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
         var content = content || "Your content here";
+        // @OB/ND this should almost certainly be a directive
         var el = $compile("<div class='grid-stack-item' id=" +
             id + "><div class='grid-stack-item-content new-element container'>\
   <div class='row'>\
@@ -73,8 +74,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + id + " .lasso-button-box")
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
-         console.log("newgridid", newGridID);   
-         console.log("nested grids:", GridFactory.nestedGrids);
+         console.log("newgridid", newGridID); // @OB/ND dead code
+         console.log("nested grids:", GridFactory.nestedGrids); // @OB/ND dead code
     }
 
     GridFactory.removeWidget = function(idNum) {

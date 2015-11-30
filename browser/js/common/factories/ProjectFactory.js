@@ -7,7 +7,7 @@ app.factory('ProjectFactory', function($http){
         .then(function(project){
             return project.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -16,7 +16,7 @@ app.factory('ProjectFactory', function($http){
         .then(function(project){
             return project.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -25,7 +25,7 @@ app.factory('ProjectFactory', function($http){
         .then(function(project){
             return project.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
@@ -34,7 +34,7 @@ app.factory('ProjectFactory', function($http){
         .then(function(project){
             return project.data
         }, function(err){
-            return err;
+            return err; // @OB/ND beware!
         })
     }
 
