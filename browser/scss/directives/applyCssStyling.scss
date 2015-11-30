@@ -5,7 +5,10 @@ css-applicator {
   z-index: 50;
   background-color: #FFF;
   width: 400px;
-  height: 400px;
+  height: auto;
   padding: 10px;
   box-shadow: 0px 5px 10px #666;
+  .css-field {
+    display: block;
+  }
 }

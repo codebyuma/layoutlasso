@@ -4,7 +4,10 @@ app.directive("cssApplicator", function(){
     templateUrl: '/js/common/directives/applyCssStyling/applyCssStyling.template.html',
     scope: {},
     link: function(scope, element, attrs){
-      console.log(scope.styleApplicator);
+      scope.getCssData = function(data){
+          console.log(data);
+      }
+      console.log(scope.newClass);
     }
   }
 })
