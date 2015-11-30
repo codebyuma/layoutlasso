@@ -155,6 +155,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
     $scope.loadGrid = function() {
         $scope.clearGrid();
 
+        // set scope.counter whatever variable to the highest value in the saved grid
+
         // ===== LOAD GRID FROM BACKEND ==== 
         // need to review this process / user flow for saving and loading from the backend
         if (_.isEmpty($scope.savedGrid)){
