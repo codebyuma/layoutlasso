@@ -83,6 +83,17 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
+    var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
+
+    var getUserContent = function(html) {  // takes a node's innerHTML and isolates user content
+      var matches = html.match(userContentRegex);
+      if (matches.length == 0) {
+        throw new Error("Error - No user content found.");
+      } else {
+         return matches[0].slice(32, html.length).slice(0, -48);
+      }
+    };
+
     GridFactory.saveGrid = function(user) {
 
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
@@ -91,6 +102,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
             el = $(el);
             var node = el.data('_gridstack_node');
+            var userContent = getUserContent(el.context.innerHTML);
 
             return { // store content here too.
                 id: el.attr('id'),
@@ -98,7 +110,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
                 x: node.x,
                 y: node.y,
                 width: node.width,
-                height: node.height
+                height: node.height,
+                content: userContent
             };
         });
 
@@ -163,7 +176,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
-                var el = GridFactory.createElement(scope, node.id);
+                var el = GridFactory.createElement(scope, node.id, node.content);
                 var newWidget = GridFactory.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
             } else {
                 // call loadNestedGrid with the node to add
