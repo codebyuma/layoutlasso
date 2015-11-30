@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory, ExportFactory) {
 
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
@@ -36,6 +36,9 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
         GridFactory.loadGrid($scope);
         $scope.nestedGrids = GridFactory.getNestedGrids();
     }
+
+    //===== Exporting ===== //
+    $scope.convertToHTML = ExportFactory.convertToHTML;
 
     //===== Components ===== //
     //add Nav Bar function
