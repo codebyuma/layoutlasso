@@ -106,9 +106,12 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
         $scope.nestedGrids["main-grid"] = $scope.main_grid;
 
+        console.log("$scope.savedGrid before", $scope.savedGrid);
+
         $scope.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
             el = $(el);
             var node = el.data('_gridstack_node');
+            var userContent = getUserContent(el.context.innerHTML);
 
             return { // store content here too.
                 id: el.attr('id'),
@@ -116,9 +119,12 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
                 x: node.x,
                 y: node.y,
                 width: node.width,
-                height: node.height
+                height: node.height,
+                content: userContent
             };
         });
+
+        console.log("$scope.savedGrid after", $scope.savedGrid);
 
         // ==== saving to the backend ====
         // need to review our models, too many circular references. For now:
@@ -157,7 +163,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
             })
         })
 
-
         console.log(JSON.stringify($scope.savedGrid));
     }
 
@@ -181,7 +186,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
         _.each($scope.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
-                var el = createElement(node.id);
+                var el = createElement(node.id, node.content);
                 var newWidget = $scope.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
             } else {
                 // call loadNestedGrid with the node to add
@@ -212,86 +217,76 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, PageF
 
     }
 
+    var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
 
+    var getUserContent = function(html) {  // takes a node's innerHTML and isolates user content
+      var matches = html.match(userContentRegex);
+      if (matches.length == 0) {
+        throw new Error("Error - No user content found.");
+      } else {
+         return matches[0].slice(32, html.length).slice(0, -48);
+      }
+    };
 
 
     // ========================= Converting To HTML ================================ //
-      // This section is for creating a clean copy (without Lasso tools/buttons) of the layout
-      // to export for the user's use in their own project.
-      // This exportation uses the Gridstack system and requires a bower-install of Gridstack (not Bootstrap).
+      // This section is for creating a clean copy (without Lasso tools) of the layout
 
-      $scope.convertedHTML = "";
-      $scope.exportGrids = {};
-      var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
-
-      // static grid that does not allow modification
-      var export_options = {
-          static_grid: true
+      // for html generator
+      var bits = {
+          container: '<div class="container">',
+          row: '<div class="row">',
+          nl: '<br />',
+          close: '</div>'
       };
 
-      $scope.export_grid = $('#export-grid').gridstack(export_options).data('gridstack');
-      $scope.exportGrids["export-grid"] = $scope.export_grid;
-
-      // helper function to create a new EXPORTABLE element - not the same as our internal lasso elements
-      var createExportElement = function(id, content) {
-        var content = content || "";
-        var el = $compile("<div class='grid-stack-item'>\
-        <div class='grid-stack-item-content'>\
-        <div id='"+ id +"'>" + content + "</div></div></div>")($scope);
-        return el;
-      }
-
-    // adds a new EXPORTABLE grid to the export_grid - a static grid that cannot be modified in Layout Lasso
-      var addExportWidget = function(grid, id, content, x, y, w, h){
-        grid = grid || $scope.export_grid;
-        $scope.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-        var el = createExportElement(id, content);
-        var newWidget = grid.add_widget(el, x, y, w, h, false);
-      }
-
-      var addNestedExportGrid = function(thisWidgetId, gridId){
-          var thisWidget = $('#' + thisWidgetId);
-
-          // make selected widget into a grid
-          var newGridID = "grid" + gridId;
-          thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
-          newGridID+ "'></div>")($scope));
-
-          // save the new grid to exportGrids object on the $scope, and return it
-          var newGrid = $('#' + newGridID).gridstack(export_options).data('gridstack');
-          $scope.exportGrids[newGridID] = newGrid;
-          return newGrid;
+      var colMaker = function(sz, span) {
+        return '<div class="col-' + sz + '-' + span + '">';
       }
 
       $scope.convertToHTML = function() {
-    // parent is a GRID with the add_widget method on it, and w,h  (not x,y)
-    // nodes are the widgets on the parent grid, and have x,y,w,h on them
-
+    // Use $scope.savedGrid to construct Bootstrap html to export
         console.log("button clicked!");
-        var nodes, parent;
-        for(var key in $scope.nestedGrids) {  // for each grid
 
-          if(key == "main-grid") {   // main grid becomes export grid
-            parent = $scope.export_grid;
-          } else { // parent grid should be a new nested grid on export grid
-            // parent = addNestedExportGrid();
-            parent = $scope.nestedGrids[key];
-          }
-          console.log("parent", parent);
-          console.log("parent.grid", parent.grid);
-          nodes = $scope.nestedGrids[key].grid.nodes;
-          for (var i = 0; i < nodes.length; i++) {  // for each widget in that grid
-             var matches = nodes[i].el[0].innerHTML.match(userContentRegex);
-             if (matches.length == 0) {
-               throw new Error("Error converting to html - No user content found.");
-             } else {
-               // create a new grid element matching the properties of that one to put on $scope.export_grid
-              console.log("content:", matches[0]);
-              addExportWidget(parent, nodes[i]._id, matches[0], nodes[i].x, nodes[i].y, nodes[i].width, nodes[i].height);
-             }
-          }
-        }
+        _.each($scope.savedGrid, function(node) {
+            console.log("node is", node);
+
+            var parent = $scope.nestedGrids[node.parentId];
+            console.log("parent is", parent);
+
+            var sz = "md";
+            var newHTML = "";
+            var dim = $scope.main_grid;
+
+            // TODO get number of rows and columns
+            var rows = parent.grid.width;
+            var cols = 0; // idk how to find number of columns
+            var span = 12 / dim[1]; // number of Bootstrap columns to span across
+            var key;
+
+            // generate the html
+            newHTML += bits.container;
+            for (var i = 0; i < rows; i++) {
+                newHTML += bits.row;
+                for (var j = 0; j < cols; j++){
+                    // check the hash obj
+                    key = "r" + i + "c" + j;
+                    newHTML += colMaker(sz, span);
+                    if (coordinateHash.hasOwnProperty(key)) { // add content
+                        newHTML += coordinateHash[key];
+                    }
+                    newHTML += bits.close;
+                }
+                newHTML += bits.close;
+            }
+            newHTML += bits.close;
+
+        });
+
+
       }
+
+
 
 
     // CSS Setting and Getting on elements
