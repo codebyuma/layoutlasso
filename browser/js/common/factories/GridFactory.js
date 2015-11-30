@@ -17,6 +17,14 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // key is the gridId, value is the grid object
     GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
 
+    GridFactory.getMainGrid = function (){
+    	return GridFactory.main_grid;
+    }
+
+    GridFactory.getNestedGrids = function (){
+    	return GridFactory.nestedGrids;
+    }
+
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
         var content = content || "Your content here";
@@ -42,10 +50,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.addNewGridElement = function(scope, grid, content) {
         grid = grid || GridFactory.main_grid;
         GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-        if (!content)
-            var el = GridFactory.createElement(scope, GridFactory.counter);
-        else
-            var el = GridFactory.createElement(scope, GridFactory.counter, content);
+		var el = GridFactory.createElement(scope, GridFactory.counter, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
     }
 
