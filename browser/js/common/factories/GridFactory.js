@@ -83,6 +83,17 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
+    var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
+
+    var getUserContent = function(html) {  // takes a node's innerHTML and isolates user content
+      var matches = html.match(userContentRegex);
+      if (matches.length == 0) {
+        throw new Error("Error - No user content found.");
+      } else {
+         return matches[0].slice(32, html.length).slice(0, -48);
+      }
+    };
+
     GridFactory.saveGrid = function(user) {
 
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
