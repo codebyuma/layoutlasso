@@ -68,7 +68,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + id + " .lasso-button-box")
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
-            
+         console.log("newgridid", newGridID);   
          console.log("nested grids:", GridFactory.nestedGrids);
     }
 
