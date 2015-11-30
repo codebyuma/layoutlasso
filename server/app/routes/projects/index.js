@@ -2,7 +2,8 @@
 var router = require('express').Router();
 module.exports = router;
 
-var Project = require('../../../db/models/project.js');
+var Project = require('mongoose').model('Project');
+// require('../../../db/models/project.js');
 
 
 

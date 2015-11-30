@@ -2,11 +2,12 @@
 var router = require('express').Router();
 module.exports = router;
 
-var User = require('../../../db/models/user.js');
+var User = require('mongoose').model('User');
+// require('../../../db/models/user.js');
 
 
 router.param('id', function (req, res, next, id){
-	req.id = req.params.id;
+	req.id = id;
 	next();
 })
 
