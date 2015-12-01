@@ -21,6 +21,12 @@ body {
   z-index: 0;
 }
 
+.modal-dialog{
+  z-index: 1040;
+  margin-top:20%;
+} 
+
+
 @import 'directives/main';
 @import 'home/main';
 @import 'about/main';

@@ -94,7 +94,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
       }
     };
 
-    GridFactory.saveGrid = function(user) {
+    GridFactory.saveGridLocal = function() {
 
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
         console.log("select", $('.grid-stack .grid-stack-item:visible'))
@@ -115,7 +115,12 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             };
         });
 
-        // ==== saving to the backend ====
+        console.log(JSON.stringify(GridFactory.savedGrid));
+    }
+
+    GridFactory.saveGridBackend = function (scope){
+        console.log("SAVING TO BACKEND!");
+                // ==== saving to the backend ====
         // need to review our models, too many circular references. For now:
         //      create project
         //      create page with the project's id
@@ -151,9 +156,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         //         console.log("updated project", $scope.project);
         //     })
         // })
-
-        console.log(JSON.stringify(GridFactory.savedGrid));
     }
+
 
     GridFactory.clearGrid = function (){
     	GridFactory.main_grid.remove_all();
