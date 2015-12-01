@@ -40,7 +40,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
-  <styling-selector></styling-selector>\
+  <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
   </div></div></div>")(scope);
 
         return el;

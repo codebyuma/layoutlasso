@@ -2,11 +2,11 @@
   <form name="styleApplicator" ng-submit="getCssData(newClass)">
     <label>Class Name</label>
     <input></input>
-    <div class="css-field">
-      <input ng-model="newClass.prop1.key" placeholder="CSS Property"></input>
-      <input ng-model="newClass.prop1.val" placeholder="CSS Value"></input>
+    <div class="css-field" ng-repeat="prop in newClass" ng-model="prop">
+      <input placeholder="CSS Property"></input>
+      <input placeholder="CSS Value"></input>
     </div>
-    <button>Add Styling</button>
-    <input type="submit"></input>
+    <button ng-click="addNewCssField()">Add Styling</button>
+    <input type="submit" value="Apply"></input>
   </form>
 </section>
