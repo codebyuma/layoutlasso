@@ -38,7 +38,10 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     }
 
     //===== Exporting ===== //
-    $scope.convertToHTML = ExportFactory.convertToHTML;
+    $scope.convertToHTML = function(){
+      GridFactory.saveGrid($scope.user);
+      $scope.convertedHTML = ExportFactory.convertToHTML();
+    };
 
     //===== Components ===== //
     //add Nav Bar function

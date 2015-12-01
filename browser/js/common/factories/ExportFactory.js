@@ -10,11 +10,11 @@ app.factory('ExportFactory', function(GridFactory) {
         close: '</div>'
     };
 
-    var colMaker = function(sz, span) {
+    function colMaker(sz, span) {
       return '<div class="col-' + sz + '-' + span + '">';
     }
 
-    var offsetMaker = function(sz, span) {
+    function offsetMaker(sz, span) {
       return '<div class="col-' + sz + '-offset-' + span + '">';
     }
 
@@ -50,25 +50,6 @@ app.factory('ExportFactory', function(GridFactory) {
       })
       return visitedGrids;
     }
-
-    ExportFactory.convertToHTML = function() {
-      // TODO integrate save function here to save the current grid
-      // TODO object names can't have hyphens  main-grid => gridmain
-      console.log("button clicked!");
-          var html = bits.container;
-          var parentObj = makeParentObject();
-
-          console.log("parentObj", parentObj);
-
-          for (var key in parentObj){  // modify parentObj to include offset columns
-            createOffsetNodes(parentObj[key]);
-          }
-          // start with main grid.
-          // generateRow function will look for nested grids recursively
-          html =  generateRow(html, parentObj['main-grid'], parentObj);
-          html += bits.close; // closes container
-          console.log("converted html is", html);
-      };
 
   function createOffsetNodes(nodesArr) {
     var curr, nextXShouldBe, newWidth, newNode;
@@ -115,6 +96,23 @@ app.factory('ExportFactory', function(GridFactory) {
     } html += bits.close; // close row
     return html;
   };
+
+  ExportFactory.convertToHTML = function() {
+    // TODO integrate save function here to save the current grid
+    // TODO object names can't have hyphens  main-grid => gridmain
+        var html = bits.container;
+        var parentObj = makeParentObject();
+
+        for (var key in parentObj){  // modify parentObj to include offset columns
+          createOffsetNodes(parentObj[key]);
+        }
+        // start with main grid.
+        // generateRow function will look for nested grids recursively
+        html =  generateRow(html, parentObj['main-grid'], parentObj);
+        html += bits.close; // closes container
+        console.log("converted html is", html);
+        return html;
+    };
 
   return ExportFactory;
 });
