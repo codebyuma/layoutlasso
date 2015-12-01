@@ -43,8 +43,13 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         })
         $rootScope.$on('user logged in', function (event, data){
             $scope.user = data;
-            console.log("ANNNND in");
+            console.log("ANNNND user is in");
             // open uibmodal to create project and page
+            $uibModal.open({
+                animation: $scope.animationEnabled,
+                templateUrl: "/js/project-modal/project-modal.html",
+                controller: "ProjectModalCtrl"
+             })
         })
       }
     }

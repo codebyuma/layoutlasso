@@ -2,13 +2,11 @@ app.controller('LoginModalCtrl', function ($scope, $rootScope, AuthService, $sta
 
 
 
-  $scope.ok = function(){
-    console.log("OK!");
-    $uibModalInstance.close()
-  }
+  // $scope.ok = function(){
+  //   $uibModalInstance.close()
+  // }
 
   $scope.cancel = function(){
-  	console.log("cancel!");
     $uibModalInstance.dismiss('cancel')
   }
 
