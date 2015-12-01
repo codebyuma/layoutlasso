@@ -6,16 +6,20 @@ app.directive("cssApplicator", function(){
       newClass: "="
     },
     link: function(scope, element, attrs){
-      scope.newClass = [{ prop1: { key: "", value: ""}}]
+      scope.newClass = [{ key: "", value: ""}]
       var fieldCounter =  1;
-      scope.addNewCssField = function(){
-        console.log();
-        fieldCounter++;
-        scope.newClass.push({ [prop + fieldCounter]: { key: "", value: ""}});
-      }
 
+      scope.addNewCssField = function(){
+        fieldCounter++;
+        var fieldName = "prop" + fieldCounter;
+        scope.newClass.push({ key: "", value: ""});
+      }
+      
       scope.getCssData = function(data){
-          console.log(data);
+          data.forEach(function(cssObj){
+            console.log(cssObj.key, ":", cssObj.value);
+          })
+          console.log("SCOPE: ", scope.styleGroup)
       }
       console.log(scope.newClass);
     }
