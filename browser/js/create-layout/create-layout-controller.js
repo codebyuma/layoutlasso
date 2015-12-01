@@ -48,7 +48,12 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             $uibModal.open({
                 animation: $scope.animationEnabled,
                 templateUrl: "/js/project-modal/project-modal.html",
-                controller: "ProjectModalCtrl"
+                controller: "ProjectModalCtrl",
+                resolve: {
+                    user: function (UserFactory){
+                        return UserFactory.getUser($scope.user._id);
+                    }
+                }
              })
         })
       }

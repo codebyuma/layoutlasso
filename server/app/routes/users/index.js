@@ -19,7 +19,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	User.findById(req.id)
+	User.findById(req.id).populate('projects').exec()
 	.then(function ( user ){
 		res.status(201).send( user );
 	})

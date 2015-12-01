@@ -10,7 +10,7 @@ app.controller('LoginModalCtrl', function ($scope, $rootScope, AuthService, $sta
     $uibModalInstance.dismiss('cancel')
   }
 
-  	$scope.login = {};
+
     $scope.error = null;
 
     $scope.sendLogin = function (loginInfo) {
@@ -20,6 +20,7 @@ app.controller('LoginModalCtrl', function ($scope, $rootScope, AuthService, $sta
         AuthService.login(loginInfo).then(function (user) {
             $scope.user = user;
             $rootScope.$broadcast('user logged in', user);
+            //$uibModalInstance.html("<div>Loading...</div>")
             $uibModalInstance.close()
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
