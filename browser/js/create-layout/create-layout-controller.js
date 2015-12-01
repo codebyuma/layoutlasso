@@ -1,13 +1,7 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompFactory, GridFactory) {
 
-    AuthService.getLoggedInUser().then(function (user) {
-        if(user) {
-            $scope.user = user;
-        }
-    });
-
+    $scope.user = theUser;
     $scope.main_grid = GridFactory.getMainGrid();
-
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
     $scope.addNewGridElement = function (grid, content){
@@ -18,19 +12,13 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
        GridFactory.addNestedGrid($scope, id);
     }
 
-    $scope.removeWidget = function(idNum) {
-       GridFactory.removeWidget(idNum);
-    }
-
-
+    $scope.removeWidget = GridFactory.removeWidget; 
 
     $scope.saveGrid = function (){
       GridFactory.saveGrid($scope.user);
     }
 
-    $scope.clearGrid = function() {
-        GridFactory.clearGrid();
-    }
+    $scope.clearGrid = GridFactory.clearGrid; 
 
     $scope.loadGrid = function(){
         GridFactory.loadGrid($scope);
