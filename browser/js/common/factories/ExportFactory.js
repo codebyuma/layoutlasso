@@ -56,19 +56,16 @@ app.factory('ExportFactory', function(GridFactory) {
       // TODO object names can't have hyphens  main-grid => gridmain
       console.log("button clicked!");
           var html = bits.container;
-          console.log("html after just container", html);
           var parentObj = makeParentObject();
 
-          for (var key in parentObj){  // modify parentObj to have offset columns
+          for (var key in parentObj){  // modify parentObj to include offset columns
             createOffsetNodes(parentObj[key]);
           }
           // start with main grid.
-          // generateRow function will look for nestedgrids and do the recursion
-          var genRowsHTML =  generateRow(html, parentObj['main-grid'], parentObj);
-          console.log("genRowsHTML is", genRowsHTML);
-
+          // generateRow function will look for nested grids recursively
+          html =  generateRow(html, parentObj['main-grid'], parentObj);
           html += bits.close; // closes container
-          console.log("*** html from after done in convertToHTML is", html);
+          console.log("converted html is", html);
       };
 
   function createOffsetNodes(nodesArr) {
@@ -98,12 +95,9 @@ app.factory('ExportFactory', function(GridFactory) {
           html += offsetMaker(sz, nodesArr[j].width);
         } else if (nodesArr[j].grid) {
           // find the grid in parent grid and build it
-          console.log("nested grid!!");
           html += colMaker(sz, nodesArr[j].width); // make column
           html += nodesArr[j].content; // add content to column
-          console.log("html right before recursive call is", html);
-          html += generateRow(html, parentObj["grid" + nodesArr[j].id], parentObj);
-          html += bits.close; // close nested node's column
+          html = generateRow(html, parentObj["grid" + nodesArr[j].id], parentObj);
         } else {
           html += colMaker(sz, nodesArr[j].width); // make column
           html += nodesArr[j].content;  // add content to column
