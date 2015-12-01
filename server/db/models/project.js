@@ -4,7 +4,6 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var ProjectSchema = new mongoose.Schema({
 	name: String,
-	user: { type: ObjectId, ref: 'User'},
 	pages: [{type: ObjectId, ref: 'Page'}] 
 })
 

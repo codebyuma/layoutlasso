@@ -31,7 +31,7 @@ router.put('/:id', function (req, res, next){
 	var updated = _.merge(req.page, req.body);
 	updated.save()
 	.then(function ( page ){
-		res.status(202).send( page );
+		res.status(200).json( page );
 	})
 	.then(null, next);
 })
