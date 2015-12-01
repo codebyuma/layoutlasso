@@ -58,6 +58,8 @@ app.factory('ExportFactory', function(GridFactory) {
           var html = bits.container;
           var parentObj = makeParentObject();
 
+          console.log("parentObj", parentObj);
+
           for (var key in parentObj){  // modify parentObj to include offset columns
             createOffsetNodes(parentObj[key]);
           }
@@ -69,20 +71,27 @@ app.factory('ExportFactory', function(GridFactory) {
       };
 
   function createOffsetNodes(nodesArr) {
-    // TODO make offset for end if not up to 12 span
-    var curr, nextShouldBe;
+    var curr, nextXShouldBe, newWidth, newNode;
     nodesArr.sort(function(a, b){ // make sure nodesArr is sorted by x values
       return a.x - b.x;
     });
     for(var i = 0; i < nodesArr.length - 1; i++) {
       curr = nodesArr[i].x;
-      nextShouldBe = curr + nodesArr[i].width;
-      if (nodesArr[i+1].x != nextShouldBe){ // if next node is not sequentially next
-        var newWidth = nodesArr[i+1].x - nextShouldBe;
-        var newNode = { offset: true, x: nextShouldBe, width:  newWidth };
-        // insert newNode into the array
-        nodesArr.splice(i+1, 0, newNode);
+      nextXShouldBe = curr + nodesArr[i].width;
+      if (nodesArr[i+1].x != nextXShouldBe){ // if next node is not sequentially next
+        newWidth = nodesArr[i+1].x - nextXShouldBe;
+        newNode = { offset: true, x: nextXShouldBe, width:  newWidth };
+        nodesArr.splice(i+1, 0, newNode); // insert newNode into the array
       }
+    }
+
+    // check if the end needs an offset to span 12 columns
+    var lastnode = nodesArr[nodesArr.length - 1];
+    if (lastnode.x + lastnode.width !== 12) {
+      newWidth = 12 - (lastnode.x + lastnode.width);
+      nextXShouldBe = lastnode.x + lastnode.width;
+      newNode = { offset: true, x: nextXShouldBe, width:  newWidth };
+      nodesArr.splice(i+1, 0, newNode);
     }
   };
 
