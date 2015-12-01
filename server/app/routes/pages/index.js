@@ -28,8 +28,11 @@ router.get('/:id', function (req, res, next){
 })
 
 router.put('/:id', function (req, res, next){
-	var updated = _.merge(req.page, req.body);
-	updated.save()
+	// overwrite or save?
+	req.page.set(req.body)
+	console.log("REQ PAGE IN PUT ROUTE:", req.page);
+	// will overwriting change the ID?
+	req.page.save()
 	.then(function ( page ){
 		res.status(200).json( page );
 	})
