@@ -5,21 +5,44 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
-    $scope.testModal = function (){
-        $uibModal.open({
+    //prompt user to create new project and/or page
+    $scope.new = function (){
+        console.log("in new")
+    }
+
+    // prompt user to open project and page
+    $scope.open = function (){
+        console.log("in open")
+    }
+
+    $scope.promptUserLogin = function (){
+        // prompt user to login or sign up first
+            $uibModal.open({
                 animation: $scope.animationEnabled,
                 templateUrl: "/js/login-modal/login-modal.html",
                 controller: "LoginModalCtrl"
-                // resolve: {
-                //     product: function(){
-                //         return theProduct
-                //     },
-                //     user : function(){
-                //     return $scope.user;
-                //   }
-                // }
             })
     }
+
+    $rootScope.$on('user logged in', function (event, data){
+         $scope.user = data;   
+    })
+
+    $scope.promptProjectLoad = function (){
+         console.log("in prompt project load");
+        // open uibmodal to create project and page
+        $uibModal.open({
+            animation: $scope.animationEnabled,
+            templateUrl: "/js/project-modal/project-modal.html",
+            controller: "ProjectModalCtrl",
+            resolve: {
+                user: function (UserFactory){
+                    return UserFactory.getUser($scope.user._id);
+                }
+            }
+         })
+    }
+
 
     $scope.addNewGridElement = function (grid, content){
       GridFactory.addNewGridElement($scope, grid, content);
@@ -37,42 +60,16 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
       } else {
         if (!$scope.user){
-            // prompt user to login or sign up first
-            $uibModal.open({
-                animation: $scope.animationEnabled,
-                templateUrl: "/js/login-modal/login-modal.html",
-                controller: "LoginModalCtrl"
-            })
-        
+            $scope.promptUserLogin();
             $rootScope.$on('user logged in', function (event, data){
                 $scope.user = data;
                 console.log("ANNNND user is in");
                 if (!$scope.project){
-                    // open uibmodal to create project and page
-                    $uibModal.open({
-                        animation: $scope.animationEnabled,
-                        templateUrl: "/js/project-modal/project-modal.html",
-                        controller: "ProjectModalCtrl",
-                        resolve: {
-                            user: function (UserFactory){
-                                return UserFactory.getUser($scope.user._id);
-                            }
-                        }
-                     })
+                    $scope.promptProjectLoad();
                 }
             })
         } else {
-            // open uibmodal to create project 
-                    $uibModal.open({
-                        animation: $scope.animationEnabled,
-                        templateUrl: "/js/project-modal/project-modal.html",
-                        controller: "ProjectModalCtrl",
-                        resolve: { // getting from factory so we can populate projects
-                            user: function (UserFactory){
-                                return UserFactory.getUser($scope.user._id);
-                            }
-                        }
-                     })
+            $scope.promptProjectLoad();
         }
       }
     }
