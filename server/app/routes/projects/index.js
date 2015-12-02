@@ -3,14 +3,16 @@ var router = require('express').Router();
 module.exports = router;
 
 var Project = require('mongoose').model('Project');
-// require('../../../db/models/project.js');
 
 
-
-// router.param('id', function (req, res, next, id){
-// 	req.id = req.params.id;
-// 	next();
-// })
+router.param('id', function ( req, res, next, id ){
+	Project.findById(id)
+	.then(function(project){
+		req.project = project;
+		next();
+	})
+	.then(null, next);
+})
 
 router.get('/', function (req, res, next){
 	Project.find()
@@ -21,17 +23,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	Project.findById( req.params.id)
-	.then(function ( project ){
-		res.status(201).send( project );
-	})
-	.then(null, next);
+	res.status(200).json( req.project );
 })
 
 router.put('/:id', function (req, res, next){
-	Project.findByIdAndUpdate( req.params.id, req.body, {new: true})
+	req.project.set(req.body);
+	req.project.save()
 	.then(function ( project ){
-		res.status(201).send( project );
+		res.status(200).json( project );
 	})
 	.then(null, next);
 })
@@ -42,15 +41,14 @@ router.post('/', function (req, res, next){
 		res.status(201).send(project);
 	})
 	.then(null, function(err){
-		console.log("in post project router fail")
+		console.log("post project router fail")
 		err.status = 400;
 		next(err);
 	})
 })
 
-
 router.delete('/:id', function (req, res, next){
-	Project.findByIdAndRemove( req.params.id)
+	Project.findByIdAndRemove( req.project._id)
 	.then(function ( project ){
 		res.status(204).end();
 	})

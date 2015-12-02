@@ -17,9 +17,9 @@ describe('User model', function () {
         mongoose.connect(dbURI, done);
     }); 
 
-    afterEach('Clear test database', function (done) {
-        clearDB(done);
-    });
+    // afterEach('Clear test database', function (done) {
+    //     clearDB(done);
+    // });
 
     it('should exist', function () {
         expect(User).to.be.a('function');

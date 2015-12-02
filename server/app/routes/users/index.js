@@ -7,8 +7,12 @@ var User = require('mongoose').model('User');
 
 
 router.param('id', function (req, res, next, id){
-	req.id = id;
-	next();
+	User.findById(id)
+	.then(function ( user ){
+		req.user = user;
+		next();
+	})
+	.then(null, next);
 })
 
 router.get('/', function (req, res, next){
@@ -20,17 +24,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	User.findById(req.id)
-	.then(function ( user ){
-		res.status(201).send( user );
-	})
-	.then(null, next);
+ 	res.status(200).json(req.user);
 })
 
 router.put('/:id', function (req, res, next){
-	User.findByIdAndUpdate(req.id, req.body, {new: true})
-	.then(function ( user ){
-		res.status(201).send( user );
+	req.user.set(req.body);
+	req.user.save()
+		.then(function ( user ){
+		res.status(200).send( user );
 	})
 	.then(null, next);
 })
@@ -44,7 +45,7 @@ router.post('/', function (req, res, next){
 })
 
 router.delete('/:id', function (req, res, next){
-	User.findByIdAndRemove(req.id)
+	User.findByIdAndRemove(req.user._id)
 	.then(function ( user ){
 		res.status(204).end();
 	})

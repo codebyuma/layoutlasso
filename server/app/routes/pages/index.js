@@ -7,12 +7,13 @@ var Page = require('../../../db/models/page.js');
 
 
 router.param('id', function (req, res, next, id){
-	console.log('req params id', id)
+	console.log('req params page id', id)
 	Page.findById(id)
-	.then(function(page){
+	.then(function ( page ){
 		req.page = page;
 		next();
-	}).then(null, next);
+	})
+	.then(null, next);
 })
 
 router.get('/', function (req, res, next){
@@ -24,14 +25,11 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	res.json( req.page );
+	res.status(200).json( req.page );
 })
 
 router.put('/:id', function (req, res, next){
-	// overwrite or save?
 	req.page.set(req.body)
-	console.log("REQ PAGE IN PUT ROUTE:", req.page);
-	// will overwriting change the ID?
 	req.page.save()
 	.then(function ( page ){
 		res.status(200).json( page );
@@ -48,7 +46,7 @@ router.post('/', function (req, res, next){
 })
 
 router.delete('/:id', function (req, res, next){
-	Page.findByIdAndRemove(req.id)
+	Page.findByIdAndRemove(req.page._id)
 	.then(function ( page ){
 		res.status(204).end();
 	})
