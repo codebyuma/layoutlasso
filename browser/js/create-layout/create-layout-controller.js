@@ -74,6 +74,19 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
       }
     }
 
+    $scope.promptPageSave = function (){
+        $uibModal.open({
+                        animation: $scope.animationEnabled,
+                        templateUrl: "/js/page-modal/page-modal.html",
+                        controller: "PageModalCtrl",
+                        resolve: { // getting from factory so we can populate pages
+                            project: function (ProjectFactory){
+                                return ProjectFactory.getProject($scope.project._id);
+                            }
+                        }
+                     })
+    }
+
     $rootScope.$on('project loaded', function (event, data){            
              console.log("dataaaaa", data)
             // update the user and project on scope
@@ -85,16 +98,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
             if (!$scope.page){
                 // open page modal
-                $uibModal.open({
-                        animation: $scope.animationEnabled,
-                        templateUrl: "/js/page-modal/page-modal.html",
-                        controller: "PageModalCtrl",
-                        resolve: { // getting from factory so we can populate pages
-                            project: function (ProjectFactory){
-                                return ProjectFactory.getProject($scope.project._id);
-                            }
-                        }
-                     })
+                // user has option to overwrite page or create new one to save to
+                $scope.promptPageSave(); 
             }
 
      })
@@ -103,6 +108,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.page = data.page;
             $scope.project = data.proj;
+            
+            // may not want to save the grid every time we load a page? 
             GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
      })
 
