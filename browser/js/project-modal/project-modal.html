@@ -14,9 +14,10 @@
                   <br>
                   <div class="form-group">
                   <label>Project name: </label>
-                <select class="existingProjects" name="project" ng-model="existingProject.name">
-                        <option ng-repeat="project in projects">{{ project.name }}</option>
-                    </select>
+
+<select class="existingProjects" name="existingProject" ng-options="project as project.name for project in projects" ng-model="existingProject"></select>
+
+            
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="projectForm.$valid && loadProject(existingProject)">Load</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>

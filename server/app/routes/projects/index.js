@@ -20,7 +20,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	Project.findById( req.params.id)
+	Project.findById(req.params.id).populate("pages").exec()
 	.then(function ( project ){
 		res.status(201).send( project );
 	})

@@ -1,9 +1,9 @@
 app.factory('ProjectFactory', function($http){
     var ProjectFactory = {};
 
-
-    ProjectFactory.createProject = function(_name, _userId){
-        return $http.post('/api/projects/', {name: _name, user: _userId})
+    // remove user id? when do we add it to the user's project list then?
+    ProjectFactory.createProject = function(_name){
+        return $http.post('/api/projects/', {name: _name})
         .then(function(project){
             return project.data
         }, function(err){

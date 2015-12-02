@@ -1,8 +1,8 @@
 app.factory('PageFactory', function($rootScope, $http){
     var PageFactory = {};
 
-    PageFactory.createPage = function(projectId, pageName, _userId, pageGrid){
-        return $http.post('/api/pages', {project: projectId, name: pageName, user: _userId, grid: pageGrid})
+    PageFactory.createPage = function(pageToSave){
+        return $http.post('/api/pages', pageToSave)
         .then(function(page){
             return page.data
         }, function(err){
