@@ -135,6 +135,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids = {};
     }
 
+    //GridFactory.loadGrid($scope, {grid: template-grid})
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();

@@ -24,6 +24,14 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             templateUrl: "/js/close-modal/close-modal.html",
             controller: "CloseModalCtrl"
         })
+        /*resetModal.result.then(function () {
+          $state.go('products')
+        }, function () {
+          $log.info('Modal dismissed at: ' + new Date());
+        });*/
+
+
+
         $rootScope.$on('close-save', function(event, data) {
             if (data.save) {
                 $scope.closeSave = true;

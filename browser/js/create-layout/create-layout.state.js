@@ -6,7 +6,6 @@ app.config(function($stateProvider){
     resolve: {
     	theUser: function (AuthService){
     		return AuthService.getLoggedInUser();
-
     	}
     }
   })
