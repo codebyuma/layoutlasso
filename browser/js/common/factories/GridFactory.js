@@ -187,10 +187,5 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     }
 
-
-
-
-
-
     return GridFactory;
 })
