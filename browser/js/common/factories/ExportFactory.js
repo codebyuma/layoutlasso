@@ -82,22 +82,25 @@ app.factory('ExportFactory', function(GridFactory) {
 
   function generateRow(html, nodesArr, parentObj, size) {
     var sz = size || "md";
-    html += bits.row;
-    for (var j = 0; j < nodesArr.length; j++){
-        // check if node is an offset node (empty node)
-        if (nodesArr[j].offset) {
-          html += offsetMaker(sz, nodesArr[j].width);
-        } else if (nodesArr[j].grid) {
-          // find the grid in parent grid and build it
-          html += colMaker(sz, nodesArr[j].width); // make column
-          html += nodesArr[j].content; // add content to column
-          html = generateRow(html, parentObj["grid" + nodesArr[j].id], parentObj);
-        } else {
-          html += colMaker(sz, nodesArr[j].width); // make column
-          html += nodesArr[j].content;  // add content to column
-        }
-        html += bits.close; // close column
-    } html += bits.close; // close row
+
+    nodesArr.forEach(function(subarr){
+      html += bits.row;
+      for (var j = 0; j < subarr.length; j++){
+          // check if node is an offset node (empty node)
+          if (subarr[j].offset) {
+            html += offsetMaker(sz, subarr[j].width);
+          } else if (subarr[j].grid) {
+            // find the grid in parent grid and build it
+            html += colMaker(sz, subarr[j].width); // make column
+            html += subarr[j].content; // add content to column
+            html = generateRow(html, parentObj["grid" + subarr[j].id], parentObj);
+          } else {
+            html += colMaker(sz, subarr[j].width); // make column
+            html += subarr[j].content;  // add content to column
+          }
+          html += bits.close; // close column
+      } html += bits.close; // close row
+    });
     return html;
   };
 
