@@ -19,8 +19,8 @@ app.factory('PageFactory', function($rootScope, $http){
         })
     }
 
-    PageFactory.savePage = function(id, updatedPageGrid){
-        return $http.put('/api/pages/' + id, updatedPageGrid)
+    PageFactory.savePage = function(updatedPage){
+        return $http.put('/api/pages/' + updatedPage._id, updatedPage)
         .then(function(page){
             return page.data
         }, function(err){

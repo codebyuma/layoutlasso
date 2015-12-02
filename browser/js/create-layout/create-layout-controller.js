@@ -33,8 +33,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
     $scope.saveGrid = function (){
       GridFactory.saveGridLocal(); // sarah should call this directly
-      if ($scope.user && $scope.project){
-        GridFactory.saveGridBackend($scope);
+      if ($scope.user && $scope.project && $scope.page){
+        GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
       } else {
         if (!$scope.user){
             // prompt user to login or sign up first
@@ -62,7 +62,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
                 }
             })
         } else {
-            // open uibmodal to create project and page
+            // open uibmodal to create project 
                     $uibModal.open({
                         animation: $scope.animationEnabled,
                         templateUrl: "/js/project-modal/project-modal.html",
@@ -106,14 +106,14 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.page = data.page;
             $scope.project = data.proj;
-            // call GridFactory.saveGridBackend($scope);??
+            GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
      })
 
 
     $scope.clearGrid = GridFactory.clearGrid; 
 
     $scope.loadGrid = function(){
-        GridFactory.loadGrid($scope);
+        GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
     }
 

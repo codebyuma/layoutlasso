@@ -118,44 +118,16 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         console.log(JSON.stringify(GridFactory.savedGrid));
     }
 
-    GridFactory.saveGridBackend = function (scope){
+    GridFactory.saveGridBackend = function (user, project, page){
+        
         console.log("SAVING TO BACKEND!");
-                // ==== saving to the backend ====
-        // need to review our models, too many circular references. For now:
-        //      create project
-        //      create page with the project's id
-        //      add the page to the project's array of pages?
-        //      add the project to the user's array of projects?
 
-        // just creating a new project each time for now to test saving
-        // Should instead create one with a user inputted name and save that one until they close it
-        // same with the page - don't create a new one each time
-
-        // ProjectFactory.createProject("project"+$scope.counter, $scope.user._id)
-        // .then (function (project){
-        //     console.log("project", project);
-        //     $scope.project = project; // store newly created project on scope
-        //     $scope.user.projects.push(project._id); // add that project id to the user on scope
-        //     return UserFactory.saveUser($scope.user) // save the updated user
-
-        // })
-        // .then (function (user){
-        //     $scope.user = user;
-        //     return PageFactory.createPage($scope.project._id, "page"+$scope.counter, $scope.user._id, $scope.savedGrid)
-        //     .then (function (page){
-        //         $scope.page = page; // store the newly created page on the scope
-        //         console.log('saved page', page);
-        //         return page;
-        //     })
-        // })
-        // .then (function (page){
-        //     $scope.project.pages.push(page._id); // add the newly create page to the project on scope
-        //     ProjectFactory.saveProject($scope.project) // save that project to the backend
-        //     .then (function (updatedProject){
-        //         $scope.project = updatedProject;
-        //         console.log("updated project", $scope.project);
-        //     })
-        // })
+        page.grid = GridFactory.savedGrid;
+        PageFactory.savePage(page)
+        .then (function (updatedPage){
+            console.log("page saved in backend", updatedPage);
+        })
+       
     }
 
 
@@ -165,7 +137,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
 
-    GridFactory.loadGrid = function (scope){
+    GridFactory.loadGrid = function (scope, page){
     	GridFactory.clearGrid();
 
         // ===== LOAD GRID FROM BACKEND ====
@@ -177,6 +149,11 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         //     }
 
         // }
+        if (GridFactory.savedGrid.length === 0){
+           if (page){ // what if there is no page on scope yet
+             GridFactory.savedGrid = page.grid;
+           }
+        }
 
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
