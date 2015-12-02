@@ -9,50 +9,62 @@ app.factory('ExportFactory', function(GridFactory) {
         close: '</div>'
     };
 
-    function colMaker(sz, span) {
-      return '<div class="col-' + sz + '-' + span + '">';
-    }
+  function colMaker(sz, span) {
+    return '<div class="col-' + sz + '-' + span + '">';
+  }
 
-    function offsetMaker(sz, span) {
-      return '<div class="col-' + sz + '-offset-' + span + '">';
-    }
+  function offsetMaker(sz, span) {
+    return '<div class="col-' + sz + '-offset-' + span + '">';
+  }
 
-    // is this node a child of the same parent
-    function isChildOfSameParent(node, parentId) {
-      return (node.parentId === parentId);
-    };
+  // is this node a child of the same parent
+  function isChildOfSameParent(node, parentId) {
+    return (node.parentId === parentId);
+  };
 
-    // key is parent grid's Id, value is array of its child nodes
-    function makeParentObject() {
-      var visitedGrids = {};
-      GridFactory.savedGrid.forEach(function(node, index){
-        if (!visitedGrids[node.parentId]) {
-          visitedGrids[node.parentId] = [];
-          visitedGrids[node.parentId].push(node);
-        } else {
-          visitedGrids[node.parentId].push(node);
-        }
-      })
-      return markGrids(visitedGrids);
-    };
-
-    // mark children nodes that are grids as grids
-    function markGrids(visitedGrids) {
-      var gridNumArray = [];
-      for (var grid in visitedGrids) {
-        gridNumArray.push(grid.slice(4));
+  // key is parent grid's Id, value is array of its child nodes
+  function makeParentObject() {
+    var visitedGrids = {};
+    GridFactory.savedGrid.forEach(function(node, index){
+      if (!visitedGrids[node.parentId]) {
+        visitedGrids[node.parentId] = [];
+        visitedGrids[node.parentId].push(node);
+      } else {
+        visitedGrids[node.parentId].push(node);
       }
-      GridFactory.savedGrid.forEach(function(node){
-        if (gridNumArray.indexOf(node.id) >= 0) {
-          node.grid = true;
-        }
-      })
-      return visitedGrids;
+    })
+    return markGrids(visitedGrids);
+  };
+
+  // mark children nodes that are grids as grids
+  function markGrids(visitedGrids) {
+    var gridNumArray = [];
+    for (var grid in visitedGrids) {
+      gridNumArray.push(grid.slice(4));
     }
+    GridFactory.savedGrid.forEach(function(node){
+      if (gridNumArray.indexOf(node.id) >= 0) {
+        node.grid = true;
+      }
+    })
+    return visitedGrids;
+  }
+
+  function separateRows(nodesArr) {
+  // Modifies nodesArr to be an array of arrays where each subarray is a ROW of nodes
+    var rowsArray = [];
+    for (var i = 0; i < nodesArr.length; i++) {
+      if (rowsArray[nodesArr[i].y] == undefined) {
+        rowsArray[nodesArr[i].y] = [nodesArr[i]];
+      } else {
+        rowsArray[nodesArr[i].y].push(nodesArr[i]);
+      }
+    }
+    return rowsArray;
+  }
 
   function createOffsetNodes(nodesArr) {
-    // TODO need to ACCOUNT FOR Y values / ROWS
-    // nodesArr is an array of arrays by row
+    // Expect nodesArr to be an array of arrays by row
     var curr, nextXShouldBe, newWidth, newNode;
 
     nodesArr.forEach(function(subarr){
@@ -104,42 +116,16 @@ app.factory('ExportFactory', function(GridFactory) {
     return html;
   };
 
-  function separateRows(nodesArr) {
-  // Modifies nodesArr to be an array of arrays where each subarray is a ROW of nodes
-    var rowsArray = [];
-    for (var i = 0; i < nodesArr.length; i++) {
-      if (rowsArray[nodesArr[i].y] == undefined) {
-        rowsArray[nodesArr[i].y] = [nodesArr[i]];
-      } else {
-        rowsArray[nodesArr[i].y].push(nodesArr[i]);
-      }
-    }
-    return rowsArray;
-  }
-
   ExportFactory.convertToHTML = function() {
-    // TODO look into object names can't have hyphens  main-grid => gridmain
         var html = bits.container;
         var parentObj = makeParentObject();
 
-        /*
-        parentObj = {
-        main-grid: [node1, node2, node3],
-        grid3: [node4, node5]
-      }
-convert it to ..
-      parentObj = {
-      main-grid: [[node1, node2], [node3]], // array of arrays based on ROW
-      grid3: [node4, node5]
-    }
-        */
         for (var key in parentObj) {
           parentObj[key] = separateRows(parentObj[key]); // modify parentObj to distinguish between rows
           createOffsetNodes(parentObj[key]); // modify parentObj to include offset columns
         }
-        console.log("parentObj AFTER rows and offsets is", parentObj);
         // start with main grid.
-        // generateRow function will look for nested grids recursively
+        // generateRow function will build nested grids recursively
         html =  generateRow(html, parentObj['main-grid'], parentObj);
         html += bits.close; // closes container
         console.log("converted html is", html);
