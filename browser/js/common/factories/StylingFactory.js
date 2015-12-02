@@ -18,7 +18,7 @@ app.factory("StylingFactory", function(){
     return $("." + className);
   }
 
-  /* Function to traverse widgets and populate styling on reload (via class name) */
+  /* Function to traverse widgets and populate styling on reload (via class name) TO BE WRITTEN */
 
 
   /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline */
@@ -32,7 +32,7 @@ app.factory("StylingFactory", function(){
       $(el).removeClass(className);
       console.log(el)
       for(var style in stylesToRemove){
-        el.style.removeProperty("" + style + "");
+        el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
       }
     })
   }
@@ -43,15 +43,39 @@ app.factory("StylingFactory", function(){
     return "ll-class-" + Date.now() + "";
   }
 
-// Getter for pageStyleSheet, primarily to update menu on scope.
+  // Getter for pageStyleSheet Class names, primarily to update menu on scope.
   var getPageStyleSheetClasses = function(){
     return Object.keys(pageStyleSheet);
   }
 
+  /* Getter for pageStylesheet css objects. This allows for methods to load a single class for editing.*/
+
+  var getSingleClassForEditing = function(name){
+    return pageStyleSheet[name];
+  }
+
+  /* Conversion of stored CSS object in pageStyleSheet to editing compatible format. Converts from object to array of objects */
+
+  var convertToEditableClassObj = function(name){
+    var styleArray = [];
+    var cssObj = getSingleClassForEditing(name)
+    for(var style in cssObj){
+      styleArray.push({ key: style.toString(), value: cssObj[style]});
+    }
+    return styleArray;
+  }
+
+  var updateStyleClass = function(updatedObj){
+
+  }
+
+
+  /* Facilitates the removal of a whole class and associated styling for all elements with that class name*/
   var removePageStyleClass = function(name){
     removeClassInlineStyles(name);
-    delete pageStyleSheet[name];
+    delete pageStyleSheet[name]; /* Removing class from pageStylesheet object. */
   }
+
 
   return {
     applyStylingToGroup: applyStylingToSelectedObjs,
@@ -67,9 +91,7 @@ app.factory("StylingFactory", function(){
       console.log(pageStyleSheet);
     },
 
-    getStyleSheetClassNames: function(){
-      return Object.keys(pageStyleSheet);
-    },
+    getStyleSheetClassNames: getPageStyleSheetClasses,
 
     convertForSaving: function(){
       return JSON.stringify(pageStyleSheet);
@@ -77,8 +99,6 @@ app.factory("StylingFactory", function(){
 
     removeStyleClass: removePageStyleClass,
 
-    convertToCss: function(){
-
-    }
+    convertToEditableObj: convertToEditableClassObj
   }
 })

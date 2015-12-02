@@ -32,16 +32,18 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
     }
 
 
+    /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
 
-    // This is to keep a tally on what elements are currently being styled.
+    // This object has elements to be styled assigned to it, with id's as keys.
     $scope.styleGroup = {};
 
-    /* Object to allow two-binding of css form. Is populated by the directive css-applicator. */
+    /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
     $scope.newClass = {};
 
-    // Accesses StylingFactory stylsheet object showing current classes.
-
+    // Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives.
     $scope.pageStyleSheet = [];
+
+    $scope.classEditMode = false;
 
 })

@@ -8,6 +8,7 @@
       <button class="label-danger" ng-click="removeStyle(prop)"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
     <button ng-click="addNewCssField()">Add Styling</button>
-    <button ng-click="getCssFormData(newClass)">Apply</button>
+    <button ng-hide="classEditMode" ng-click="getCssFormData(newClass)">Apply</button>
+    <button ng-show="classEditMode" ng-click="updateClass(newClass)">Update</button>
   </form>
 </section>

@@ -54,6 +54,10 @@ app.directive("cssApplicator", function(StylingFactory){
         applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         return;
+      },
+
+      scope.updateClass = function(stylingObj){
+        scope.classEditMode = false;
       }
     }
   }
