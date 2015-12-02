@@ -4,7 +4,6 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var PageSchema = new mongoose.Schema({
 	name: { type: String, required: true},
-	html: String,
 	css: String,
 	grid: []
 })

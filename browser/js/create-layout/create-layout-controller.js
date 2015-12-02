@@ -163,7 +163,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     var beautify = require('js-beautify').html;
 
     $scope.exportHTML = function(){
-      GridFactory.saveGrid($scope.user);
+      GridFactory.saveGridLocal();
       var html = ExportFactory.convertToHTML();
       if (html) {
         html = beautify(html, { indent_size: 4 });

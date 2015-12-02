@@ -5,26 +5,14 @@ app.factory('PageFactory', function($rootScope, $http){
         return $http.post('/api/pages', pageToSave)
         .then(function(page){
             return page.data
-        }, function(err){
-            return err;
         })
     }
 
-    PageFactory.getPages = function (){
-        return $http.put('/api/pages/')
-        .then(function(pages){
-            return pages.data
-        }, function(err){
-            return err;
-        })
-    }
 
     PageFactory.savePage = function(updatedPage){
         return $http.put('/api/pages/' + updatedPage._id, updatedPage)
         .then(function(page){
             return page.data
-        }, function(err){
-            return err;
         })
     }
 
@@ -32,8 +20,6 @@ app.factory('PageFactory', function($rootScope, $http){
         return $http.get('/api/pages/' + id)
         .then(function(page){
             return page.data
-        }, function(err){
-            return err;
         })
     }
 
@@ -41,8 +27,6 @@ app.factory('PageFactory', function($rootScope, $http){
         return $http.delete('/api/pages/' + id)
         .then(function(page){
             return page.data
-        }, function(err){
-            return err;
         })
     }
 
