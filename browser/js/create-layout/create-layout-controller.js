@@ -12,13 +12,13 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
        GridFactory.addNestedGrid($scope, id);
     }
 
-    $scope.removeWidget = GridFactory.removeWidget; 
+    $scope.removeWidget = GridFactory.removeWidget;
 
     $scope.saveGrid = function (){
       GridFactory.saveGrid($scope.user);
     }
 
-    $scope.clearGrid = GridFactory.clearGrid; 
+    $scope.clearGrid = GridFactory.clearGrid;
 
     $scope.loadGrid = function(){
         GridFactory.loadGrid($scope);
