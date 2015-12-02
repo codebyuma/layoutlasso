@@ -7,12 +7,12 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
     //prompt user to create new project and/or page
     $scope.new = function (){
-        console.log("in new")
+        $scope.promptProjectLoad(true);
     }
 
     // prompt user to open project and page
     $scope.open = function (){
-        console.log("in open")
+        $scope.promptProjectLoad(false);
     }
 
     $scope.promptUserLogin = function (){
@@ -28,14 +28,14 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
          $scope.user = data;   
     })
 
-    $scope.promptProjectLoad = function (){
-         console.log("in prompt project load");
+    $scope.promptProjectLoad = function (_createProjBool){
         // open uibmodal to create project and page
         $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
             controller: "ProjectModalCtrl",
             resolve: {
+                createProjBool: _createProjBool,
                 user: function (UserFactory){
                     return UserFactory.getUser($scope.user._id);
                 }

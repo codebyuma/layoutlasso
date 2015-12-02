@@ -1,10 +1,15 @@
-app.controller('ProjectModalCtrl', function ($scope, $rootScope, UserFactory, ProjectFactory, user, $uibModalInstance){
+app.controller('ProjectModalCtrl', function ($scope, $rootScope, createProjBool, UserFactory, ProjectFactory, user, $uibModalInstance){
 
   $scope.user = user;
   $scope.projects = user.projects;
   $scope.hasProjects = $scope.projects.length;
-  console.log("in project modal, user is", $scope.user) // projects are just ids right now. need to populate?
-  console.log("in project modal, user's projects are", $scope.projects);
+  $scope.createProj = createProjBool; // flag for determining if this is a 'new' or 'load' request
+  $scope.inSave = false; // flag for determining if this was called by hitting the save button. 
+
+
+  if ($scope.createProj === undefined){
+    $scope.inSave = true; // Modal will show both load and create options as we're in the 'save' flow
+  }
 
 
   $scope.cancel = function(){
@@ -14,9 +19,6 @@ app.controller('ProjectModalCtrl', function ($scope, $rootScope, UserFactory, Pr
 
   $scope.createProject = function (project){
 
-    // call create in project factory
-    // CONTINUE HEREEEE. Also update ProjectFactory (See comment)
-    console.log("in create project:", project);
     ProjectFactory.createProject(project.name)
     .then (function (theProject){
       $scope.project = theProject;
@@ -25,28 +27,22 @@ app.controller('ProjectModalCtrl', function ($scope, $rootScope, UserFactory, Pr
     })
     .then (function (updatedUser){
       $scope.user = updatedUser;
-      console.log("in createProject - the project was created", $scope.project)
-      console.log("in createProject - updated user", $scope.user)
       $rootScope.$broadcast('project loaded', {proj: $scope.project, user: $scope.user});
+      $scope.inSave = false;
       $uibModalInstance.close()
     })
-
-
-
     
 
   }
 
   $scope.loadProject = function (project){
 
-    // call create in project factory
-    console.log("in load project:", project);
-
     ProjectFactory.getProject(project._id)
     .then (function (theProject){
 
        $scope.project = theProject;
        $rootScope.$broadcast('project loaded', {proj: $scope.project, user: $scope.user});
+       $scope.inSave = false;
        $uibModalInstance.close()
     })
 
