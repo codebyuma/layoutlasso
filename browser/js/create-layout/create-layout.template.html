@@ -10,16 +10,16 @@
     <button ng-click="clearGrid()" class="btn btn-default">Clear Grid</button>
     <br>
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
+    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
     <p></p>
     <div ng-show="project">Currently viewing: <br>
       <div>Project - {{ project.name }}</div>
     </div>
     <div ng-show="page">Page: {{ page.name }}</div>
+
+    
+
   </div>
-</aside>
-<aside id="toolbar-right" class="toolbar">
-  <button ng-click="convertToHTML()">Convert to HTML</button>
-  <p> {{ convertedHTML }}</p>
 </aside>
 
 <section class="create-layout">
