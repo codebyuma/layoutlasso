@@ -37,8 +37,11 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
     // This is to keep a tally on what elements are currently being styled.
     $scope.styleGroup = {};
 
+    /* Object to allow two-binding of css form. Is populated by the directive css-applicator. */
+    $scope.newClass = {};
+
     // Accesses StylingFactory stylsheet object showing current classes.
 
-    $scope.pageStyleSheet = StylingFactory.getStylesForScope;
+    $scope.pageStyleSheet = [];
 
 })

@@ -5,7 +5,7 @@
     <div class="css-field" ng-repeat="prop in newClass.styles">
       <input type="text" ng-model="prop.key" placeholder="CSS Property"></input>
       <input type="text" ng-model="prop.value" placeholder="CSS Value"></input>
-      <button ng-click="removeStyle(prop)"><span class="glyphicon glyphicon-remove"></span></button>
+      <button class="label-danger" ng-click="removeStyle(prop)"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
     <button ng-click="addNewCssField()">Add Styling</button>
     <button ng-click="getCssFormData(newClass)">Apply</button>

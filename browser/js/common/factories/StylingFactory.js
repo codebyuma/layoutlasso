@@ -19,7 +19,7 @@ app.factory("StylingFactory", function(){
 
 // Getter for pageStyleSheet, primarily to update menu on scope.
   var getPageStyleSheetClasses = function(){
-    return Object.keys(pageStyleSheet) || [];
+    return Object.keys(pageStyleSheet);
   }
 
   return {
@@ -36,11 +36,13 @@ app.factory("StylingFactory", function(){
       console.log(pageStyleSheet);
     },
 
+    getStyleSheetClassNames: function(){
+      return Object.keys(pageStyleSheet);
+    },
+
     convertForSaving: function(){
       return JSON.stringify(pageStyleSheet);
     },
-
-    getStylesForScope = getPageStyleSheetClasses(),
 
     convertToCss: function(){
 

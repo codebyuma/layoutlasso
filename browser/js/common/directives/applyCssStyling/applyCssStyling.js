@@ -23,15 +23,14 @@ app.directive("cssApplicator", function(StylingFactory){
       var applyStylingAndClass = function(nameOfClass, stylingObj, styleGroup){
         StylingFactory.populateStyleSheetObject({name: nameOfClass, cssObj: stylingObj})
         StylingFactory.applyStylingToGroup(styleGroup, stylingObj, nameOfClass, resetScopeStyleObjs);
-        // return;
+        return;
       }
 
       // Adds a new empty field to this directive template for a new style.
 
       scope.addNewCssField = function(){
-        fieldCounter++;
         scope.newClass.styles.push({ key: "", value: ""});
-        // return;
+        return;
       }
 
       /* Removes a style field from this directive (will work on empty string keys too.) May also be extended to allow removal from an existing class*/
@@ -39,7 +38,7 @@ app.directive("cssApplicator", function(StylingFactory){
       scope.removeStyle = function(style){
           var toRemoveIdx = scope.newClass.styles.indexOf(style.key);
           scope.newClass.styles.splice(toRemoveIdx, 1);
-          // return;
+          return;
       }
 
       /* Iterates over each style field in directive and creates new obj with keys as css properties, and values as values */
@@ -53,6 +52,8 @@ app.directive("cssApplicator", function(StylingFactory){
         var newClassName = assignClassName(scope.newClass.name);
 
         applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
+        scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+        return;
       }
     }
   }

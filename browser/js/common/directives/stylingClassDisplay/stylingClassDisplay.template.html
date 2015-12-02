@@ -1,4 +1,6 @@
 <section class="pageClassMenu">
   <p>Current Classes</p>
-  <!-- <p ng-repeat="className in pageStyleSheet">{{ className }}</p> -->
+  <div class="css-field" ng-repeat="className in pageStyleSheet">
+  <p>{{ className }}     <button class="label-danger" ng-click="removeClass(className)"><span class="glyphicon glyphicon-remove"></span></button></p> 
+  </div>
 </section>
