@@ -7,7 +7,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     });
 
     $scope.main_grid = GridFactory.getMainGrid();
-
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
     $scope.addNewGridElement = function (grid, content){
@@ -21,8 +20,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     $scope.removeWidget = function(idNum) {
        GridFactory.removeWidget(idNum);
     }
-
-
 
     $scope.saveGrid = function (){
       GridFactory.saveGrid($scope.user);
@@ -42,7 +39,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
 
     var beautify = require('js-beautify').html;
 
-    $scope.convertToHTML = function(){
+    $scope.exportHTML = function(){
       GridFactory.saveGrid($scope.user);
       var html = ExportFactory.convertToHTML();
       if (html) {
@@ -56,9 +53,12 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
         a.download = "layoutlasso.html";
         a.click();
         window.URL.revokeObjectURL(url);
-      };
-
+      }
     };
+
+    $scope.gridEmpty = function() {
+      return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
+    }
 
     //===== Components ===== //
     //add Nav Bar function

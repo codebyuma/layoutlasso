@@ -123,10 +123,6 @@ app.factory('ExportFactory', function(GridFactory) {
     return html;
   };
 
-  function wrapWithHTML(html) {
-
-  }
-
   ExportFactory.convertToHTML = function() {
         if (GridFactory.savedGrid.length == 0) {
           return;
@@ -145,7 +141,6 @@ app.factory('ExportFactory', function(GridFactory) {
             html += bits.close; // closes container div
             html += bits.bodyclose;
             html += bits.htmlclose;
-            console.log("converted html is", html);
             return html;
         }
     };
