@@ -5,11 +5,17 @@
   "main": "server/start.js",
   "scripts": {
     "postinstall": "gulp build",
-    "start": "nodemon --watch server -e js,html server/start.js"
+    "start": "nodemon --watch server -e js,html server/start.js",
+    "build-js": "browserify browser/js/create-layout/create-layout-controller.js -o node_modules/findem.js",
+    "watch-js": "watchify browser/js/create-layout/create-layout-controller.js -o node_modules/findem.js -v"
   },
   "engines": {
     "node": ">=4.0.0"
   },
+  "devDependencies": {
+  "browserify": "latest",
+  "watchify": "latest"
+},
   "dependencies": {
     "angular-animate": "^1.4.7",
     "angular-mocks": "^1.4.0",
@@ -42,6 +48,7 @@
     "gulp-uglify": "^1.1.0",
     "jquery": "^2.1.4",
     "jquery-ui": "^1.10.5",
+    "js-beautify": "^1.5.10",
     "karma": "^0.13.14",
     "karma-chai": "^0.1.0",
     "karma-coverage": "^0.2.7",
