@@ -5,16 +5,9 @@ app.factory('RandomGreetings', function () {
     };
 
     var greetings = [
-        'Hello, world!',
-        'At long last, I live!',
-        'Hello, simple human.',
-        'What a beautiful day!',
-        'I\'m like any other project, except that I am yours. :)',
-        'This empty string is for Lindsay Levine.',
-        'こんにちは、ユーザー様。',
-        'Welcome. To. WEBSITE.',
-        ':D',
-        'Yes, I think we\'ve met before.'
+        'Lasso your life!',
+        'Griddle me this!',
+        '\'ello lassie!'
     ];
 
     return {
