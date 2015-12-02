@@ -2,6 +2,7 @@ app.controller('PageModalCtrl', function ($scope, $rootScope, project, ProjectFa
 
   $scope.project = project;
   $scope.pages = project.pages;
+   $scope.hasPages = $scope.pages.length;
 
   console.log("in page modal ctrl", project);
   $scope.cancel = function(){

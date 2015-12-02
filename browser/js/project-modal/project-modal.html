@@ -10,7 +10,7 @@
                 <alert type="danger" ng-show="error">
                     {{ error }}
                 </alert>
-                <h4>Select an existing project</h4>
+                <div ng-show="hasProjects"> <h4>Select an existing project</h4>
                   <br>
                   <div class="form-group">
                   <label>Project name: </label>
@@ -21,8 +21,9 @@
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="projectForm.$valid && loadProject(existingProject)">Load</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>
-
+            
                 <p><hr></p>
+                </div>
                 <h4>Create a new project</h4>
 
                 <div class="form-group">

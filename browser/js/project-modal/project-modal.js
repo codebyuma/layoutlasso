@@ -2,6 +2,7 @@ app.controller('ProjectModalCtrl', function ($scope, $rootScope, UserFactory, Pr
 
   $scope.user = user;
   $scope.projects = user.projects;
+  $scope.hasProjects = $scope.projects.length;
   console.log("in project modal, user is", $scope.user) // projects are just ids right now. need to populate?
   console.log("in project modal, user's projects are", $scope.projects);
 
@@ -43,7 +44,7 @@ app.controller('ProjectModalCtrl', function ($scope, $rootScope, UserFactory, Pr
 
     ProjectFactory.getProject(project._id)
     .then (function (theProject){
-      
+
        $scope.project = theProject;
        $rootScope.$broadcast('project loaded', {proj: $scope.project, user: $scope.user});
        $uibModalInstance.close()

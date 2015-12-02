@@ -9,7 +9,7 @@
                 <alert type="danger" ng-show="error">
                     {{ error }}
                 </alert>
-                <h4>Select an existing page to overwrite</h4>
+                <div ng-show="hasPages"><h4>Select an existing page to overwrite</h4>
                   <br>
                   <div class="form-group">
                   <label>Page name: </label>
@@ -17,8 +17,9 @@
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="pageForm.$valid && loadPage(existingPage)">Load</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>
-
+           
                 <p><hr></p>
+                 </div>
                 <h4>Create a new page</h4>
 
                 <div class="form-group">
