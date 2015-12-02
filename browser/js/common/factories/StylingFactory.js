@@ -12,7 +12,7 @@ app.factory("StylingFactory", function(){
     callback();
   }
 
-  /* Travese DOM and retrieve all elements with matching classes */
+  /* Travese DOM and retrieve all elements with matching classes, jQuery method */
 
   var findMatchingClasses = function(className){
     return $("." + className);
@@ -26,8 +26,11 @@ app.factory("StylingFactory", function(){
   var removeClassInlineStyles = function(className){
     var matchingElements =  findMatchingClasses(className);
     var stylesToRemove = pageStyleSheet[className];
-    console.log(matchingElements);
+    /* matching elements is a jQuery object, .each is a jQuery method to iterate over DOM elements in a returned jQUery array like object. */
     matchingElements.each(function(idx, el){
+      // To use removeClass jQuery method, have to convert to jQuery obj.
+      $(el).removeClass(className);
+      console.log(el)
       for(var style in stylesToRemove){
         el.style.removeProperty("" + style + "");
       }
