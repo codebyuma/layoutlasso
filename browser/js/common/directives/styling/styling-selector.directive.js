@@ -7,9 +7,7 @@ app.directive("stylingSelector", function(){
         var styleSelector = $(this).data("styleSelectorRef");
         var parentEl = document.getElementById(styleSelector);
         var buttonEl = $(parentEl).find("styling-selector").children().first();
-        console.log("CURRENT ID:", parentEl, styleSelector);
         var elementToStyle = $(parentEl).find(".lasso-user-content").children().first();
-        console.log("TO STYLE: ", elementToStyle);
         if(elementToStyle.length > 0) {
           if(!scope.styleGroup[styleSelector]){
             scope.styleGroup[styleSelector] = elementToStyle;
@@ -19,7 +17,6 @@ app.directive("stylingSelector", function(){
             buttonEl.removeClass("style-group-active")
           }
         }
-        console.log("STYLE GROUP OBJECT:", scope.styleGroup);
       })
     }
   }

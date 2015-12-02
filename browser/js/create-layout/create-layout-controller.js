@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridCompFactory, GridFactory, StylingFactory) {
 
     AuthService.getLoggedInUser().then(function (user) {
         if(user) {
@@ -47,6 +47,9 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
 
     // This is to keep a tally on what elements are currently being styled.
     $scope.styleGroup = {};
-    $scope.newClass = {};
+
+    // Accesses StylingFactory stylsheet object showing current classes.
+
+    $scope.pageStyleSheet = StylingFactory.getStylesForScope;
 
 })

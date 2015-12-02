@@ -17,6 +17,10 @@ app.factory("StylingFactory", function(){
     return "ll-class-" + Date.now() + "";
   }
 
+// Getter for pageStyleSheet, primarily to update menu on scope.
+  var getPageStyleSheetClasses = function(){
+    return Object.keys(pageStyleSheet) || [];
+  }
 
   return {
     applyStylingToGroup: applyStylingToSelectedObjs,
@@ -24,7 +28,6 @@ app.factory("StylingFactory", function(){
     autoGenName: generateClassName,
 
     populateStyleSheetObject: function(stylesObj){
-      if(!stylesObj.name) stylesObj.name = generateClassName();
       if(pageStyleSheet[stylesObj.name]){
         _.extend(pageStyleSheet[stylesObj.name], stylesObj.cssObj);
       } else {
@@ -34,8 +37,10 @@ app.factory("StylingFactory", function(){
     },
 
     convertForSaving: function(){
-
+      return JSON.stringify(pageStyleSheet);
     },
+
+    getStylesForScope = getPageStyleSheetClasses(),
 
     convertToCss: function(){
 
