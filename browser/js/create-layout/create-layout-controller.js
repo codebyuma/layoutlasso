@@ -39,11 +39,16 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
 
     //===== Exporting ===== //
     // TODO disable button if grid is empty
+
+    var beautify = require('js-beautify').html;
+
     $scope.convertToHTML = function(){
       GridFactory.saveGrid($scope.user);
       var html = ExportFactory.convertToHTML();
       if (html) {
+        html = beautify(html, { indent_size: 4 });
         $scope.convertedHTML = html;
+
         var htmlBlob = new Blob([html], {type : 'text/html'});
         var url = window.URL.createObjectURL(htmlBlob);
         var a = document.createElement("a");
