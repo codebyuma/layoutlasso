@@ -10,6 +10,7 @@ app.directive("cssApplicator", function(StylingFactory){
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
+        return;
       }
 
       var assignClassName = function(nameVariable){
@@ -17,32 +18,34 @@ app.directive("cssApplicator", function(StylingFactory){
         return nameVariable;
       }
 
+      var applyStylingAndClass = function(nameOfClass, stylingObj, styleGroup){
+        StylingFactory.populateStyleSheetObject({name: nameOfClass, cssObj: stylingObj})
+        StylingFactory.applyStylingToGroup(styleGroup, stylingObj, nameOfClass, resetScopeStyleObjs);
+        return;
+      }
+
       scope.addNewCssField = function(){
         fieldCounter++;
         scope.newClass.styles.push({ key: "", value: ""});
+        return;
       }
 
       scope.removeStyle = function(style){
         var toRemoveIdx = scope.newClass.styles.indexOf(style.key);
         scope.newClass.styles.splice(toRemoveIdx, 1);
-        console.log("STYLES NOW:", scope.newClass.styles)
+        return;
       }
 
       scope.getCssFormData = function(data){
         var cssToApply = {};
+
         data.styles.forEach(function(cssObj){
           cssToApply[cssObj.key] = cssObj.value;
         })
 
-        var newClassName = assignClassName();
+        var newClassName = assignClassName(scope.newClass.name);
 
-        StylingFactory.populateStyleSheetObject({name: newClassName, cssObj: cssToApply})
-
-        console.log("CSS TO APPLY OBJECT: ", cssToApply);
-
-        StylingFactory.applyStylingToGroup(scope.styleGroup, cssToApply, resetScopeStyleObjs);
-
-
+        applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
       }
       console.log("SCOPE NEW CLASS:", scope.newClass);
     }

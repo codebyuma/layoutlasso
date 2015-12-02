@@ -4,9 +4,10 @@ app.factory("StylingFactory", function(){
 
   /* Function to apply styling of scope.styleGroup hash DOM elements  */
 
-  var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, callback){
-    for(var idx in groupToStyle){
-      groupToStyle[idx].css(stylesObj);
+  var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, nameOfClass, callback){
+    for(var el in groupToStyle){
+      groupToStyle[el].addClass(nameOfClass);
+      groupToStyle[el].css(stylesObj);
     }
     callback();
   }
