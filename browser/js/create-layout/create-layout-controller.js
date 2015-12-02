@@ -93,14 +93,15 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.user = data.user;
             $scope.project = data.proj;
+            $scope.page = null;
             console.log("rootscope on. and the project is", $scope.project);
             // call GridFactory.saveGridBackend($scope);??
 
-            if (!$scope.page){
+            
                 // open page modal
                 // user has option to overwrite page or create new one to save to
                 $scope.promptPageSave(); 
-            }
+        
 
      })
 
