@@ -4,6 +4,13 @@ app.factory('ExportFactory', function(GridFactory) {
 
     // for html generator
     var bits = {
+        htmlopen: '<html>',
+        htmlclose: '</html>',
+        headopen: '<head>',
+        headclose: '</head>',
+        bodyopen: '<body>',
+        bodyclose: '</body>',
+        bootstrapCDN: '<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">',
         container: '<div class="container">',
         row: '<div class="row">',
         close: '</div>'
@@ -116,11 +123,17 @@ app.factory('ExportFactory', function(GridFactory) {
     return html;
   };
 
+  function wrapWithHTML(html) {
+
+  }
+
   ExportFactory.convertToHTML = function() {
         if (GridFactory.savedGrid.length == 0) {
           return;
         } else {
-            var html = bits.container;
+            var html = "";
+            html += bits.htmlopen + bits.headopen + bits.bootstrapCDN;
+            html += bits.headclose + bits.bodyopen + bits.container;
             var parentObj = makeParentObject();
 
             for (var key in parentObj) {
@@ -129,9 +142,10 @@ app.factory('ExportFactory', function(GridFactory) {
             }
             // start with main grid. generateRow function will build nested grids recursively
             html =  generateRow(html, parentObj['main-grid'], parentObj);
-            html += bits.close; // closes container
+            html += bits.close; // closes container div
+            html += bits.bodyclose;
+            html += bits.htmlclose;
             console.log("converted html is", html);
-
             return html;
         }
     };
