@@ -2,4 +2,14 @@ class-display {
   top: 300px;
   left: 200px;
   z-index: 51;
+
+  .cls-field {
+    position: relative;
+    .right-align-btn {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+  }
+
 }

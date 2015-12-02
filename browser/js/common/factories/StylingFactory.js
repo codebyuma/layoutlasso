@@ -12,6 +12,23 @@ app.factory("StylingFactory", function(){
     callback();
   }
 
+  /* Travese DOM and retrieve all elements with matching classes */
+
+  var findMatchingClasses = function(className){
+    return $("." + className);
+  }
+
+  /* Function to traverse widgets and populate styling on reload (via class name) */
+
+
+  /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline */
+
+  var removeClassInlineStyles = function(className){
+    var matchingElements =  findMatchingClasses(className);
+    console.log(matchingElements);
+  }
+
+
   /* Generate a random class name based on Epoch Time (in milliseconds) if no class name is specified*/
   var generateClassName = function(){
     return "ll-class-" + Date.now() + "";
@@ -20,6 +37,11 @@ app.factory("StylingFactory", function(){
 // Getter for pageStyleSheet, primarily to update menu on scope.
   var getPageStyleSheetClasses = function(){
     return Object.keys(pageStyleSheet);
+  }
+
+  var removePageStyleClass = function(name){
+    removeClassInlineStyles(name);
+    delete pageStyleSheet[name];
   }
 
   return {
@@ -43,6 +65,8 @@ app.factory("StylingFactory", function(){
     convertForSaving: function(){
       return JSON.stringify(pageStyleSheet);
     },
+
+    removeStyleClass: removePageStyleClass,
 
     convertToCss: function(){
 

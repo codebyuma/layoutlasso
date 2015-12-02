@@ -3,7 +3,12 @@ app.directive("classDisplay", function(StylingFactory){
     restrict: "E",
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
     link: function(scope, element, attrs){
-      console.log("CLASS DISPLAY PAGE STYLESHEET:", scope.pageStyleSheet);
+
+      scope.removeClassStyling = function(className){
+        StylingFactory.removeStyleClass(className);
+        scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+        console.log(scope.pageStyleSheet);
+      }
     }
   }
 })
