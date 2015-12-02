@@ -121,6 +121,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.saveGridBackend = function (user, project, page){
         
         console.log("SAVING TO BACKEND!");
+        console.log("GridFactory saved Grid", GridFactory.savedGrid);
 
         page.grid = GridFactory.savedGrid;
         PageFactory.savePage(page)
@@ -140,6 +141,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.loadGrid = function (scope, page){
     	GridFactory.clearGrid();
 
+        console.log("in load grid", GridFactory.savedGrid);
         // ===== LOAD GRID FROM BACKEND ====
         // need to review this process / user flow for saving and loading from the backend
         // if (_.isEmpty($scope.savedGrid)){
@@ -154,7 +156,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
              GridFactory.savedGrid = page.grid;
            }
         }
-
+        console.log("in load grid part 2", GridFactory.savedGrid);
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
                 var el = GridFactory.createElement(scope, node.id, node.content);

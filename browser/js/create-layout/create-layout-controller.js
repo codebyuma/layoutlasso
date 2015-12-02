@@ -4,6 +4,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
+    $scope.save = false;
 
     //prompt user to create new project and/or page
     $scope.new = function (){
@@ -55,10 +56,13 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.removeWidget = GridFactory.removeWidget; 
 
     $scope.saveGrid = function (){
+        $scope.save = true;
       GridFactory.saveGridLocal(); // sarah should call this directly
       if ($scope.user && $scope.project && $scope.page){
         GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+        $scope.save = false;
       } else {
+
         if (!$scope.user){
             $scope.promptUserLogin();
             $rootScope.$on('user logged in', function (event, data){
@@ -94,6 +98,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             $scope.user = data.user;
             $scope.project = data.proj;
             $scope.page = null;
+
             console.log("rootscope on. and the project is", $scope.project);
             // call GridFactory.saveGridBackend($scope);??
 
@@ -101,6 +106,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
                 // open page modal
                 // user has option to overwrite page or create new one to save to
                 $scope.promptPageSave(); 
+
         
 
      })
@@ -109,9 +115,19 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.page = data.page;
             $scope.project = data.proj;
+
             
             // may not want to save the grid every time we load a page? 
-            GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+            if ($scope.save){
+                GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+                $scope.save = false;
+            } else {
+                console.log("in the else");
+                GridFactory.savedGrid = [];
+                $scope.clearGrid(); 
+                $scope.loadGrid($scope, $scope.page);
+
+            }
      })
 
 
