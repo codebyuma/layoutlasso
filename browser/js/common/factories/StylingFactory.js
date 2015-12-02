@@ -25,7 +25,13 @@ app.factory("StylingFactory", function(){
 
   var removeClassInlineStyles = function(className){
     var matchingElements =  findMatchingClasses(className);
+    var stylesToRemove = pageStyleSheet[className];
     console.log(matchingElements);
+    matchingElements.each(function(idx, el){
+      for(var style in stylesToRemove){
+        el.style.removeProperty("" + style + "");
+      }
+    })
   }
 
 
