@@ -1,42 +1,34 @@
 <div class="modal-content">
-        <div class="modal-header ng-scope">
-            <h3 class="modal-title satisfy-font">Select or create a project</h3>
-        </div>
-        <div class="modal-body ng-scope">
-
-
-             <form id="project-form" name="projectForm">
-
-                <alert type="danger" ng-show="error">
-                    {{ error }}
-                </alert>
-                <div ng-show="hasProjects && (!createProj || inSave)"> <h4>Select an existing project</h4>
-                  <br>
-                  <div class="form-group">
-                  <label>Project name: </label>
-
-<select class="existingProjects" name="existingProject" ng-options="project as project.name for project in projects" ng-model="existingProject"></select>
-
-            
+    <div class="modal-header ng-scope">
+        <h3 class="modal-title satisfy-font">Select or create a project</h3>
+    </div>
+    <div class="modal-body ng-scope">
+        <form id="project-form" name="projectForm">
+            <alert type="danger" ng-show="error">
+                {{ error }}
+            </alert>
+            <div ng-show="hasProjects && (!createProj || inSave)">
+                <h4>Select an existing project</h4>
+                <br>
+                <div class="form-group">
+                    <label>Project name: </label>
+                    <select class="existingProjects" name="existingProject" ng-options="project as project.name for project in projects" ng-model="existingProject"></select>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="projectForm.$valid && loadProject(existingProject)">Load</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>
-            
-                <p><hr></p>
-                </div>
-                <div ng-show="createProj || inSave">
+                <p>
+                    <hr>
+                </p>
+            </div>
+            <div ng-show="createProj || inSave">
                 <h4>Create a new project</h4>
-
                 <div class="form-group">
                     <label for="project-name">Project Name</label>
                     <input type="text" ng-model="project.name" class="form-control" id="name" placeholder="Enter project name">
                 </div>
-
                 <button type="submit" class="btn btn-default" ng-click="projectForm.$valid && createProject(project)">Create</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>
             </div>
-            </form>
-
-        </div>
-
+        </form>
+    </div>
 </div>

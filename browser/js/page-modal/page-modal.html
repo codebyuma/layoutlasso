@@ -1,36 +1,32 @@
 <div class="modal-content">
-        <div class="modal-header ng-scope">
-            <h3 class="modal-title satisfy-font">Select or create a page</h3>
-        </div>
-        <div class="modal-body ng-scope">
-
-             <form id="page-form" name="pageForm">
-
-                <alert type="danger" ng-show="error">
-                    {{ error }}
-                </alert>
-                <div ng-show="hasPages"><h4>Select an existing page</h4>
-                  <br>
-                  <div class="form-group">
-                  <label>Page name: </label>
-                  <select class="existingPages" name="existingPage" ng-options="page as page.name for page in pages" ng-model="existingPage"></select>
+    <div class="modal-header ng-scope">
+        <h3 class="modal-title satisfy-font">Select or create a page</h3>
+    </div>
+    <div class="modal-body ng-scope">
+        <form id="page-form" name="pageForm">
+            <alert type="danger" ng-show="error">
+                {{ error }}
+            </alert>
+            <div ng-show="hasPages">
+                <h4>Select an existing page</h4>
+                <br>
+                <div class="form-group">
+                    <label>Page name: </label>
+                    <select class="existingPages" name="existingPage" ng-options="page as page.name for page in pages" ng-model="existingPage"></select>
                 </div>
                 <button type="submit" class="btn btn-default" ng-click="pageForm.$valid && loadPage(existingPage)">Load</button>
                 <button class="btn" type="button" ng-click="cancel()">Cancel</button>
-           
-                <p><hr></p>
-                 </div>
-                <h4>Create a new page</h4>
-
-                <div class="form-group">
-                    <label for="page-name">Page Name</label>
-                    <input type="text" ng-model="page.name" class="form-control" id="name" placeholder="Enter page name">
-                </div>
-
-                <button type="submit" class="btn btn-default" ng-click="pageForm.$valid && createPage(page)">Create</button>
-                <button class="btn" type="button" ng-click="cancel()">Cancel</button>
-            </form>
-
-        </div>
-
+                <p>
+                    <hr>
+                </p>
+            </div>
+            <h4>Create a new page</h4>
+            <div class="form-group">
+                <label for="page-name">Page Name</label>
+                <input type="text" ng-model="page.name" class="form-control" id="name" placeholder="Enter page name">
+            </div>
+            <button type="submit" class="btn btn-default" ng-click="pageForm.$valid && createPage(page)">Create</button>
+            <button class="btn" type="button" ng-click="cancel()">Cancel</button>
+        </form>
+    </div>
 </div>

@@ -17,12 +17,12 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // key is the gridId, value is the grid object
     GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
 
-    GridFactory.getMainGrid = function (){
-    	return GridFactory.main_grid;
+    GridFactory.getMainGrid = function() {
+        return GridFactory.main_grid;
     }
 
-    GridFactory.getNestedGrids = function (){
-    	return GridFactory.nestedGrids;
+    GridFactory.getNestedGrids = function() {
+        return GridFactory.nestedGrids;
     }
 
     // helper function to create a new element
@@ -50,7 +50,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.addNewGridElement = function(scope, grid, content) {
         grid = grid || GridFactory.main_grid;
         GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-		var el = GridFactory.createElement(scope, GridFactory.counter, content);
+        var el = GridFactory.createElement(scope, GridFactory.counter, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
     }
 
@@ -73,8 +73,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + id + " .lasso-button-box")
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
-         console.log("newgridid", newGridID);
-         console.log("nested grids:", GridFactory.nestedGrids);
+        console.log("newgridid", newGridID);
+        console.log("nested grids:", GridFactory.nestedGrids);
     }
 
     GridFactory.removeWidget = function(idNum) {
@@ -85,13 +85,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
     var userContentRegex = /<div class="lasso-user-content">[\s\S]*?<\/div><div class="lasso-end-user-content"><\/div>/im;
 
-    var getUserContent = function(html) {  // takes a node's innerHTML and isolates user content
-      var matches = html.match(userContentRegex);
-      if (matches.length == 0) {
-        throw new Error("Error - No user content found.");
-      } else {
-         return matches[0].slice(32, html.length).slice(0, -48);
-      }
+    var getUserContent = function(html) { // takes a node's innerHTML and isolates user content
+        var matches = html.match(userContentRegex);
+        if (matches.length == 0) {
+            throw new Error("Error - No user content found.");
+        } else {
+            return matches[0].slice(32, html.length).slice(0, -48);
+        }
     };
 
     GridFactory.saveGridLocal = function() {
@@ -118,43 +118,30 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         console.log(JSON.stringify(GridFactory.savedGrid));
     }
 
-    GridFactory.saveGridBackend = function (user, project, page){
-        
-        console.log("SAVING TO BACKEND!");
-        console.log("GridFactory saved Grid", GridFactory.savedGrid);
+    GridFactory.saveGridBackend = function(user, project, page) {
 
         page.grid = GridFactory.savedGrid;
         PageFactory.savePage(page)
-        .then (function (updatedPage){
-            console.log("page saved in backend", updatedPage);
-        })
-       
+            .then(function(updatedPage) {
+                console.log("page saved in backend", updatedPage);
+            })
+
     }
 
 
-    GridFactory.clearGrid = function (){
-    	GridFactory.main_grid.remove_all();
+    GridFactory.clearGrid = function() {
+        GridFactory.main_grid.remove_all();
         GridFactory.nestedGrids = {};
     }
 
 
-    GridFactory.loadGrid = function (scope, page){
-    	GridFactory.clearGrid();
+    GridFactory.loadGrid = function(scope, page) {
+        GridFactory.clearGrid();
 
-        console.log("in load grid", GridFactory.savedGrid);
-        // ===== LOAD GRID FROM BACKEND ====
-        // need to review this process / user flow for saving and loading from the backend
-        // if (_.isEmpty($scope.savedGrid)){
-        //     // assuming you must create/load a project and page before you start
-        //     if ($scope.project && $scope.user && $scope.page){
-        //         $scope.savedGrid = $scope.page.grid;
-        //     }
-
-        // }
-        if (GridFactory.savedGrid.length === 0){
-           if (page){ // what if there is no page on scope yet
-             GridFactory.savedGrid = page.grid;
-           }
+        if (GridFactory.savedGrid.length === 0) {
+            if (page) { // what if there is no page on scope yet
+                GridFactory.savedGrid = page.grid;
+            }
         }
         console.log("in load grid part 2", GridFactory.savedGrid);
         _.each(GridFactory.savedGrid, function(node) {
@@ -164,20 +151,20 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             } else {
                 // call loadNestedGrid with the node to add
                 GridFactory.loadNestedGrid(scope, node);
-           }
+            }
         });
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
     }
 
 
-    GridFactory.loadNestedGrid = function (scope, node){
-    	 // parentId will be in form of grid#, like grid2
+    GridFactory.loadNestedGrid = function(scope, node) {
+        // parentId will be in form of grid#, like grid2
         // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
         var thisWidget = $('#' + node.parentId.slice(4));
 
         // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
-      node.parentId + "'></div>")(scope));
+            node.parentId + "'></div>")(scope));
 
         // great a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
