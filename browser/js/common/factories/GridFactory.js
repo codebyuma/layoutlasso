@@ -1,4 +1,4 @@
-app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory) {
+app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope) {
     var GridFactory = {};
 
     var options = {
@@ -124,6 +124,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         PageFactory.savePage(page)
             .then(function(updatedPage) {
                 console.log("page saved in backend", updatedPage);
+                $rootScope.$broadcast('saved');
             })
 
     }
@@ -139,11 +140,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.clearGrid();
 
         if (GridFactory.savedGrid.length === 0) {
-            if (page) { // what if there is no page on scope yet
+            if (page) {
                 GridFactory.savedGrid = page.grid;
             }
         }
-        console.log("in load grid part 2", GridFactory.savedGrid);
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
                 var el = GridFactory.createElement(scope, node.id, node.content);

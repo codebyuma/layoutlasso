@@ -16,8 +16,38 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         $scope.promptProjectLoad(false);
     }
 
+    $scope.close = function() {
+        $uibModal.open({
+            animation: $scope.animationEnabled,
+            templateUrl: "/js/close-modal/close-modal.html",
+            controller: "CloseModalCtrl"
+        })
+        $rootScope.$on('close-save', function(event, data) {
+            if (data.save) {
+                $scope.closeSave = true;
+                $scope.saveGrid();
+            } else {
+                $scope.closeAll();
+            }
+        })
+    }
+
+    $rootScope.$on('saved', function(event, data) {
+        if ($scope.closeSave) {
+            $scope.closeAll();
+            $scope.closeSave = false;
+        }
+    })
+
+    $scope.closeAll = function() {
+        $scope.project = null;
+        $scope.page = null;
+        GridFactory.savedGrid = [];
+        $scope.clearGrid();
+    }
+
+    // prompt user to login or sign up
     $scope.promptUserLogin = function() {
-        // prompt user to login or sign up first
         $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
@@ -29,8 +59,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         $scope.user = data;
     })
 
+    // prompt user to create a project and then a page within it 
     $scope.promptProjectLoad = function(_createProjBool) {
-        // open uibmodal to create project and page
         $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
@@ -43,6 +73,47 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             }
         })
     }
+
+    $rootScope.$on('project loaded', function(event, data) {
+        // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
+        $scope.user = data.user;
+        $scope.project = data.proj;
+        $scope.page = null; // if they load a project, they then need to select a page. so set the page on scope to null
+
+        // user has option to overwrite page or create new one to save to
+        $scope.promptPageLoad();
+
+    })
+
+    // prompt user to create or select a page to load/save
+    $scope.promptPageLoad = function() {
+        $uibModal.open({
+            animation: $scope.animationEnabled,
+            templateUrl: "/js/page-modal/page-modal.html",
+            controller: "PageModalCtrl",
+            resolve: { // getting from factory so we can populate pages
+                project: function(ProjectFactory) {
+                    return ProjectFactory.getProject($scope.project._id);
+                }
+            }
+        })
+    }
+
+    $rootScope.$on('page loaded', function(event, data) {
+        // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
+        $scope.page = data.page;
+        $scope.project = data.proj;
+
+        // may not want to save the grid every time we load a page? 
+        if ($scope.save) {
+            GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+            $scope.save = false;
+        } else {
+            GridFactory.savedGrid = [];
+            $scope.clearGrid();
+            $scope.loadGrid($scope, $scope.page);
+        }
+    })
 
 
     $scope.addNewGridElement = function(grid, content) {
@@ -62,7 +133,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
             $scope.save = false;
         } else {
-
             if (!$scope.user) {
                 $scope.promptUserLogin();
                 $rootScope.$on('user logged in', function(event, data) {
@@ -76,54 +146,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             }
         }
     }
-
-    $scope.promptPageSave = function() {
-        $uibModal.open({
-            animation: $scope.animationEnabled,
-            templateUrl: "/js/page-modal/page-modal.html",
-            controller: "PageModalCtrl",
-            resolve: { // getting from factory so we can populate pages
-                project: function(ProjectFactory) {
-                    return ProjectFactory.getProject($scope.project._id);
-                }
-            }
-        })
-    }
-
-    $rootScope.$on('project loaded', function(event, data) {
-
-        // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-        $scope.user = data.user;
-        $scope.project = data.proj;
-        $scope.page = null;
-
-        console.log("rootscope on. and the project is", $scope.project);
-
-        // open page modal
-        // user has option to overwrite page or create new one to save to
-        $scope.promptPageSave();
-
-
-
-    })
-
-    $rootScope.$on('page loaded', function(event, data) {
-        // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-        $scope.page = data.page;
-        $scope.project = data.proj;
-
-
-        // may not want to save the grid every time we load a page? 
-        if ($scope.save) {
-            GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
-            $scope.save = false;
-        } else {
-            GridFactory.savedGrid = [];
-            $scope.clearGrid();
-            $scope.loadGrid($scope, $scope.page);
-
-        }
-    })
 
 
     $scope.clearGrid = GridFactory.clearGrid;
