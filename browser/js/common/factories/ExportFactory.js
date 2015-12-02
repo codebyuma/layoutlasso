@@ -103,33 +103,37 @@ app.factory('ExportFactory', function(GridFactory) {
             html += offsetMaker(sz, subarr[j].width);
           } else if (subarr[j].grid) {
             // find the grid in parent grid and build it
-            html += colMaker(sz, subarr[j].width); // make column
-            html += subarr[j].content; // add content to column
+            html += colMaker(sz, subarr[j].width);
+            html += subarr[j].content;
             html = generateRow(html, parentObj["grid" + subarr[j].id], parentObj);
           } else {
-            html += colMaker(sz, subarr[j].width); // make column
-            html += subarr[j].content;  // add content to column
+            html += colMaker(sz, subarr[j].width);
+            html += subarr[j].content;
           }
-          html += bits.close; // close column
-      } html += bits.close; // close row
+          html += bits.close;
+      } html += bits.close;
     });
     return html;
   };
 
   ExportFactory.convertToHTML = function() {
-        var html = bits.container;
-        var parentObj = makeParentObject();
+        if (GridFactory.savedGrid.length == 0) {
+          return;
+        } else {
+            var html = bits.container;
+            var parentObj = makeParentObject();
 
-        for (var key in parentObj) {
-          parentObj[key] = separateRows(parentObj[key]); // modify parentObj to distinguish between rows
-          createOffsetNodes(parentObj[key]); // modify parentObj to include offset columns
+            for (var key in parentObj) {
+              parentObj[key] = separateRows(parentObj[key]); // modify parentObj to distinguish between rows
+              createOffsetNodes(parentObj[key]); // modify parentObj to include offset columns
+            }
+            // start with main grid. generateRow function will build nested grids recursively
+            html =  generateRow(html, parentObj['main-grid'], parentObj);
+            html += bits.close; // closes container
+            console.log("converted html is", html);
+
+            return html;
         }
-        // start with main grid.
-        // generateRow function will build nested grids recursively
-        html =  generateRow(html, parentObj['main-grid'], parentObj);
-        html += bits.close; // closes container
-        console.log("converted html is", html);
-        return html;
     };
 
   return ExportFactory;

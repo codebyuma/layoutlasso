@@ -38,9 +38,21 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
     }
 
     //===== Exporting ===== //
+    // TODO disable button if grid is empty
     $scope.convertToHTML = function(){
       GridFactory.saveGrid($scope.user);
-      $scope.convertedHTML = ExportFactory.convertToHTML();
+      var html = ExportFactory.convertToHTML();
+      if (html) {
+        $scope.convertedHTML = html;
+        var htmlBlob = new Blob([html], {type : 'text/html'});
+        var url = window.URL.createObjectURL(htmlBlob);
+        var a = document.createElement("a");
+        a.href = url;
+        a.download = "layoutlasso.html";
+        a.click();
+        window.URL.revokeObjectURL(url);
+      };
+
     };
 
     //===== Components ===== //

@@ -9,8 +9,8 @@
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
   </div>
   <button ng-click="convertToHTML()">Convert to HTML</button>
-  <div class="code-box">
-    <code> {{ convertedHTML }}</code>
+  <div ng-show="convertedHTML" class="code-box">
+    <code> {{ convertedHTML }} </code>
   </div>
 </aside>
 
