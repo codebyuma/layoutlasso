@@ -1,33 +1,48 @@
-app.directive("cssApplicator", function(){
+app.directive("cssApplicator", function(StylingFactory){
   return {
     restrict: 'E',
     templateUrl: '/js/common/directives/applyCssStyling/applyCssStyling.template.html',
     link: function(scope, element, attrs){
-      scope.newClass = [{ key: "", value: ""}]
+      scope.newClass.styles = [{ key: "", value: ""}];
       var fieldCounter =  1;
+
+      var resetScopeStyleObjs = function(){
+        scope.newClass.name = "";
+        scope.newClass.styles = [{key: "", value: ""}];
+        scope.styleGroup = {};
+      }
+
+      var assignClassName = function(nameVariable){
+        if(!nameVariable) return StylingFactory.autoGenName();
+        return nameVariable;
+      }
 
       scope.addNewCssField = function(){
         fieldCounter++;
-        var fieldName = "prop" + fieldCounter;
-        scope.newClass.push({ key: "", value: ""});
+        scope.newClass.styles.push({ key: "", value: ""});
       }
 
-      scope.getCssData = function(data){
+      scope.removeStyle = function(style){
+        var toRemoveIdx = scope.newClass.styles.indexOf(style.key);
+        scope.newClass.styles.splice(toRemoveIdx, 1);
+        console.log("STYLES NOW:", scope.newClass.styles)
+      }
+
+      scope.getCssFormData = function(data){
         var cssToApply = {};
-        data.forEach(function(cssObj){
+        data.styles.forEach(function(cssObj){
           cssToApply[cssObj.key] = cssObj.value;
         })
 
+        var newClassName = assignClassName();
+
+        StylingFactory.populateStyleSheetObject({name: newClassName, cssObj: cssToApply})
+
         console.log("CSS TO APPLY OBJECT: ", cssToApply);
 
-        for(var idx in scope.styleGroup){
-          scope.styleGroup[idx].css(cssToApply);
-        }
+        StylingFactory.applyStylingToGroup(scope.styleGroup, cssToApply, resetScopeStyleObjs);
 
-        
 
-        scope.newClass = [{key: "", value: ""}];
-        scope.styleGroup = {};
       }
       console.log("SCOPE NEW CLASS:", scope.newClass);
     }

@@ -47,5 +47,6 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, AuthService, GridC
 
     // This is to keep a tally on what elements are currently being styled.
     $scope.styleGroup = {};
+    $scope.newClass = {};
 
 })
