@@ -7,8 +7,13 @@ var Page = require('../../../db/models/page.js');
 
 
 router.param('id', function (req, res, next, id){
-	req.id = req.params.id;
-	next();
+	console.log('req params page id', id)
+	Page.findById(id)
+	.then(function ( page ){
+		req.page = page;
+		next();
+	})
+	.then(null, next);
 })
 
 router.get('/', function (req, res, next){
@@ -20,17 +25,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	Page.findById(req.id)
-	.then(function ( page ){
-		res.status(201).send( page );
-	})
-	.then(null, next);
+	res.status(200).json( req.page );
 })
 
 router.put('/:id', function (req, res, next){
-	Page.findByIdAndUpdate(req.id, req.body, {new: true})
+	req.page.set(req.body)
+	req.page.save()
 	.then(function ( page ){
-		res.status(201).send( page );
+		res.status(200).json( page );
 	})
 	.then(null, next);
 })
@@ -44,9 +46,13 @@ router.post('/', function (req, res, next){
 })
 
 router.delete('/:id', function (req, res, next){
-	Page.findByIdAndRemove(req.id)
+	Page.findByIdAndRemove(req.page._id)
 	.then(function ( page ){
 		res.status(204).end();
 	})
 	.then(null, next);
 })
+
+
+
+

@@ -10,7 +10,8 @@ var UserSchema = new mongoose.Schema({
         required: true
     },
     password: {
-        type: String
+        type: String,
+        required: true
     },
     // a few circular references between users, projects and pages - need to review what we actually need
     projects: [{type: ObjectId, ref: 'Project'}], 

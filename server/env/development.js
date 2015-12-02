@@ -10,7 +10,7 @@ var ghClientSecret = ghauth.GithubClientSecret;
 var ghCallbackURL = ghauth.GithubCallbackURL;
 
 module.exports = {
-  "DATABASE_URI": "mongodb://localhost:27017/fsg-app",
+  "DATABASE_URI": "mongodb://localhost:27017/layout-lasso",
   "SESSION_SECRET": "Optimus Prime is my real dad",
   "TWITTER": {
     "consumerKey": "INSERT_TWITTER_CONSUMER_KEY_HERE",
