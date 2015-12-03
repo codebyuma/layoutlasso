@@ -25,7 +25,9 @@ app.directive("cssApplicator", function(StylingFactory, $rootScope){
       var createCssObjectFromForm = function(inputData){
         var outputObject = {};
         inputData.styles.forEach(function(cssObj){
-          outputObject[cssObj.key] = cssObj.value;
+          if((cssObj.key !== "") && (cssObj.value !== "")){
+            outputObject[cssObj.key] = cssObj.value;
+          }
         })
         return outputObject;
       }
