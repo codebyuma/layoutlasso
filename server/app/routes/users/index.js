@@ -7,7 +7,7 @@ var User = require('mongoose').model('User');
 
 
 router.param('id', function (req, res, next, id){
-	User.findById(id)
+	User.findById(id).populate('projects').exec()
 	.then(function ( user ){
 		req.user = user;
 		next();
@@ -24,7 +24,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
- 	res.status(200).json(req.user);
+		res.status(200).send(req.user);
 })
 
 router.put('/:id', function (req, res, next){

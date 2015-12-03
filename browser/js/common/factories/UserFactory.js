@@ -9,12 +9,6 @@ app.factory('UserFactory', function($rootScope, $http){
         })
     }
 
-    UserFactory.getUsers = function (){
-        return $http.put('/api/users/')
-        .then(function(users){
-            return users.data
-        })
-    }
 
     UserFactory.saveUser = function(updatedUser){
         return $http.put('/api/users/' + updatedUser._id, updatedUser)

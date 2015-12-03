@@ -2,8 +2,8 @@ app.factory('ProjectFactory', function($http){
 
     var ProjectFactory = {};
 
-    ProjectFactory.createProject = function(_name, _userId){
-        return $http.post('/api/projects/', {name: _name, user: _userId})
+    ProjectFactory.createProject = function(_name){
+        return $http.post('/api/projects/', {name: _name})
         .then(function(project){
             return project.data
         })

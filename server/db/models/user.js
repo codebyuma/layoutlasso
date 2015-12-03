@@ -10,22 +10,11 @@ var UserSchema = new mongoose.Schema({
         required: true
     },
     password: {
-        type: String,
-        required: true
+        type: String
     },
-    // a few circular references between users, projects and pages - need to review what we actually need
     projects: [{type: ObjectId, ref: 'Project'}], 
     salt: {
         type: String
-    },
-    twitter: {
-        id: String,
-        username: String,
-        token: String,
-        tokenSecret: String
-    },
-    facebook: {
-        id: String
     },
     google: {
         id: String
