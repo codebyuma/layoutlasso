@@ -85,7 +85,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
-        GridFactory.savedGrid = []; // call GridFactory.clearGrid() when nick merges code
+        GridFactory.clearSavedGrid();
         $scope.clearGrid();
     }
 
