@@ -15,7 +15,14 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
     // prompt user to open project and page
     $scope.open = function() {
-        $scope.promptProjectLoad(false);
+        if (!$scope.user){
+            $scope.promptUserLogin();
+            $scope.userLoginModal.result.then(function(user){
+                 $scope.promptProjectLoad(false);
+            })
+        } else {
+            $scope.promptProjectLoad(false);
+        }   
     }
 
     $scope.close = function() {
@@ -82,9 +89,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         })
 
         projectLoadModal.result.then(function(data){
-
-            console.log("in project load modal result then project", data.project)
-            console.log("in project load modal result then user", data.user)
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.user = data.user;
             $scope.project = data.project;
@@ -122,10 +126,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
         pageLoadModal.result.then(function(data){
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-
-
-             console.log("in page load modal result then project", data.project)
-            console.log("in page load modal result then page", data.page)
 
             $scope.page = data.page;
             $scope.project = data.project;
