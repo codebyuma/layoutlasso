@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory) {
 
 
     $scope.user = theUser;
@@ -141,7 +141,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.page = data.page;
             $scope.project = data.project;
-
             if ($scope.save) { // only save if the user has clicked save (vs. when loading a page)
                 GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;
@@ -149,6 +148,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
                 $scope.loadGrid($scope, $scope.page);
+                StyleSaveLoadFactory.stylingToLoadFromBackend($scope.page.css)
+                $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
             }
         })
     }

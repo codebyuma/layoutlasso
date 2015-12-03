@@ -1,4 +1,4 @@
-app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope) {
+app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope, StyleSaveLoadFactory) {
     var GridFactory = {};
 
     var options = {
@@ -115,6 +115,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.saveGridBackend = function(page) {
         page.grid = GridFactory.savedGrid;
+        page.css = StyleSaveLoadFactory.stylingToSave();
         PageFactory.savePage(page)
             .then(function(updatedPage) {
                 $rootScope.$broadcast('saved');
