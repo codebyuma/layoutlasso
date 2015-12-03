@@ -1,0 +1,15 @@
+
+
+
+<!-- 
+
+
+ng-repeat template in templates
+
+
+-->
+
+<li ng-repeat='template in templates'>
+	<!-- <p> {{ template.name }} </p> -->
+	<button type="button" class="btn btn-default" ng-click="getTemplate( template._id )">{{template.name}}</button>
+</li>

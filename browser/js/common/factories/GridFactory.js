@@ -160,31 +160,25 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids = {};
     }
 
+    GridFactory.loadGrid = function(scope, page) {
+       GridFactory.clearGrid();
 
-    GridFactory.loadGrid = function (scope){
-    	GridFactory.clearGrid();
-
-        // ===== LOAD GRID FROM BACKEND ====
-        // need to review this process / user flow for saving and loading from the backend
-        // if (_.isEmpty($scope.savedGrid)){
-        //     // assuming you must create/load a project and page before you start
-        //     if ($scope.project && $scope.user && $scope.page){
-        //         $scope.savedGrid = $scope.page.grid;
-        //     }
-
-        // }
-
-        _.each(GridFactory.savedGrid, function(node) {
-            if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
-                var el = GridFactory.createElement(scope, node.id, node.content);
-                var newWidget = GridFactory.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
-            } else {
-                // call loadNestedGrid with the node to add
-                GridFactory.loadNestedGrid(scope, node);
+       if (GridFactory.savedGrid.length === 0) {
+           if (page) {
+               GridFactory.savedGrid = page.grid;
            }
-        });
-        GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
-    }
+       }
+       _.each(GridFactory.savedGrid, function(node) {
+           if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
+               var el = GridFactory.createElement(scope, node.id, node.content);
+               var newWidget = GridFactory.main_grid.add_widget(el, node.x, node.y, node.width, node.height, false);
+           } else {
+               // call loadNestedGrid with the node to add
+               GridFactory.loadNestedGrid(scope, node);
+           }
+       });
+       GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
+   }
 
 
     GridFactory.loadNestedGrid = function (scope, node){

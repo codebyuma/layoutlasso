@@ -5,6 +5,7 @@ module.exports = router;
 router.use('/users', require('./users'));
 router.use('/projects', require('./projects'));
 router.use('/pages', require('./pages'));
+router.use('/templates', require('./templates'))
 
 // Make sure this is after all of
 // the registered routes!

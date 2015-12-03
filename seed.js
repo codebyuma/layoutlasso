@@ -201,26 +201,28 @@ var seedTemplates = function() {
                 "content": "Your content here"
               }
             ]'
-        },
-        {
-            name: '',
-            grid: ''  
-        },
-        {
-            name: '',
-            grid: ''  
-        },
-        {
-            name: '',
-            grid: ''  
-        },
-        {
-            name: '',
-            grid: ''  
-        },
+        }
+        // ,
+        // {
+        //     name: '',
+        //     grid: ''  
+        // },
+        // {
+        //     name: '',
+        //     grid: ''  
+        // },
+        // {
+        //     name: '',
+        //     grid: ''  
+        // },
+        // {
+        //     name: '',
+        //     grid: ''  
+        // }
 
     ]
 
+    return Template.createAsync(templates);
 
 }
 
@@ -239,4 +241,9 @@ connectToDb.then(function () {
         console.error(err);
         process.kill(1);
     });
+
+    seedTemplates()
+    .then(function(){
+        console.log(chalk.yellow('seeded templates!'))
+    })
 });

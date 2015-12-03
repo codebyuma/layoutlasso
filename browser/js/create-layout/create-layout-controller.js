@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompFactory, GridFactory, ExportFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, $uibModal, theUser, GridCompFactory, GridFactory, ExportFactory, TemplateFactory) {
 
     $scope.user = theUser;
     $scope.main_grid = GridFactory.getMainGrid();
@@ -24,6 +24,23 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
         GridFactory.loadGrid($scope);
         $scope.nestedGrids = GridFactory.getNestedGrids();
     }
+
+    //===== Templates ===== //
+
+    // what is this outer function for and where does it get called?
+    $scope.getTemplates = function () {
+        var templateModal = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'js/template-modal/template-modal.html',
+            controller: 'templateModalCtrl',
+            resolve: {
+                allTemplates: function(TemplateFactory){
+                    return TemplateFactory.getAll();
+                }
+            }
+        })
+    }
+
 
     //===== Exporting ===== //
     // TODO disable button if grid is empty
