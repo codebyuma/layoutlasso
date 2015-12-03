@@ -226,24 +226,23 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     //===== Edit HTML ===== //
     $scope.animationsEnabled = true;
 
-    $scope.editHTML = function() {
+    $scope.editHTML = function(id) {  // do i have acces to id in the modal??
          var modalInstance = $uibModal.open({
          animation: $scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
          controller: 'EditHTMLModalCtrl',
          resolve: {
-           items: function () {
-             return $scope.items;
+           content: function () {
+             return GridFactory.getWidgetContentById(id);
            }
          }
        });
-
-      //  modalInstance.result.then(function () {
-       //
-      //  }, function () {
-      //    $log.info('Modal dismissed at: ' + new Date());
-      //  });
-    }
+       modalInstance.result.then(function (newContent) {
+         GridFactory.updateWidgetContentById(id, newContent);
+       }, function () {
+         $log.info('Modal dismissed at: ' + new Date());
+       });
+    };
 
     //===== Components ===== //
     //add Nav Bar function

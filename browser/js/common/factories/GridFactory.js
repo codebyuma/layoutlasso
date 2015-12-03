@@ -25,6 +25,18 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return GridFactory.nestedGrids;
     }
 
+    GridFactory.getWidgetContentById = function(id){
+      var thisWidget = $('#' + id)[0];
+      var content = getUserContent(thisWidget.innerHTML);
+      return content;
+    }
+
+    GridFactory.updateWidgetContentById = function(id, newContent) {
+      var thisWidget = $('#' + id)[0];
+      thisWidget = GridFactory.createElement(scope, id, newContent);
+      console.log("thisWidget is now", thisWidget);
+    }
+
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
         var content = content || "Your content here";
