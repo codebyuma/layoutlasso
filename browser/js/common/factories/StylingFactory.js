@@ -2,7 +2,7 @@ app.factory("StylingFactory", function(){
 
   var pageStyleSheet = {};
 
-  /* Function to apply styling of scope.styleGroup hash DOM elements  */
+  /* Apply styling of scope.styleGroup hash DOM elements  */
 
   var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, nameOfClass, callback){
     for(var el in groupToStyle){
@@ -23,13 +23,13 @@ app.factory("StylingFactory", function(){
 
   /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline */
 
-  var removeClassInlineStyles = function(className){
+  var removeClassInlineStyles = function(className, updateMode){
     var matchingElements =  findMatchingClasses(className);
     var stylesToRemove = pageStyleSheet[className];
     /* matching elements is a jQuery object, .each is a jQuery method to iterate over DOM elements in a returned jQUery array like object. */
     matchingElements.each(function(idx, el){
-      // To use removeClass jQuery method, have to convert to jQuery obj.
-      $(el).removeClass(className);
+      /* To use removeClass jQuery method, have to convert to jQuery obj. Will not remove class if applying updated class stylings*/
+      if(!updateMode) $(el).removeClass(className);
       console.log(el)
       for(var style in stylesToRemove){
         el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
@@ -65,8 +65,17 @@ app.factory("StylingFactory", function(){
     return styleArray;
   }
 
-  var updateStyleClass = function(updatedObj){
-
+  var updateStyleClass = function(updatedObj, name){
+    var original = getSingleClassForEditing(name);
+    // Remove any styles that have been removed during edit
+    for(var property in original){
+      if(!updatedObj.hasOwnProperty(property)){
+        delete original[property];
+      }
+    }
+    // For remaining styles, replace old values with any new ones.
+    _.extend(original, updatedObj);
+    return getSingleClassForEditing(name);
   }
 
 
@@ -91,11 +100,24 @@ app.factory("StylingFactory", function(){
       console.log(pageStyleSheet);
     },
 
+    updateSpecificClass: updateStyleClass,
+
     getStyleSheetClassNames: getPageStyleSheetClasses,
 
     convertForSaving: function(){
       return JSON.stringify(pageStyleSheet);
     },
+
+    applyUpdatedStyling: function(classElements, styleObj){
+      classElements.each(function(idx, el){
+        $(el).css(styleObj)
+      })
+      return;
+    },
+
+    findClassElements: findMatchingClasses,
+
+    resetInlineStyles: removeClassInlineStyles,
 
     removeStyleClass: removePageStyleClass,
 

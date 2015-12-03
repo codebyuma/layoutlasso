@@ -1,7 +1,9 @@
 <section class="css-applicator">
   <form name="styleApplicator">
-    <label>Class Name</label>
-    <input type="text" ng-model="newClass.name"></input>
+    <div ng-hide="classEditMode" class="css-field">
+      <label>Class Name</label>
+      <input type="text" ng-model="newClass.name"></input>
+    </div>
     <div class="css-field" ng-repeat="prop in newClass.styles">
       <input type="text" ng-model="prop.key" placeholder="CSS Property"></input>
       <input type="text" ng-model="prop.value" placeholder="CSS Value"></input>
