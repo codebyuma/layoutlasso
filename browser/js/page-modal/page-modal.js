@@ -1,4 +1,4 @@
-app.controller('PageModalCtrl', function($scope, $rootScope, project, ProjectFactory, PageFactory, $uibModalInstance) {
+app.controller('PageModalCtrl', function($scope, project, ProjectFactory, PageFactory, $uibModalInstance) {
 
     $scope.project = project;
     $scope.pages = project.pages;
@@ -17,26 +17,21 @@ app.controller('PageModalCtrl', function($scope, $rootScope, project, ProjectFac
             })
             .then(function(updatedProject) {
                 $scope.project = updatedProject;
-                // $rootScope.$broadcast('page loaded', {
-                //     proj: $scope.project,
-                //     page: $scope.page
-                // });
-                $uibModalInstance.close({project: $scope.project, page: $scope.page})
+                $uibModalInstance.close({
+                    project: $scope.project,
+                    page: $scope.page
+                })
             })
-
-
     }
 
     $scope.loadPage = function(page) {
-
         PageFactory.getPage(page._id)
             .then(function(thePage) {
                 $scope.page = thePage;
-                // $rootScope.$broadcast('page loaded', {
-                //     proj: $scope.project,
-                //     page: $scope.page
-                // });
-                $uibModalInstance.close({project: $scope.project, page: $scope.page})
+                $uibModalInstance.close({
+                    project: $scope.project,
+                    page: $scope.page
+                })
             })
 
     }

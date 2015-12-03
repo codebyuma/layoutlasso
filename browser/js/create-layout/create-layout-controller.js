@@ -1,5 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
-
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
 
     $scope.user = theUser;
     $scope.project, $scope.page = null;
@@ -8,30 +7,50 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.save = false;
     $scope.change, $scope.message = null;
 
-    //prompt user to create new project and/or page
+    $rootScope.$on('user logged out', function(event, data) {
+        console.log("in user logged out on");
+        $scope.user = null;
+    })
+
+    // helper function to show message on screen for 2 seconds (ex. save confirmation)
+    $scope.showMessage = function(_message) {
+        $scope.message = _message;
+        $scope.change = true; // trigger confirmation message on the page
+
+        $timeout(function() {
+            $scope.change = false;
+            $scope.message = false;
+        }, 2000);
+
+    }
+
+    // ==== Loading, Creating and Saving Projects and Pages ===== //
+
+    //new button - prompt user to create new project and/or page
     $scope.new = function() {
-         if (!$scope.user){
+        if (!$scope.user) {
             $scope.promptUserLogin();
-            $scope.userLoginModal.result.then(function(user){
-                 $scope.promptProjectLoad(true);
+            $scope.userLoginModal.result.then(function(user) {
+                $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
             $scope.promptProjectLoad(true);
-        }   
+        }
     }
 
-    // prompt user to open project and page
+    // open button - prompt user to open project and page
     $scope.open = function() {
-        if (!$scope.user){
+        if (!$scope.user) {
             $scope.promptUserLogin();
-            $scope.userLoginModal.result.then(function(user){
-                 $scope.promptProjectLoad(false);
+            $scope.userLoginModal.result.then(function(user) {
+                $scope.promptProjectLoad(false); // false is used in the modal to show 'select project and create project'
             })
         } else {
             $scope.promptProjectLoad(false);
-        }   
+        }
     }
 
+    // close button - prompt user to ask if they want to save the page first or not before closing
     $scope.close = function() {
         var closeModal = $uibModal.open({
             animation: $scope.animationEnabled,
@@ -39,9 +58,9 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             controller: "CloseModalCtrl"
         })
 
-        closeModal.result.then(function (save){
+        closeModal.result.then(function(save) {
             if (save) {
-                $scope.closeSave = true;
+                $scope.closeSave = true; // flag to indicate that project and page should be removed from scope after we save
                 $scope.saveGrid();
             } else {
                 $scope.closeAll();
@@ -50,27 +69,17 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         })
     }
 
-    $scope.showMessage = function (_message){
-        $scope.message = _message;
-        $scope.change = true; // trigger confirmation message on the page
-        
-        $timeout(function() {
-            $scope.change = false;
-            $scope.message = false;
-        }, 2000);
-
-    }
-
-    // broadcast from GridFactory.saveGridBackend
+    // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
         $scope.showMessage("Page saved");
 
-        if ($scope.closeSave) {
+        if ($scope.closeSave) { // if we're supposed to close the project after the save, close it
             $scope.closeAll();
             $scope.closeSave = false;
         }
     })
 
+    // clear and close all items on scope
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
@@ -85,52 +94,35 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             templateUrl: "/js/login-modal/login-modal.html",
             controller: "LoginModalCtrl"
         })
-        $scope.userLoginModal.result.then(function(user){
+        $scope.userLoginModal.result.then(function(user) {
             $scope.user = user;
         })
     }
 
-    // $rootScope.$on('user logged in', function(event, data) {
-    //     $scope.user = data;
-    // })
-
-    // prompt user to create a project and then a page within it 
+    // prompt user to create or select a project
     $scope.promptProjectLoad = function(_createProjBool) {
         var projectLoadModal = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
             controller: "ProjectModalCtrl",
             resolve: {
-                createProjBool: _createProjBool,
-                user: function(UserFactory) {
+                createProjBool: _createProjBool, // boolean used to indicate what to ngshow in the modal
+                user: function(UserFactory) { // get user again to have projects populated
                     if ($scope.user)
                         return UserFactory.getUser($scope.user._id);
                 }
             }
         })
 
-        projectLoadModal.result.then(function(data){
+        projectLoadModal.result.then(function(data) {
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.user = data.user;
             $scope.project = data.project;
-            $scope.page = null; // if they load a project, they then need to select a page. so set the page on scope to null
-
-            // user has option to overwrite page or create new one to save to
-            $scope.promptPageLoad();
+            $scope.page = null; // if they load a project, they then need to select a page next. So set the page on scope to null
+            $scope.promptPageLoad(); // now that a project has loaded, prompt the user to create or load a page
         })
 
     }
-
-    // $rootScope.$on('project loaded', function(event, data) {
-    //     // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-    //     $scope.user = data.user;
-    //     $scope.project = data.proj;
-    //     $scope.page = null; // if they load a project, they then need to select a page. so set the page on scope to null
-
-    //     // user has option to overwrite page or create new one to save to
-    //     $scope.promptPageLoad();
-
-    // })
 
     // prompt user to create or select a page to load/save
     $scope.promptPageLoad = function() {
@@ -138,24 +130,22 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             animation: $scope.animationEnabled,
             templateUrl: "/js/page-modal/page-modal.html",
             controller: "PageModalCtrl",
-            resolve: { // getting from factory so we can populate pages
+            resolve: { // getting from factory so we can populate pages in the project
                 project: function(ProjectFactory) {
                     return ProjectFactory.getProject($scope.project._id);
                 }
             }
         })
 
-        pageLoadModal.result.then(function(data){
+        pageLoadModal.result.then(function(data) {
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-
             $scope.page = data.page;
             $scope.project = data.project;
 
-            // may not want to save the grid every time we load a page? 
-            if ($scope.save) {
+            if ($scope.save) { // only save if the user has clicked save (vs. when loading a page) 
                 GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
                 $scope.save = false;
-            } else {
+            } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
                 $scope.loadGrid($scope, $scope.page);
@@ -163,22 +153,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         })
     }
 
-    // $rootScope.$on('page loaded', function(event, data) {
-    //     // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
-    //     $scope.page = data.page;
-    //     $scope.project = data.proj;
 
-    //     // may not want to save the grid every time we load a page? 
-    //     if ($scope.save) {
-    //         GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
-    //         $scope.save = false;
-    //     } else {
-    //         GridFactory.savedGrid = [];
-    //         $scope.clearGrid();
-    //         $scope.loadGrid($scope, $scope.page);
-    //     }
-    // })
-
+    // ==== Modifying the grid on scope ===== //
 
     $scope.addNewGridElement = function(grid, content) {
         GridFactory.addNewGridElement($scope, grid, content);
@@ -191,33 +167,25 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.removeWidget = GridFactory.removeWidget;
 
     $scope.saveGrid = function() {
-        $scope.save = true;
-        GridFactory.saveGridLocal(); 
+        $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
             GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
             $scope.save = false;
         } else {
             if (!$scope.user) {
                 $scope.promptUserLogin();
-                
-                $scope.userLoginModal.result.then(function(user){
+                $scope.userLoginModal.result.then(function(user) {
                     $scope.user = user;
                     if (!$scope.project) {
                         $scope.promptProjectLoad();
                     }
                 })
-                // $rootScope.$on('user logged in', function(event, data) {
-                //     $scope.user = data;
-                //     if (!$scope.project) {
-                //         $scope.promptProjectLoad();
-                //     }
-                // })
             } else {
                 $scope.promptProjectLoad();
             }
         }
     }
-
 
     $scope.clearGrid = GridFactory.clearGrid;
 
@@ -229,27 +197,31 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     //===== Exporting ===== //
     // TODO disable button if grid is empty
 
-    $scope.exportHTML = function(){
-      GridFactory.saveGridLocal();
-      var html = ExportFactory.convertToHTML();
-      if (html) {
-        html = BrowserifyFactory.beautifyHTML(html, { indent_size: 4 });
-        $scope.convertedHTML = html;
+    $scope.exportHTML = function() {
+        GridFactory.saveGridLocal();
+        var html = ExportFactory.convertToHTML();
+        if (html) {
+            html = BrowserifyFactory.beautifyHTML(html, {
+                indent_size: 4
+            });
+            $scope.convertedHTML = html;
 
-        var htmlBlob = new Blob([html], {type : 'text/html'});
-        var url = window.URL.createObjectURL(htmlBlob);
-        var a = document.createElement("a");
-        a.href = url;
-        a.download = "layoutlasso.html";
-        a.click();
-        window.URL.revokeObjectURL(url);
-      }
+            var htmlBlob = new Blob([html], {
+                type: 'text/html'
+            });
+            var url = window.URL.createObjectURL(htmlBlob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "layoutlasso.html";
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
     };
 
     $scope.gridEmpty = function() {
         if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
             return true;
-      return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
+        return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 
     //===== Components ===== //
