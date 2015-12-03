@@ -156,6 +156,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     // ==== Modifying the grid on scope ===== //
 
     $scope.addNewGridElement = function(grid, content) {
+        console.log("in add new grid element in our layout controller");
         GridFactory.addNewGridElement($scope, grid, content);
     }
 
