@@ -21,7 +21,7 @@ app.controller('SignUpCtrl', function ($scope, AuthService, $state) {
             $scope.user = user;
             $state.go('create');
         }).catch(function () {
-            $scope.error = 'Account with this email address already exists.';
+            $scope.error = 'An account with this email address already exists.';
         });
 
     };
