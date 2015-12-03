@@ -5,12 +5,17 @@ app.directive("cssApplicator", function(StylingFactory, $rootScope){
     link: function(scope, element, attrs){
       scope.newClass.styles = [{ key: "", value: ""}];
 
+
+      var removeStyleGroupActiveClass = function(){
+        $(".style-group-active").removeClass("style-group-active");
+      }
       // Resets form and style group.
       var resetScopeStyleObjs = function(){
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
-        $(".style-group-active").removeClass("style-group-active");
+        removeStyleGroupActiveClass();
+        scope.classEditMode = false;
         scope.styleMenuOpen = false;
         return;
       }
@@ -62,6 +67,8 @@ app.directive("cssApplicator", function(StylingFactory, $rootScope){
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         return;
       },
+
+      scope.cancelStyling = resetScopeStyleObjs;
 
       scope.updateClass = function(stylingObj){
         StylingFactory.resetInlineStyles(stylingObj.name, true);

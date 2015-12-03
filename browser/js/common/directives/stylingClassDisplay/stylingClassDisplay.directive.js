@@ -8,6 +8,7 @@ app.directive("classDisplay", function(StylingFactory){
         scope.classEditMode = true;
         scope.newClass.name = className;
         scope.newClass.styles = StylingFactory.convertToEditableObj(className);
+        scope.styleMenuOpen = true;
         console.log(scope.newClass);
       }
 
