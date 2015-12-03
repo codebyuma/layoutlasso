@@ -143,7 +143,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             $scope.project = data.project;
 
             if ($scope.save) { // only save if the user has clicked save (vs. when loading a page) 
-                GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+                GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;
             } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
                 GridFactory.savedGrid = [];
@@ -170,7 +170,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
-            GridFactory.saveGridBackend($scope.user, $scope.project, $scope.page);
+            GridFactory.saveGridBackend($scope.page);
             $scope.save = false;
         } else {
             if (!$scope.user) {

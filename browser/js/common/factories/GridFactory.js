@@ -113,16 +113,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     }
 
-    GridFactory.saveGridBackend = function(user, project, page) {
-
+    GridFactory.saveGridBackend = function(page) {
         page.grid = GridFactory.savedGrid;
         PageFactory.savePage(page)
             .then(function(updatedPage) {
                 $rootScope.$broadcast('saved');
             })
-
     }
-
 
     GridFactory.clearGrid = function() {
         GridFactory.main_grid.remove_all();
