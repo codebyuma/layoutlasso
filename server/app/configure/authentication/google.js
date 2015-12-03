@@ -16,7 +16,6 @@ module.exports = function (app) {
     };
 
     var verifyCallback = function (accessToken, refreshToken, profile, done) {
-        console.log("in the google verify callback", typeof profile.emails[0].value);
         
         UserModel.findOne({ 
             $or: [
