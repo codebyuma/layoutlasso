@@ -25,6 +25,16 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return GridFactory.nestedGrids;
     }
 
+    GridFactory.getWidgetHeight = function(id) {
+      var widget = $('#' + id);
+      return widget.data('_gridstack_node').height;
+    }
+
+    GridFactory.getWidgetWidth = function(id) {
+      var widget = $('#' + id);
+      return widget.data('_gridstack_node').width;
+    }
+
     GridFactory.getWidgetContentById = function(id) {
       var thisWidget = $('#' + id)[0];
       var content = getUserContent(thisWidget.innerHTML);
@@ -46,11 +56,14 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.recreateWidget = function(scope, id, newContent) {
       // find parent
       var grid = GridFactory.getParentGridOfWidget(id);
+      var height, width;
+      height = GridFactory.getWidgetHeight(id);
+      width = GridFactory.getWidgetWidth(id);
       // destroy the existing widget
       var parentGridID = GridFactory.getParentGridIDOfWidget(id);
       GridFactory.removeWidget(id, parentGridID);
       // create a new widget with the same parent and ID as before but with new content
-      var newWidget = GridFactory.addNewGridElement(scope, grid, newContent, id);
+      var newWidget = GridFactory.addNewGridElement(scope, grid, newContent, id, width, height);
     }
 
     // helper function to create a new element
@@ -77,14 +90,20 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     // adds a new grid to the parent grid or main grid
-    GridFactory.addNewGridElement = function(scope, grid, content, id) {
+    GridFactory.addNewGridElement = function(scope, grid, content, id, w, h) {
         var grid = grid || GridFactory.main_grid;
         if (!id) {
           GridFactory.counter++;
           id = GridFactory.counter;
         }
+        if (!w) {
+          w = 1;
+        }
+        if (!h) {
+          h = 1; 
+        }
         var el = GridFactory.createElement(scope, id, content);
-        var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+        var newWidget = grid.add_widget(el, 0, 0, w, h, true);
         return newWidget;
     }
 
