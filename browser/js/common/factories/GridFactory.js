@@ -178,6 +178,9 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids = {};
     }
 
+    GridFactory.clearSavedGrid = function() {
+        GridFactory.savedGrid = [];
+    }
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
@@ -198,7 +201,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         });
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
     }
-
 
     GridFactory.loadNestedGrid = function(scope, node) {
         // parentId will be in form of grid#, like grid2

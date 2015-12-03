@@ -2,6 +2,8 @@
   box-sizing: border-box;
 }
 
+
+
 body {
   background: #fdfdfd;
 }
@@ -19,6 +21,10 @@ body {
   width: 100vw;
   margin: 120px auto;
   z-index: 0;
+}
+
+.main-grid {
+  background: red;
 }
 
 .modal-dialog{
