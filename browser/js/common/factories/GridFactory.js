@@ -25,16 +25,37 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return GridFactory.nestedGrids;
     }
 
-    GridFactory.getWidgetContentById = function(id){
+    GridFactory.getWidgetContentById = function(id) {
       var thisWidget = $('#' + id)[0];
       var content = getUserContent(thisWidget.innerHTML);
       return content;
     }
 
-    GridFactory.updateWidgetContentById = function(id, newContent) {
+    GridFactory.getParentGridOfWidget = function(id) {
+      var thisWidget= $('#' + id);
+      var parent = thisWidget.parent().data('gridstack');
+      return parent;
+    }
+
+    GridFactory.getParentGridIDOfWidget = function(id) {
+      var thisWidget= $('#' + id);
+      var parentID = thisWidget.parent()[0].id;
+      return parentID;
+    }
+
+    GridFactory.updateWidgetContentById = function(scope, id, newContent) {
       var thisWidget = $('#' + id)[0];
-      thisWidget = GridFactory.createElement(scope, id, newContent);
-      console.log("thisWidget is now", thisWidget);
+      thisWidget.innerHTML = replaceUserContent(thisWidget.innerHTML, newContent);
+    }
+
+    GridFactory.recreateWidget = function(scope, id, newContent) {
+      // find parent
+      var grid = GridFactory.getParentGridOfWidget(id);
+      // destroy the existing widget
+      var parentGridID = GridFactory.getParentGridIDOfWidget(id);
+      GridFactory.removeWidget(id, parentGridID);
+      // create a new widget with the same parent and ID as before but with new content
+      var newWidget = GridFactory.addNewGridElement(scope, grid, newContent, id);
     }
 
     // helper function to create a new element
@@ -62,12 +83,16 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // <div class='lasso-html-box'><code>user's html goes here</code><div>\
 
-    // adds a new grid to the main grid
-    GridFactory.addNewGridElement = function(scope, grid, content) {
-        grid = grid || GridFactory.main_grid;
-        GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-        var el = GridFactory.createElement(scope, GridFactory.counter, content);
+    // adds a new grid to the parent grid or main grid
+    GridFactory.addNewGridElement = function(scope, grid, content, id) {
+        var grid = grid || GridFactory.main_grid;
+        if (!id) {
+          GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
+          id = GridFactory.counter;
+        }
+        var el = GridFactory.createElement(scope, id, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+        return newWidget;
     }
 
     GridFactory.addNestedGrid = function(scope, id) {
@@ -91,9 +116,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
     }
 
-    GridFactory.removeWidget = function(idNum) {
+    GridFactory.removeWidget = function(idNum, gridID) {
         var el = $('#' + idNum);
-        GridFactory.main_grid.remove_widget(el);
+        var gridID = gridID || "main-grid";
+        GridFactory.nestedGrids[gridID].remove_widget(el);
     }
 
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
@@ -101,12 +127,17 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     var getUserContent = function(html) { // takes a node's innerHTML and isolates user content
         var matches = html.match(userContentRegex);
-        if (matches.length == 0) {
+        if (!matches) {
             throw new Error("Error - No user content found.");
         } else {
             return matches[0].slice(32, html.length).slice(0, -48);
         }
     };
+
+    // takes node's innerHTML and newContent and returns string of html with replacement content
+    var replaceUserContent = function(html, newContent) {
+      return html.replace(userContentRegex, newContent);
+    }
 
     GridFactory.saveGridLocal = function() {
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
@@ -173,7 +204,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             node.parentId + "'></div>")(scope));
 
-        // great a new grid and then save the grid to nestedGrids object on the $scope
+        // create a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
         GridFactory.nestedGrids[node.parentId] = newGrid;
 

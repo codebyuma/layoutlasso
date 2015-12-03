@@ -194,8 +194,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     }
 
     //===== Exporting ===== //
-    // TODO disable button if grid is empty
-
     $scope.exportHTML = function() {
         GridFactory.saveGridLocal();
         var html = ExportFactory.convertToHTML();
@@ -226,7 +224,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     //===== Edit HTML ===== //
     $scope.animationsEnabled = true;
 
-    $scope.editHTML = function(id) {  // do i have acces to id in the modal??
+    $scope.editHTML = function(id) {
          var modalInstance = $uibModal.open({
          animation: $scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
@@ -238,9 +236,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
          }
        });
        modalInstance.result.then(function (newContent) {
-         GridFactory.updateWidgetContentById(id, newContent);
-       }, function () {
-         $log.info('Modal dismissed at: ' + new Date());
+         GridFactory.recreateWidget($scope, id, newContent);
        });
     };
 

@@ -1,10 +1,16 @@
 app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content, GridFactory) {
 
   $scope.content = content;
-  $scope.id = $uibModalInstance.id;
 
-  $scope.save = function(newContent) {
-    // send newcontent
+  $scope.save = function() {
+    var newContent = $("#editable-content").html();
+
+    // used to fix the string because "<" and ">" were converted into "&lt;" and "&gt;"
+    var convert = function(convert){
+        return $("<span />", { html: convert }).text();
+    };
+    newContent = convert(newContent);
+    $uibModalInstance.close(newContent);
   }
 
   $scope.cancel = function () {
