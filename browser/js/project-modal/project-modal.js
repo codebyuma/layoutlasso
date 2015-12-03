@@ -27,12 +27,12 @@ app.controller('ProjectModalCtrl', function($scope, $rootScope, createProjBool, 
             })
             .then(function(updatedUser) {
                 $scope.user = updatedUser;
-                $rootScope.$broadcast('project loaded', {
-                    proj: $scope.project,
-                    user: $scope.user
-                });
+                // $rootScope.$broadcast('project loaded', {
+                //     proj: $scope.project,
+                //     user: $scope.user
+                // });
                 $scope.inSave = false;
-                $uibModalInstance.close()
+                $uibModalInstance.close({project: $scope.project, user: $scope.user})
             })
 
 
@@ -44,12 +44,12 @@ app.controller('ProjectModalCtrl', function($scope, $rootScope, createProjBool, 
             .then(function(theProject) {
 
                 $scope.project = theProject;
-                $rootScope.$broadcast('project loaded', {
-                    proj: $scope.project,
-                    user: $scope.user
-                });
+                // $rootScope.$broadcast('project loaded', {
+                //     proj: $scope.project,
+                //     user: $scope.user
+                // });
                 $scope.inSave = false;
-                $uibModalInstance.close()
+                $uibModalInstance.close({project: $scope.project, user: $scope.user})
             })
 
     }

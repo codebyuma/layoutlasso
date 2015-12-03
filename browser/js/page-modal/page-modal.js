@@ -17,11 +17,11 @@ app.controller('PageModalCtrl', function($scope, $rootScope, project, ProjectFac
             })
             .then(function(updatedProject) {
                 $scope.project = updatedProject;
-                $rootScope.$broadcast('page loaded', {
-                    proj: $scope.project,
-                    page: $scope.page
-                });
-                $uibModalInstance.close()
+                // $rootScope.$broadcast('page loaded', {
+                //     proj: $scope.project,
+                //     page: $scope.page
+                // });
+                $uibModalInstance.close({project: $scope.project, page: $scope.page})
             })
 
 
@@ -32,11 +32,11 @@ app.controller('PageModalCtrl', function($scope, $rootScope, project, ProjectFac
         PageFactory.getPage(page._id)
             .then(function(thePage) {
                 $scope.page = thePage;
-                $rootScope.$broadcast('page loaded', {
-                    proj: $scope.project,
-                    page: $scope.page
-                });
-                $uibModalInstance.close()
+                // $rootScope.$broadcast('page loaded', {
+                //     proj: $scope.project,
+                //     page: $scope.page
+                // });
+                $uibModalInstance.close({project: $scope.project, page: $scope.page})
             })
 
     }

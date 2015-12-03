@@ -5,13 +5,13 @@ app.controller('CloseModalCtrl', function($scope, $rootScope, $uibModalInstance)
     }
 
     $scope.save = function (){
-        $rootScope.$broadcast('close-save', { save: true });
-        $uibModalInstance.close()
+       // $rootScope.$broadcast('close-save', { save: true });
+        $uibModalInstance.close(true)
     }
 
     $scope.close = function (){
-        $rootScope.$broadcast('close-save', { save: false });
-        $uibModalInstance.close()
+       // $rootScope.$broadcast('close-save', { save: false });
+        $uibModalInstance.close(false)
     }
 
 

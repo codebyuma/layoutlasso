@@ -19,9 +19,9 @@ app.controller('LoginModalCtrl', function ($scope, $rootScope, AuthService, $sta
 
         AuthService.login(loginInfo).then(function (user) {
             $scope.user = user;
-            $rootScope.$broadcast('user logged in', user);
+            //$rootScope.$broadcast('user logged in', user);
             //$uibModalInstance.html("<div>Loading...</div>")
-            $uibModalInstance.close()
+            $uibModalInstance.close(user)
         }).catch(function () {
             $scope.error = 'Invalid login credentials.';
         });
@@ -35,8 +35,8 @@ app.controller('LoginModalCtrl', function ($scope, $rootScope, AuthService, $sta
 
         AuthService.signup(signupInfo).then(function (user) {
             $scope.user = user;
-            $rootScope.$broadcast('user logged in', user);
-            $uibModalInstance.close()
+            //$rootScope.$broadcast('user logged in', user);
+            $uibModalInstance.close(user)
         }).catch(function () {
             $scope.error = 'Account with this email address already exists.';
         });
