@@ -21,16 +21,16 @@ app.factory("StylingFactory", function(){
   /* Function to traverse widgets and populate styling on reload (via class name) TO BE WRITTEN */
 
 
-  /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline */
+  /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline. Second argument updateOrExport is a boolean, if it is not defined or false, the class name will be removed from the element. Otherwise it is retained for update and export to HTML purposes.*/
 
-  var removeClassInlineStyles = function(className, updateMode){
+  var removeClassInlineStyles = function(className, updateOrExport){
     var matchingElements =  findMatchingClasses(className);
     var stylesToRemove = pageStyleSheet[className];
     /* matching elements is a jQuery object, .each is a jQuery method to iterate over DOM elements in a returned jQUery array like object. */
     matchingElements.each(function(idx, el){
       /* To use removeClass jQuery method, have to convert to jQuery obj. Will not remove class if applying updated class stylings*/
-      if(!updateMode) $(el).removeClass(className);
-      console.log(el)
+      if(!updateOrExport) $(el).removeClass(className);
+      console.log(stylesToRemove);
       for(var style in stylesToRemove){
         el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
       }
@@ -83,6 +83,7 @@ app.factory("StylingFactory", function(){
   var removePageStyleClass = function(name){
     removeClassInlineStyles(name);
     delete pageStyleSheet[name]; /* Removing class from pageStylesheet object. */
+    console.log("PAGE STYLESHEET: ", pageStyleSheet);
   }
 
 
@@ -109,7 +110,9 @@ app.factory("StylingFactory", function(){
     },
 
     applyUpdatedStyling: function(classElements, styleObj){
+      console.log("APPLYING UPDATE: ", classElements, styleObj)
       classElements.each(function(idx, el){
+        console.log("ELEMENT TO APPLY STYLING: ", el)
         $(el).css(styleObj)
       })
       return;

@@ -52,24 +52,20 @@ app.directive("cssApplicator", function(StylingFactory){
           return;
       }
 
-      /* Process form a data for storage in StylingFactory */
+      /* Process form data for storage in StylingFactory */
       scope.getCssFormData = function(data){
         var cssToApply = createCssObjectFromForm(data);
-
         var newClassName = assignClassName(scope.newClass.name);
-
         applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         return;
       },
 
       scope.updateClass = function(stylingObj){
+        StylingFactory.resetInlineStyles(stylingObj.name, true);
         var updatedCssObj = createCssObjectFromForm(stylingObj);
         var updateToApply = StylingFactory.updateSpecificClass(updatedCssObj, stylingObj.name);
         scope.styleGroup = StylingFactory.findClassElements(stylingObj.name)
-        StylingFactory.resetInlineStyles(stylingObj.name, true);
-        console.log("UPDATE TO APPLY:", updateToApply)
-        console.log("GROUP TO STYLE:", scope.styleGroup);
         StylingFactory.applyUpdatedStyling(scope.styleGroup, updateToApply)
         scope.classEditMode = false;
         resetScopeStyleObjs();
