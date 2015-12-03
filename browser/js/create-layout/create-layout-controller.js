@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $compile, $uibModal, theUser, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory) {
 
     $scope.user = theUser;
     $scope.main_grid = GridFactory.getMainGrid();
@@ -47,6 +47,28 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
 
     $scope.gridEmpty = function() {
       return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
+    }
+
+    //===== Edit HTML ===== //
+    $scope.animationsEnabled = true;
+
+    $scope.editHTML = function() {
+         var modalInstance = $uibModal.open({
+         animation: $scope.animationsEnabled,
+         templateUrl: '/js/create-layout/edit-html-modal.html',
+         controller: 'EditHTMLModalCtrl',
+         resolve: {
+           items: function () {
+             return $scope.items;
+           }
+         }
+       });
+
+      //  modalInstance.result.then(function () {
+       //
+      //  }, function () {
+      //    $log.info('Modal dismissed at: ' + new Date());
+      //  });
     }
 
     //===== Components ===== //

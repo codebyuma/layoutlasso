@@ -40,12 +40,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
+            <button ng-click='editHTML(" +id + ")' id='lasso-nest-btn-" +
+              id + "'><span class='glyphicon glyphicon-edit'></span></button>\
   <styling-selector ng-click='getElementToStyle(" + id + ")'></styling-selector>\
-  <div class='lasso-html-box'><code>user's html goes here</code><div>\
   </div></div></div>")(scope);
 
         return el;
     }
+
+    // <div class='lasso-html-box'><code>user's html goes here</code><div>\
 
     // adds a new grid to the main grid
     GridFactory.addNewGridElement = function(scope, grid, content) {
