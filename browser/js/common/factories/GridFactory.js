@@ -146,6 +146,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             }
         });
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
+        StyleSaveLoadFactory.stylingToReloadOnClear();
     }
 
 

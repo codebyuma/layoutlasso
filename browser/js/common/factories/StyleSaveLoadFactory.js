@@ -15,9 +15,16 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     stylingToReloadOnClear: function(){
       var currentStyles = StylingFactory.getCurrentStyleSheet();
       for(var style in currentStyles){
-        var toStyle = StylingFactory.findClassElements(style);
-        console.log(toStyle);
-
+        var elementsToStyle = StylingFactory.findClassElements(style);
+        elementsToStyle.each(function(idx, el){
+          for(var prop in el.style){
+            if(!isNaN(parseInt(prop))){
+              console.log(el.style[prop]);
+              el.style.removeProperty(el.style[prop]);
+            }
+          }
+          $(el).css(currentStyles[style]);
+        })
       }
     }
   }
