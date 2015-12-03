@@ -4,3 +4,4 @@
 require('./user');
 require('./project');
 require('./page');
+require('./template');
