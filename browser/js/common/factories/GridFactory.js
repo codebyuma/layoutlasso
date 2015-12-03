@@ -73,8 +73,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + id + " .lasso-button-box")
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
-        console.log("newgridid", newGridID);
-        console.log("nested grids:", GridFactory.nestedGrids);
     }
 
     GridFactory.removeWidget = function(idNum) {
@@ -97,7 +95,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.saveGridLocal = function() {
 
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
-        console.log("select", $('.grid-stack .grid-stack-item:visible'))
 
         GridFactory.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
             el = $(el);
@@ -115,7 +112,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             };
         });
 
-        console.log(JSON.stringify(GridFactory.savedGrid));
     }
 
     GridFactory.saveGridBackend = function(user, project, page) {
@@ -123,7 +119,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         page.grid = GridFactory.savedGrid;
         PageFactory.savePage(page)
             .then(function(updatedPage) {
-                console.log("page saved in backend", updatedPage);
                 $rootScope.$broadcast('saved');
             })
 
@@ -135,7 +130,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids = {};
     }
 
-    //GridFactory.loadGrid($scope, {grid: template-grid})
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
