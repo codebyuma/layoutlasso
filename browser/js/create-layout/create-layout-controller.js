@@ -1,5 +1,4 @@
-
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
 
 
     $scope.user = theUser;
@@ -230,13 +229,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     //===== Exporting ===== //
     // TODO disable button if grid is empty
 
-    var beautify = require('js-beautify').html;
-
     $scope.exportHTML = function(){
       GridFactory.saveGridLocal();
       var html = ExportFactory.convertToHTML();
       if (html) {
-        html = beautify(html, { indent_size: 4 });
+        html = BrowserifyFactory.beautifyHTML(html, { indent_size: 4 });
         $scope.convertedHTML = html;
 
         var htmlBlob = new Blob([html], {type : 'text/html'});
