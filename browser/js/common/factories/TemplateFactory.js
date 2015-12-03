@@ -7,7 +7,7 @@ app.factory("TemplateFactory", function ( $http, GridFactory ){
 		console.log('=-=-=-=-= hitting get all templates in factory')
 		return $http.get('/api/templates/')
 		.then(function( templates ){
-console.log("=-=-=-=-=-= templates sending -- name of first in group: ", templates.data[0].name)
+			// templates.forEach(function (t){ console.log(t.data.name) })
 			return templates.data
 		})
 	}
@@ -18,9 +18,6 @@ console.log("=-=-=-=-=-= templates sending -- name of first in group: ", templat
 			return template.data;
 		})
 	}
-
-
-
 
 	return TemplateFactory;
 

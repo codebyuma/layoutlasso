@@ -209,8 +209,15 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             }
         })
 
-        
-        
+        templateModal.result.then(function(selectedItem){
+            if(!selectedItem){
+                console.log('No template selected');
+            }
+            console.log("selected template in layout ctrl", selectedItem._id)
+            // $scope.selectedTemplate = selectedItem;
+            GridFactory.clearSavedGrid();
+            GridFactory.loadGrid($scope, selectedItem);
+        })
     }
 
 

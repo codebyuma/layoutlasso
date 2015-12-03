@@ -126,6 +126,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids = {};
     }
 
+    GridFactory.clearSavedGrid = function() {
+        GridFactory.savedGrid = [];
+    }
+
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
 
