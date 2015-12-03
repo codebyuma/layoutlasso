@@ -6,6 +6,11 @@ app.controller('LoginModalCtrl', function($scope, AuthService, $uibModalInstance
     }
 
     $scope.error = null;
+    $scope.signup=false;
+
+    $scope.showSignUp = function (){
+        $scope.signup = true;
+    }
 
     $scope.sendLogin = function(loginInfo) {
         $scope.error = null;
