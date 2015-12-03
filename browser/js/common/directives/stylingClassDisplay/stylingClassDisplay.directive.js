@@ -1,4 +1,4 @@
-app.directive("classDisplay", function(StylingFactory){
+app.directive("classDisplay", function(StylingFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
@@ -16,6 +16,10 @@ app.directive("classDisplay", function(StylingFactory){
         // Removes inline styles and associated class name.
         StylingFactory.removeStyleClass(className);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+      }
+
+      scope.closeMenu = function(){
+        scope.classMenuOpen = false;
       }
     }
   }

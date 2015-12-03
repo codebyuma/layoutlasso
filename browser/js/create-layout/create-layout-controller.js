@@ -50,6 +50,10 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
       return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 
+    $scope.showClassPanel = function(){
+      $scope.classMenuOpen = !$scope.classMenuOpen;
+    }
+
     //===== Components ===== //
     //add Nav Bar function
     $scope.addNavBar = function (){
@@ -71,7 +75,8 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
 
     // boolean to define whether a style is being updated;
     $scope.classEditMode = false;
-    // Boolean to indicate whether the css styling menu is open or not. 
+    // Boolean to indicate whether the css styling menu is open or not.
     $scope.styleMenuOpen = false;
-
+    // Boolean to indicate if class menu is open or not.
+    $scope.classMenuOpen = false;
 })

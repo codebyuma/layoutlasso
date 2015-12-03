@@ -8,6 +8,7 @@
     <br>
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
+    <button class="lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
   </div>
 </aside>
 
@@ -20,4 +21,4 @@
   </div>
 </section>
 <css-applicator ng-show="styleMenuOpen" class="menu-directive"></css-applicator>
-<class-display class="menu-directive"></class-display>
+<class-display ng-show="classMenuOpen" class="menu-directive"></class-display>
