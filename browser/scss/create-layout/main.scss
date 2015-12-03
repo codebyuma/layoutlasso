@@ -4,6 +4,10 @@ h3    {
   text-align: center;
 }
 
+button {
+  border: none;
+}
+
 .create-layout {
   position: relative;
   width: 100vw;
@@ -69,10 +73,13 @@ h3    {
 
 }
 
-.lasso-html-box {
-   overflow: scroll;
-   display: inline-block;
-   word-wrap: break-word;
+.menu-directive {
+  position: fixed;
+  background-color: #FFF;
+  width: 400px;
+  height: auto;
+  padding: 10px;
+  box-shadow: 0px 5px 10px #666;
 }
 
 

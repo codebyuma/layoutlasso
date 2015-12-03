@@ -1,5 +1,6 @@
 app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
 
+
     $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
@@ -239,6 +240,12 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
          GridFactory.recreateWidget($scope, id, newContent);
        });
     };
+    //====================== //
+
+    $scope.showClassPanel = function(){
+      $scope.classMenuOpen = !$scope.classMenuOpen;
+    }
+
 
     //===== Components ===== //
     //add Nav Bar function
@@ -247,9 +254,22 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     }
 
 
+    /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
 
-    // This is to keep a tally on what elements are currently being styled.
-    $scope.styleGroup = [];
+    // This object has elements to be styled assigned to it, with id's as keys.
+    $scope.styleGroup = {};
 
+    /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
+    $scope.newClass = {};
+
+    /* Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives. */
+    $scope.pageStyleSheet = [];
+
+    // boolean to define whether a style is being updated;
+    $scope.classEditMode = false;
+    // Boolean to indicate whether the css styling menu is open or not.
+    $scope.styleMenuOpen = false;
+    // Boolean to indicate if class menu is open or not.
+    $scope.classMenuOpen = false;
 })

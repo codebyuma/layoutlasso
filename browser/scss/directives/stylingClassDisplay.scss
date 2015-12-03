@@ -1,0 +1,33 @@
+@mixin button-transition {
+  transition: 0.2s all;
+  -webkit-transition: 0.2s all;
+}
+
+class-display {
+  top: 300px;
+  right: 0px;
+  z-index: 51;
+
+  .cls-field {
+    position: relative;
+    .right-align-btn {
+      position: absolute;
+      right: 0px;
+      top: 0px;
+    }
+    .class-selector {
+      color: purple;
+      cursor: pointer;
+      @include button-transition;
+    }
+    .class-selector:hover {
+      color: orange;
+    }
+
+    .class-selector:active {
+      background-color: purple;
+      color: white;
+    }
+  }
+
+}
