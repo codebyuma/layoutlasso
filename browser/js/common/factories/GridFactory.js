@@ -96,12 +96,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
           GridFactory.counter++;
           id = GridFactory.counter;
         }
-        if (!w) {
-          w = 1;
-        }
-        if (!h) {
-          h = 1; 
-        }
+        var w = w || 1;
+        var h = h || 1;
         var el = GridFactory.createElement(scope, id, content);
         var newWidget = grid.add_widget(el, 0, 0, w, h, true);
         return newWidget;
