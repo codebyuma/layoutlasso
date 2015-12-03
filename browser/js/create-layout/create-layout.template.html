@@ -2,6 +2,9 @@
   <div class="button-holder">
     <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button><br>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
+    <button ng-click="new()" class="btn btn-default">New</button>
+    <button ng-click="open()" class="btn btn-default">Open</button>
+    <button ng-click="close()" ng-show="project" class="btn btn-default">Close</button>
     <button ng-click="saveGrid()" class="btn btn-default">Save Grid</button>
     <br>
     <button ng-click="clearGrid()" class="btn btn-default">Clear Grid</button>
@@ -9,10 +12,22 @@
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
     <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn btn-left">Templates</button>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
+    <p></p>
+    <div ng-show="project">Currently viewing: <br>
+      <div>Project - {{ project.name }}</div>
+    </div>
+    <div ng-show="page">Page: {{ page.name }}</div>
+
+    
+
   </div>
 </aside>
 
 <section class="create-layout">
+  <div class="alert alert-warning alert-dismissible" role="alert" ng-show="change">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   <center>{{ message }}</center>
+  </div>
   <div class="page-layout">
 
     <div class="grid-stack" id="main-grid">
