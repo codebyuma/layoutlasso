@@ -2,6 +2,8 @@ app.factory("StylingFactory", function(){
 
   var pageStyleSheet = {};
 
+  var removedStyles = {};
+
   /* Apply styling of scope.styleGroup hash DOM elements  */
 
   var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, nameOfClass, callback){
@@ -124,6 +126,14 @@ app.factory("StylingFactory", function(){
     removeStyleClass: removePageStyleClass,
 
     convertToEditableObj: convertToEditableClassObj,
+
+    addRemovedClass: function(className){
+      removedStyles[className] = pageStyleSheet[className];
+    },
+
+    getRemovedStyles: function(){
+      return removedStyles;
+    },
 
     getCurrentStyleSheet: function(){
       return pageStyleSheet;

@@ -14,6 +14,7 @@ app.directive("classDisplay", function(StylingFactory, $rootScope){
 
       scope.removeClassStyling = function(className){
         // Removes inline styles and associated class name.
+        StylingFactory.addRemovedClass(className);
         StylingFactory.removeStyleClass(className);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
       }
