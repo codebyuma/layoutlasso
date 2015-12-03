@@ -1,10 +1,11 @@
 app.factory("TemplateFactory", function ( $http, GridFactory ){
 
-	var TempateFactory = {};
+	var TemplateFactory = {};
 
 
 	TemplateFactory.getAll = function(){
-		return $http.get('/api/templates')
+		console.log('=-=-=-=-= hitting get all templates in factory')
+		return $http.get('/api/templates/')
 		.then(function( templates ){
 console.log("=-=-=-=-=-= templates sending -- name of first in group: ", templates.data[0].name)
 			return templates.data

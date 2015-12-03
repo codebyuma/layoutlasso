@@ -46,7 +46,7 @@ var seedTemplates = function() {
     var templates = [
         {
             name: "4 x 4 Grid with Navbar",
-            grid: '[
+            grid: [
               {
                 "id": "0",
                 "parentId": "main-grid",
@@ -200,7 +200,7 @@ var seedTemplates = function() {
                 "height": 3,
                 "content": "Your content here"
               }
-            ]'
+            ]
         }
         // ,
         // {
@@ -219,6 +219,7 @@ var seedTemplates = function() {
         //     name: '',
         //     grid: ''  
         // }
+
 
     ]
 

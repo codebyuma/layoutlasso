@@ -5,7 +5,7 @@ module.exports = router;
 var Template = require('mongoose').model('Template')
 
 router.get('/', function (req, res, next){
-	Template.find({})
+	Template.find()
 	.then(function ( templates ){
 		console.log("=-=-=-=-=-= templates sending -- name of first in group: ", templates[0].name)
 		res.status(200).send( templates );

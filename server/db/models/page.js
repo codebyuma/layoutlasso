@@ -6,7 +6,7 @@ var PageSchema = new mongoose.Schema({
 	name: { type: String, required: true},
 	html: String,
 	css: String,
-	grid: {}
+	grid: []
 })
 
 module.exports = mongoose.model('Page', PageSchema);

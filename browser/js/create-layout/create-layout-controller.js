@@ -3,6 +3,7 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, $uibModal, theUser
     $scope.user = theUser;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
+    // $scope.templates = TemplateFactory.getAll();
 
     $scope.addNewGridElement = function (grid, content){
       GridFactory.addNewGridElement($scope, grid, content);
@@ -27,18 +28,21 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, $uibModal, theUser
 
     //===== Templates ===== //
 
-    // what is this outer function for and where does it get called?
-    $scope.getTemplates = function () {
+    $scope.loadTemplates = function () {
         var templateModal = $uibModal.open({
             animation: $scope.animationsEnabled,
             templateUrl: 'js/template-modal/template-modal.html',
             controller: 'templateModalCtrl',
             resolve: {
+                // scope issues here?
                 allTemplates: function(TemplateFactory){
                     return TemplateFactory.getAll();
                 }
             }
         })
+
+        
+        
     }
 
 

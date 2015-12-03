@@ -1,7 +1,7 @@
-app.controller('templateModalCtrl', function($scope, CreateLayoutCtrl, TemplateFactory, allTemplates){
+app.controller('templateModalCtrl', function($scope, TemplateFactory, allTemplates){
 
 	$scope.templates = allTemplates;
 
-	$scope.getTemplate = TempleFactory.getTemplate;
+	$scope.getTemplate = TemplateFactory.getTemplate;
 
 })
