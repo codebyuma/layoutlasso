@@ -6,8 +6,8 @@
   "scripts": {
     "postinstall": "gulp build",
     "start": "nodemon --watch server -e js,html server/start.js",
-    "build-js": "browserify browser/js/create-layout/create-layout-controller.js -o node_modules/findem.js",
-    "watch-js": "watchify browser/js/create-layout/create-layout-controller.js -o node_modules/findem.js -v"
+    "build-js": "browserify browser/js/common/factories/BrowserifyFactory.js -o node_modules/browserify.js",
+    "watch-js": "watchify browser/js/common/factories/BrowserifyFactory.js -o node_modules/browserify.js -v"
   },
   "engines": {
     "node": ">=4.0.0"
