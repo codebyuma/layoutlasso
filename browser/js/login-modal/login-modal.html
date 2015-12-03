@@ -1,0 +1,34 @@
+<div class="modal-content">
+        <div class="modal-header ng-scope">
+            <h3 class="modal-title satisfy-font">To save, please login or sign up</h3>
+        </div>
+        <div class="modal-body ng-scope">
+             <form id="login-form" name="loginForm">
+
+                <alert type="danger" ng-show="error">
+                    {{ error }}
+                </alert>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="text" ng-model="login.email" class="form-control" id="email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" ng-model="login.password" class="form-control" id="login-password" placeholder="Password">
+                </div>
+                    <div>
+                
+                </div>
+                
+            <p><oauth-button provider-name="Google"></oauth-button></p>
+            <p><oauth-button provider-name="GitHub"></oauth-button></p>
+
+                <button type="submit" class="btn btn-default" ng-click="loginForm.$valid && sendLogin(login)">Login</button>
+                <button type="submit" class="btn btn-default" ng-click="loginForm.$valid && sendSignUp(login)">Sign Up</button>
+                <button class="btn" type="button" ng-click="cancel()">Cancel</button>
+            </form>
+
+        </div>
+
+</div>

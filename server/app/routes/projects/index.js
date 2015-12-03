@@ -6,7 +6,7 @@ var Project = require('mongoose').model('Project');
 
 
 router.param('id', function ( req, res, next, id ){
-	Project.findById(id)
+	Project.findById(id).populate("pages").exec()
 	.then(function(project){
 		req.project = project;
 		next();
@@ -23,7 +23,7 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	res.status(200).json( req.project );
+	res.status(200).send( req.project );
 })
 
 router.put('/:id', function (req, res, next){
