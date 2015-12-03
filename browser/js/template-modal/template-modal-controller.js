@@ -1,4 +1,4 @@
-app.controller('templateModalCtrl', function($scope, $uibModalInstance, TemplateFactory, allTemplates, GridFactory){
+app.controller('templateModalCtrl', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
 
 	$scope.templates = allTemplates;
 

@@ -203,7 +203,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             templateUrl: 'js/template-modal/template-modal.html',
             controller: 'templateModalCtrl',
             resolve: {
-                // scope issues here?
                 allTemplates: function(TemplateFactory){
                     return TemplateFactory.getAll();
                 }

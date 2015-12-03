@@ -17,9 +17,6 @@ name in the environment files.
 
 */
 
-var dbURI = 'mongodb://localhost:27017/layout-lasso';
-var clearDB = require('mocha-mongoose')(dbURI);
-
 var mongoose = require('mongoose');
 var Promise = require('bluebird');
 var chalk = require('chalk');
@@ -419,8 +416,6 @@ connectToDb.then(function () {
         console.error(err);
         process.kill(1);
     });
-
-    clearDB();
 
     seedTemplates()
     .then(function(){
