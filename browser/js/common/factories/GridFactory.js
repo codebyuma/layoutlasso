@@ -54,15 +54,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     GridFactory.recreateWidget = function(scope, id, newContent) {
-      // find parent
-      var grid = GridFactory.getParentGridOfWidget(id);
-      var height, width;
-      height = GridFactory.getWidgetHeight(id);
-      width = GridFactory.getWidgetWidth(id);
-      // destroy the existing widget
-      var parentGridID = GridFactory.getParentGridIDOfWidget(id);
+      // saves data from widget, destroys that widget, and creates an identical widget with new content
+      var grid = GridFactory.getParentGridOfWidget(id),
+      height = GridFactory.getWidgetHeight(id),
+      width = GridFactory.getWidgetWidth(id),
+      parentGridID = GridFactory.getParentGridIDOfWidget(id);
+
       GridFactory.removeWidget(id, parentGridID);
-      // create a new widget with the same parent and ID as before but with new content
       var newWidget = GridFactory.addNewGridElement(scope, grid, newContent, id, width, height);
     }
 
@@ -95,8 +93,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
           GridFactory.counter++;
           id = GridFactory.counter;
         }
-        var w = w || 1;
-        var h = h || 1;
+        var w = w || 3;
+        var h = h || 2;
         var el = GridFactory.createElement(scope, id, content);
         var newWidget = grid.add_widget(el, 0, 0, w, h, true);
         return newWidget;
