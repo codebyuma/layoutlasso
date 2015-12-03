@@ -4,6 +4,10 @@ h3    {
   text-align: center;
 }
 
+button {
+  border: none;
+}
+
 .create-layout {
   position: relative;
   width: 100vw;
@@ -69,6 +73,14 @@ h3    {
 
 }
 
+.menu-directive {
+  position: fixed;
+  background-color: #FFF;
+  width: 400px;
+  height: auto;
+  padding: 10px;
+  box-shadow: 0px 5px 10px #666;
+}
 
 
 #toolbar-left {

@@ -2,7 +2,6 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
     var GridCompFactory = {};
 
     GridCompFactory.addNavBar = function (scope, main_grid, counter){
-
     	// Nav bar can only be added to the main grid...for now.
     	var grid = GridFactory.main_grid;
       /* LayoutComponentFactory just holds code to generate basic HTML and bootstrap components. */
