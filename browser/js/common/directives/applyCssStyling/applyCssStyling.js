@@ -10,6 +10,7 @@ app.directive("cssApplicator", function(StylingFactory){
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
+        $(".style-group-active").removeClass("style-group-active");
         // return;
       }
 
