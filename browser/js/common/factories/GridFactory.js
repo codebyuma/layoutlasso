@@ -43,11 +43,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
       return parentID;
     }
 
-    GridFactory.updateWidgetContentById = function(scope, id, newContent) {
-      var thisWidget = $('#' + id)[0];
-      thisWidget.innerHTML = replaceUserContent(thisWidget.innerHTML, newContent);
-    }
-
     GridFactory.recreateWidget = function(scope, id, newContent) {
       // find parent
       var grid = GridFactory.getParentGridOfWidget(id);
@@ -81,13 +76,11 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return el;
     }
 
-    // <div class='lasso-html-box'><code>user's html goes here</code><div>\
-
     // adds a new grid to the parent grid or main grid
     GridFactory.addNewGridElement = function(scope, grid, content, id) {
         var grid = grid || GridFactory.main_grid;
         if (!id) {
-          GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
+          GridFactory.counter++;
           id = GridFactory.counter;
         }
         var el = GridFactory.createElement(scope, id, content);

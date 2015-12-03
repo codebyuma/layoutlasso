@@ -5,7 +5,7 @@ app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content
   $scope.save = function() {
     var newContent = $("#editable-content").html();
 
-    // used to fix the string because "<" and ">" were converted into "&lt;" and "&gt;"
+    // This function is used to fix the string because "<" and ">" were converted into "&lt;" and "&gt;"
     var convert = function(convert){
         return $("<span />", { html: convert }).text();
     };
