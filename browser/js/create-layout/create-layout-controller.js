@@ -10,7 +10,14 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
 
     //prompt user to create new project and/or page
     $scope.new = function() {
-        $scope.promptProjectLoad(true);
+         if (!$scope.user){
+            $scope.promptUserLogin();
+            $scope.userLoginModal.result.then(function(user){
+                 $scope.promptProjectLoad(true);
+            })
+        } else {
+            $scope.promptProjectLoad(true);
+        }   
     }
 
     // prompt user to open project and page
@@ -83,7 +90,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
             resolve: {
                 createProjBool: _createProjBool,
                 user: function(UserFactory) {
-                    return UserFactory.getUser($scope.user._id);
+                    if ($scope.user)
+                        return UserFactory.getUser($scope.user._id);
                 }
             }
         })
@@ -228,6 +236,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     };
 
     $scope.gridEmpty = function() {
+        if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
+            return true;
       return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 

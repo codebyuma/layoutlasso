@@ -1,8 +1,16 @@
 app.controller('ProjectModalCtrl', function($scope, $rootScope, createProjBool, UserFactory, ProjectFactory, user, $uibModalInstance) {
 
     $scope.user = user;
-    $scope.projects = user.projects;
-    $scope.hasProjects = $scope.projects.length;
+
+    if ($scope.user){
+      $scope.projects = user.projects;
+      $scope.hasProjects = $scope.projects.length;
+    } else {
+      $scope.projects = null;
+      $scope.hasProjects = false;
+    }
+    
+    
     $scope.createProj = createProjBool; // flag for determining if this is a 'new' or 'load' request
     $scope.inSave = false; // flag for determining if this was called by hitting the save button. 
 
