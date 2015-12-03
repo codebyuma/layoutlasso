@@ -195,8 +195,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     }
 
     //===== Exporting ===== //
-    // TODO disable button if grid is empty
-
     $scope.exportHTML = function() {
         GridFactory.saveGridLocal();
         var html = ExportFactory.convertToHTML();
@@ -224,9 +222,30 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 
+    //===== Edit HTML ===== //
+    $scope.animationsEnabled = true;
+
+    $scope.editHTML = function(id) {
+         var modalInstance = $uibModal.open({
+         animation: $scope.animationsEnabled,
+         templateUrl: '/js/create-layout/edit-html-modal.html',
+         controller: 'EditHTMLModalCtrl',
+         resolve: {
+           content: function () {
+             return GridFactory.getWidgetContentById(id);
+           }
+         }
+       });
+       modalInstance.result.then(function (newContent) {
+         GridFactory.recreateWidget($scope, id, newContent);
+       });
+    };
+    //====================== //
+
     $scope.showClassPanel = function(){
       $scope.classMenuOpen = !$scope.classMenuOpen;
     }
+
 
     //===== Components ===== //
     //add Nav Bar function

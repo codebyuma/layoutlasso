@@ -25,6 +25,45 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return GridFactory.nestedGrids;
     }
 
+    GridFactory.getWidgetHeight = function(id) {
+      var widget = $('#' + id);
+      return widget.data('_gridstack_node').height;
+    }
+
+    GridFactory.getWidgetWidth = function(id) {
+      var widget = $('#' + id);
+      return widget.data('_gridstack_node').width;
+    }
+
+    GridFactory.getWidgetContentById = function(id) {
+      var thisWidget = $('#' + id)[0];
+      var content = getUserContent(thisWidget.innerHTML);
+      return content;
+    }
+
+    GridFactory.getParentGridOfWidget = function(id) {
+      var thisWidget= $('#' + id);
+      var parent = thisWidget.parent().data('gridstack');
+      return parent;
+    }
+
+    GridFactory.getParentGridIDOfWidget = function(id) {
+      var thisWidget= $('#' + id);
+      var parentID = thisWidget.parent()[0].id;
+      return parentID;
+    }
+
+    GridFactory.recreateWidget = function(scope, id, newContent) {
+      // saves data from widget, destroys that widget, and creates an identical widget with new content
+      var grid = GridFactory.getParentGridOfWidget(id),
+      height = GridFactory.getWidgetHeight(id),
+      width = GridFactory.getWidgetWidth(id),
+      parentGridID = GridFactory.getParentGridIDOfWidget(id);
+
+      GridFactory.removeWidget(id, parentGridID);
+      var newWidget = GridFactory.addNewGridElement(scope, grid, newContent, id, width, height);
+    }
+
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
         var content = content || "Your content here";
@@ -40,18 +79,25 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
-  <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
+            <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+            <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
   </div></div></div>")(scope);
 
         return el;
     }
 
-    // adds a new grid to the main grid
-    GridFactory.addNewGridElement = function(scope, grid, content) {
-        grid = grid || GridFactory.main_grid;
-        GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
-        var el = GridFactory.createElement(scope, GridFactory.counter, content);
-        var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+    // adds a new grid to the parent grid or main grid
+    GridFactory.addNewGridElement = function(scope, grid, content, id, w, h) {
+        var grid = grid || GridFactory.main_grid;
+        if (!id) {
+          GridFactory.counter++;
+          id = GridFactory.counter;
+        }
+        var w = w || 3;
+        var h = h || 2;
+        var el = GridFactory.createElement(scope, id, content);
+        var newWidget = grid.add_widget(el, 0, 0, w, h, true);
+        return newWidget;
     }
 
     GridFactory.addNestedGrid = function(scope, id) {
@@ -75,9 +121,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
     }
 
-    GridFactory.removeWidget = function(idNum) {
+    GridFactory.removeWidget = function(idNum, gridID) {
         var el = $('#' + idNum);
-        GridFactory.main_grid.remove_widget(el);
+        var gridID = gridID || "main-grid";
+        GridFactory.nestedGrids[gridID].remove_widget(el);
     }
 
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
@@ -85,12 +132,17 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     var getUserContent = function(html) { // takes a node's innerHTML and isolates user content
         var matches = html.match(userContentRegex);
-        if (matches.length == 0) {
+        if (!matches) {
             throw new Error("Error - No user content found.");
         } else {
             return matches[0].slice(32, html.length).slice(0, -48);
         }
     };
+
+    // takes node's innerHTML and newContent and returns string of html with replacement content
+    var replaceUserContent = function(html, newContent) {
+      return html.replace(userContentRegex, newContent);
+    }
 
     GridFactory.saveGridLocal = function() {
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
@@ -157,7 +209,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             node.parentId + "'></div>")(scope));
 
-        // great a new grid and then save the grid to nestedGrids object on the $scope
+        // create a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
         GridFactory.nestedGrids[node.parentId] = newGrid;
 
