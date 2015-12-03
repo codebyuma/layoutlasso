@@ -9,6 +9,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     $rootScope.$on('user logged out', function(event, data) {
         $scope.user = null;
+        $scope.closeAll();
     })
 
     // helper function to show message on screen for 2 seconds (ex. save confirmation)
