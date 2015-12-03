@@ -64,7 +64,7 @@
         };
 
         this.getLoggedInUser = function (fromServer) {
-
+            console.log("in auth service get loggedin user");
             // If an authenticated session exists, we
             // return the user attached to that session
             // with a promise. This ensures that we can

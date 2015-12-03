@@ -1,12 +1,18 @@
 app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
 
-
     $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
+
     $scope.save = false;
     $scope.change, $scope.message = null;
+
+    console.log("state changed to createlayoutctrl!!!!")
+    console.log("in createlayoutctrl", $scope.user);
+    console.log("in createlayoutctrl, main_grid", $scope.main_grid);
+    console.log("in createlayoutctrl, nestedGrids", $scope.nestedGrids);
+
 
     $rootScope.$on('user logged out', function(event, data) {
         $scope.user = null;
@@ -84,7 +90,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
-        GridFactory.savedGrid = [];
+        GridFactory.savedGrid = []; // call GridFactory.clearGrid() when nick merges code
         $scope.clearGrid();
     }
 
@@ -159,6 +165,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     $scope.addNewGridElement = function(grid, content) {
         GridFactory.addNewGridElement($scope, grid, content);
+        $scope.main_grid = GridFactory.getMainGrid();
+        //$scope.nestedGrids = GridFactory.getNestedGrids();
+            console.log("in createlayoutctrl after add new, main_grid", $scope.main_grid);
+    console.log("in createlayoutctrl after add new, nestedGrids", $scope.nestedGrids);
+
     }
 
     $scope.addNestedGrid = function(id) {
@@ -220,8 +231,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     };
 
     $scope.gridEmpty = function() {
-        if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
-            return true;
+        // if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
+        //     return true;
         return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 

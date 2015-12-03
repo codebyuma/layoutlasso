@@ -48,10 +48,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // adds a new grid to the main grid
     GridFactory.addNewGridElement = function(scope, grid, content) {
+        console.log("in grid factory, grid", grid);
+        console.log("in grid factory, main_grid", GridFactory.main_grid);
         grid = grid || GridFactory.main_grid;
         GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
         var el = GridFactory.createElement(scope, GridFactory.counter, content);
         var newWidget = grid.add_widget(el, 0, 0, 1, 1, true);
+
     }
 
     GridFactory.addNestedGrid = function(scope, id) {
@@ -124,6 +127,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.clearGrid = function() {
         GridFactory.main_grid.remove_all();
         GridFactory.nestedGrids = {};
+        GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
     }
 
 
