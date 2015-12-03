@@ -9,13 +9,19 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         float: true
     };
 
-    GridFactory.counter = 0;
-    GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
-    GridFactory.savedGrid = [];
+    
 
-    GridFactory.nestedGrids = {};
-    // key is the gridId, value is the grid object
-    GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
+    GridFactory.init = function (){
+        GridFactory.counter = 0;
+        GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
+        GridFactory.savedGrid = [];
+
+        GridFactory.nestedGrids = {};
+        // key is the gridId, value is the grid object
+        GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
+    }
+
+    
 
     GridFactory.getMainGrid = function() {
         return GridFactory.main_grid;

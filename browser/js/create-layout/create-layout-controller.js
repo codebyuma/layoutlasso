@@ -1,5 +1,6 @@
 app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory) {
 
+    GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
