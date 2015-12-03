@@ -14,7 +14,7 @@ app.controller('LoginModalCtrl', function($scope, AuthService, $uibModalInstance
             $scope.user = user;
             $uibModalInstance.close(user)
         }).catch(function() {
-            $scope.error = 'Invalid login credentials.';
+            $scope.error = 'Please enter valid login credentials.';
         });
 
     };
@@ -28,7 +28,7 @@ app.controller('LoginModalCtrl', function($scope, AuthService, $uibModalInstance
             $scope.user = user;
             $uibModalInstance.close(user)
         }).catch(function() {
-            $scope.error = 'Account with this email address already exists.';
+            $scope.error = 'An account with this email address already exists.';
         });
 
     };
