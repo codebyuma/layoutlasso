@@ -1,7 +1,7 @@
 <section class="pageClassMenu">
   <p>Current Classes</p>
   <div class="cls-field" ng-repeat="className in pageStyleSheet">
-    <p ng-click="loadClassForEditing(className)">{{ className }}</p>
+    <p ng-click="loadClassForEditing(className)" class="class-selector">{{ className }}</p>
     <button class="label-danger right-align-btn" ng-click="removeClassStyling(className)">
       <span class="glyphicon glyphicon-remove"></span>
     </button>

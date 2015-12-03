@@ -68,9 +68,12 @@ app.controller("CreateLayoutCtrl", function($scope, $compile, theUser, GridCompF
     /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
     $scope.newClass = {};
 
-    // Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives.
+    /* Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives. */
     $scope.pageStyleSheet = [];
 
+    // boolean to define whether a style is being updated;
     $scope.classEditMode = false;
+    // Boolean to indicate whether the css styling menu is open or not. 
+    $scope.styleMenuOpen = false;
 
 })

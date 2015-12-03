@@ -1,4 +1,4 @@
-app.directive("cssApplicator", function(StylingFactory){
+app.directive("cssApplicator", function(StylingFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/applyCssStyling/applyCssStyling.template.html",
@@ -11,7 +11,8 @@ app.directive("cssApplicator", function(StylingFactory){
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
         $(".style-group-active").removeClass("style-group-active");
-        // return;
+        scope.styleMenuOpen = false;
+        return;
       }
 
       // Create a new css compatible object from form data
