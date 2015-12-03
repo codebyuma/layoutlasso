@@ -93,7 +93,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     };
 
     GridFactory.saveGridLocal = function() {
-
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
 
         GridFactory.savedGrid = _.map($('.grid-stack .grid-stack-item:visible'), function(el) {
