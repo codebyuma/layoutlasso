@@ -1,5 +1,5 @@
 
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout) {
 
 
     $scope.user = theUser;
@@ -7,6 +7,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
     $scope.save = false;
+    $scope.change, $scope.message = null;
 
     //prompt user to create new project and/or page
     $scope.new = function() {
@@ -50,8 +51,21 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, $compile, theUse
         })
     }
 
+    $scope.showMessage = function (_message){
+        $scope.message = _message;
+        $scope.change = true; // trigger confirmation message on the page
+        
+        $timeout(function() {
+            $scope.change = false;
+            $scope.message = false;
+        }, 2000);
+
+    }
+
     // broadcast from GridFactory.saveGridBackend
-    $rootScope.$on('saved', function(event, data) {
+    $rootScope.$on('saved', function(event, data, $timeout) {
+        $scope.showMessage("Page saved");
+
         if ($scope.closeSave) {
             $scope.closeAll();
             $scope.closeSave = false;
