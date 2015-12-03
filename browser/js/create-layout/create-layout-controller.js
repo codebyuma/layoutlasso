@@ -8,7 +8,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.change, $scope.message = null;
 
     $rootScope.$on('user logged out', function(event, data) {
-        console.log("in user logged out on");
         $scope.user = null;
     })
 
