@@ -7,8 +7,9 @@ app.factory("LayoutComponentFactory",  function($compile){
           <div class="navbar-header">\
             <a class="navbar-brand" href="#">\
               <p>Navbar</p>\
-              <div contentEditable="true">\
-              This text can be edited by the user.</div>\
+              <p contenteditable="true"\
+               onclick="$(this).focus();"> Edit me! </p>"\
+               </div>\
             </a>\
           </div>\
         </div>\

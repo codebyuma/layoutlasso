@@ -1,10 +1,7 @@
-app.directive("stylingSelector", function(){
+app.directive("editHTML", function(){
   return {
     restrict: 'E',
-    template: "<button><span class='glyphicon glyphicon-pencil'></span></button>",
-    scope: {
-      id: '='
-    },
+    template: "<button><span class='glyphicon glyphicon-edit'></span></button>",
     link: function(scope, element, attrs, ngClick){
         scope.getElementToStyle = function(id){
           var parentEl = document.getElementById(""+ id +"");
