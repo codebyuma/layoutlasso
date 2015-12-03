@@ -12,13 +12,12 @@
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
     <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn btn-left">Templates</button>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
-    <p></p>
+    <button class="lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
     <div ng-show="project">Currently viewing: <br>
       <div>Project - {{ project.name }}</div>
     </div>
     <div ng-show="page">Page: {{ page.name }}</div>
 
-    
 
   </div>
 </aside>
@@ -35,3 +34,5 @@
 
   </div>
 </section>
+<css-applicator ng-show="styleMenuOpen" class="menu-directive"></css-applicator>
+<class-display ng-show="classMenuOpen" class="menu-directive"></class-display>
