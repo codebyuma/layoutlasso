@@ -8,11 +8,11 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
   var buildCssObject = function(obj){
     var convertedObj = " {\n" // Opening bracket.
     for(var prop in obj){
-      convertedObj += "\t" + prop + ": ";
-      convertedObj += removeQuotationMarks(obj[prop]) + ";\n";
+      convertedObj += "\t" + prop + ": "; // Indent individual css properties.
+      convertedObj += removeQuotationMarks(obj[prop]) + ";\n"; /* remove quotation marks from object string and add semi-colon and new line*/
 
     }
-    convertedObj += "\n}\n\n"; // End of css style spacing with two brackets.
+    convertedObj += "\n}\n\n"; // End of css style spaced with new line.
     return convertedObj;
   }
 
@@ -65,8 +65,6 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     stylingBeforeClearToReload: function(){
       var currentStyles = StylingFactory.getCurrentStyleSheet();
       var removedStyles = StylingFactory.getRemovedStyles();
-      console.log("CURRENT STYLES: ", currentStyles);
-      console.log("REMOVED: ", removedStyles);
       for(var className in removedStyles){
         findInvalidClassesAndStyles(className, removedStyles[className]);
       }
@@ -78,6 +76,16 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     resetStylesOnClose: function(scope){
       StylingFactory.resetCurrentStyleSheetObjs();
       scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames() /* resets values in class menu.*/
+    },
+
+    removeInlineStylingForHtmlExport: function(){
+      var assignedByStyleSheet = StylingFactory.getCurrentStyleSheet();
+      for(var className in assignedByStyleSheet){
+        var elementsToRemoveStyling = StylingFactory.findClassElements(className);
+        elementsToRemoveStyling.each(function(idx, el){
+          findAndRemoveClassStyles(el, assignedByStyleSheet[className]);
+        })
+      }
     },
 
     produceStyleSheetForExport: parseAndFormatToExport

@@ -228,6 +228,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     // TODO disable button if grid is empty
 
     $scope.exportHTML = function() {
+        StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
@@ -258,6 +259,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
+        StyleSaveLoadFactory.stylingBeforeClearToReload();
     };
 
     $scope.gridEmpty = function() {
