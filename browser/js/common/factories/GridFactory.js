@@ -19,6 +19,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
     }
 
+    GridFactory.incrementCounter = function() {
+      GridFactory.counter++;
+      return GridFactory.counter;
+    }
 
     GridFactory.getMainGrid = function() {
         return GridFactory.main_grid;
