@@ -96,6 +96,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile(" <div class='row'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+   <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
   <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
   </div></div>")(scope))
 
@@ -202,6 +203,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             node.parentId + "'></div>")(scope));
 
+
         // create a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
         GridFactory.nestedGrids[node.parentId] = newGrid;
@@ -210,6 +212,16 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var el = GridFactory.createElement(scope, node.id);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
+        thisWidget = $('#' + node.parentId.slice(4));
+  //       $('#lasso-button-box-' + id).remove();
+        
+  //       thisWidget.append($compile(" <div class='row'>\
+  // <div class='lasso-button-box'>\
+  // <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+  //  <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+  // <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
+  // </div></div>")(scope))
+        
     }
 
     return GridFactory;
