@@ -18,6 +18,5 @@
   "dependencies": {
     "gridstack-angular": "~0.2.0",
     "gridstack": "~0.2.3"
-
   }
 }

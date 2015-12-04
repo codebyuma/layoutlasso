@@ -1,8 +1,16 @@
-<div class="modal-header">
+<div id="html-modal" class="modal-header">
      <h3 class="modal-title">Edit HTML</h3>
  </div>
  <div class="modal-body">
-   <div id="editable-content" style="height: 100px" contenteditable='true' onclick='$(this).focus();'> {{ content }}</div>
+   <div ui-ace="{
+      useWrapMode: true,
+      showGutter: true,
+      theme:'twilight',
+      mode: 'html',
+      firstLineNumber: 1,
+      onLoad: aceLoaded,
+      onChange: aceChanged
+    }"></div>
  </div>
  <div class="modal-footer">
      <button class="btn btn-primary" type="button" ng-click="save()"><span class="glyphicon glyphicon-ok"></span></button>

@@ -1,16 +1,15 @@
-app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content, GridFactory) {
+app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content, GridFactory, BrowserifyFactory) {
 
-  $scope.content = content;
+  $scope.aceLoaded = function(_editor){
+    var html = BrowserifyFactory.beautifyHTML(content);
+    _editor.getSession().setValue(html);
+    _editor.getSession().on('change', function () {
+       content = _editor.getSession().getValue();
+   });
+  };
 
   $scope.save = function() {
-    var newContent = $("#editable-content").html();
-
-    // This function is used to fix the string because "<" and ">" were converted into "&lt;" and "&gt;"
-    var convert = function(convert){
-        return $("<span />", { html: convert }).text();
-    };
-    newContent = convert(newContent);
-    $uibModalInstance.close(newContent);
+    $uibModalInstance.close(content);
   }
 
   $scope.cancel = function () {
