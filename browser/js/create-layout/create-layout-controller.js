@@ -1,15 +1,17 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
 
-
+    GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
+
     $scope.save = false;
     $scope.change, $scope.message = null;
 
     $rootScope.$on('user logged out', function(event, data) {
         $scope.user = null;
+        $scope.closeAll();
     })
 
     // helper function to show message on screen for 2 seconds (ex. save confirmation)
@@ -83,7 +85,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
-        GridFactory.savedGrid = [];
+        GridFactory.clearSavedGrid();
         $scope.clearGrid();
     }
 
@@ -195,6 +197,32 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         $scope.nestedGrids = GridFactory.getNestedGrids();
     }
 
+    //===== Templates ===== //
+
+    $scope.loadTemplates = function () {
+        var templateModal = $uibModal.open({
+            animation: $scope.animationsEnabled,
+            templateUrl: 'js/template-modal/template-modal.html',
+            controller: 'templateModalCtrl',
+            resolve: {
+                allTemplates: function(TemplateFactory){
+                    return TemplateFactory.getAll();
+                }
+            }
+        })
+
+        templateModal.result.then(function(selectedItem){
+            if(!selectedItem){
+                console.log('No template selected');
+            }
+            console.log("selected template in layout ctrl", selectedItem._id)
+            // $scope.selectedTemplate = selectedItem;
+            GridFactory.clearSavedGrid();
+            GridFactory.loadGrid($scope, selectedItem);
+        })
+    }
+
+
     //===== Exporting ===== //
     // TODO disable button if grid is empty
 
@@ -220,8 +248,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     };
 
     $scope.gridEmpty = function() {
-        if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
-            return true;
         return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 

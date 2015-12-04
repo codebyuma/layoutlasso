@@ -10,6 +10,7 @@
     <button ng-click="clearGrid()" class="btn btn-default">Clear Grid</button>
     <br>
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
+    <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn btn-left">Templates</button>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
     <button class="btn lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
     <div ng-show="project">Currently viewing: <br>
@@ -27,7 +28,6 @@
    <center>{{ message }}</center>
   </div>
   <div class="page-layout">
-
     <div class="grid-stack" id="main-grid">
     </div>
 

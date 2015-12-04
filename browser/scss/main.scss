@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+<<<<<<< HEAD
 $cloudDancer: #F0EEE9;
 $opalBlue: #C3DDD6;
 $fancyGreen: #DFF0D8;
@@ -11,6 +12,9 @@ $frostedAlmond: #D2C2AC;
 $frostyAlmond: rgba(210, 194, 172, 0.6);
 $arctic: #648589;
 $adobeBlue: rgba(199, 223, 255, 1);
+=======
+
+>>>>>>> master
 
 body {
   background: $cloudDancer;
@@ -29,6 +33,10 @@ body {
   width: 100vw;
   margin: 120px auto;
   z-index: 0;
+}
+
+.main-grid {
+  background: red;
 }
 
 .modal-dialog{

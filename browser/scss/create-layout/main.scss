@@ -1,3 +1,5 @@
+$main-grid-background-color: #E9F7FF; // blues: very light #F5FAFF  light #CFEDFF
+
 h3    {
   color: #3FA9F5;
   font-size: 12px;
@@ -21,7 +23,7 @@ button {
     min-height: 1000px;
     height: auto;
     z-index: 0;
-    background-color: $adobeBlue;
+    background-color: $main-grid-background-color;
     box-shadow: 0px 0px 10px grey;
   }
 
