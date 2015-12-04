@@ -68,6 +68,8 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
       // for(var className in removedStyles){
       //   findInvalidClassesAndStyles(className, removedStyles[className]);
       // }
+      var pastStyling = _.extend(currentStyles, removedStyles);
+      console.log("RECOMBINED STYLING: ", pastStyling);
       for(var style in currentStyles){
         findCurrentStylesAndRefresh(style, currentStyles[style]);
       }
