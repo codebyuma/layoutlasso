@@ -1,4 +1,4 @@
-app.factory('ExportFactory', function(GridFactory) {
+app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
 
   var ExportFactory = {};
 
@@ -131,7 +131,6 @@ app.factory('ExportFactory', function(GridFactory) {
             html += bits.htmlopen + bits.headopen + bits.bootstrapCDN;
             html += bits.headclose + bits.bodyopen + bits.container;
             var parentObj = makeParentObject();
-
             for (var key in parentObj) {
               parentObj[key] = separateRows(parentObj[key]); // modify parentObj to distinguish between rows
               createOffsetNodes(parentObj[key]); // modify parentObj to include offset columns
@@ -144,6 +143,8 @@ app.factory('ExportFactory', function(GridFactory) {
             return html;
         }
     };
+
+    ExportFactory.produceStyleSheet = StyleSaveLoadFactory.produceStyleSheetForExport
 
   return ExportFactory;
 });

@@ -3,7 +3,7 @@ navbar {
   position: fixed;
   top: 0px;
   width: 100vw;
-  background: #F06400;
+  background: $russet;
   box-shadow: 0px 1px 14px black;
   z-index: 2000;
 
@@ -12,7 +12,7 @@ navbar {
     max-width: 1340px;
     padding-top: 20px;
   }
-  
+
   lasso-logo {
     margin-top: 5px;
     margin-right: 20px;
@@ -28,7 +28,7 @@ navbar {
     cursor: pointer;
     transition: all 0.2s;
     &.active {
-      background-color: #3FA9F5 !important;
+      background-color: $arctic !important;
       color: #fff;
       z-index: 100;
       box-shadow: 0px 5px 10px #666;

@@ -9,7 +9,7 @@
       <input type="text" ng-model="prop.value" placeholder="CSS Value"></input>
       <button class="label-danger" ng-click="removeStyle(prop)"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
-    <button ng-click="addNewCssField()">Add Styling</button>
+    <button ng-click="addNewCssField()">Add Property</button>
     <button ng-hide="classEditMode" ng-click="getCssFormData(newClass)">Apply</button>
     <button ng-show="classEditMode" ng-click="updateClass(newClass)">Update</button>
     <button ng-click="cancelStyling()">Cancel</button>
