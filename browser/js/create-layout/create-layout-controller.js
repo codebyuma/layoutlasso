@@ -148,6 +148,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
                 GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;
             } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
+                StylingFactory.resetCurrentStyleSheetObjs();
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
                 $scope.loadGrid($scope, $scope.page);
@@ -191,11 +192,15 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         }
     }
 
-    $scope.clearGrid = GridFactory.clearGrid;
+    $scope.clearGrid = function(){
+      GridFactory.clearGrid();
+      $scope.pageStyleSheet = [];
+    }
 
     $scope.loadGrid = function() {
         GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
+        $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
     }
 
     //===== Templates ===== //
