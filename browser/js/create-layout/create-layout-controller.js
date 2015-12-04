@@ -247,7 +247,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             var url = window.URL.createObjectURL(htmlBlob);
             var a = document.createElement("a");
             a.href = url;
-            a.download = "layoutlasso.html";
+            if ($scope.page && $scope.project){
+                a.download = $scope.project.name + "-" + $scope.page.name + ".html";
+            } else {
+                a.download = "layoutlasso.html";
+            }
             a.click();
             window.URL.revokeObjectURL(url);
         }
@@ -258,7 +262,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
-          b.download = "layoutlassoStylesheet.css";
+          if ($scope.page && $scope.project){
+            b.download = $scope.project.name + "-" + $scope.page.name + ".css";
+          } else {
+            b.download = "layoutlassoStylesheet.css";
+          }
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
