@@ -130,7 +130,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
-
         if (GridFactory.savedGrid.length === 0) {
             if (page) {
                 GridFactory.savedGrid = page.grid;
@@ -146,7 +145,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             }
         });
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
-        StyleSaveLoadFactory.stylingToReloadOnClear();
+        StyleSaveLoadFactory.stylingBeforeClearToReload();
     }
 
 

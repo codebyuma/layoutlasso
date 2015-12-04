@@ -5,11 +5,8 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
   }
 
   var findAndRemoveClassStyles = function(element, classStyleObj){
-    for(var singleClass in classStyleObj){
-      for(var prop in classStyleObj[singleClass]){
-        console.log("PROPERTY: ", prop);
-        element.style.removeProperty("" + prop + "");
-      }
+    for(var prop in classStyleObj){
+      element.style.removeProperty("" + prop + "");
     }
   }
 
@@ -17,7 +14,7 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     var elementsToStyle = StylingFactory.findClassElements(className);
     elementsToStyle.each(function(idx, el){
       findAndRemoveClassStyles(el, currentStyleObj);
-      $(el).css(currentStyleObj[className]);
+      $(el).css(currentStyleObj);
     })
   }
 
@@ -34,19 +31,20 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
 
     stylingToLoadFromBackend: function(cssJson){
       var savedStyleObj = JSON.parse(cssJson);
-      console.log(savedStyleObj);
       StylingFactory.resetCurrentStyleSheetObjs();
       StylingFactory.populatePageStyleSheetOnLoad(savedStyleObj);
     },
 
-    stylingToReloadOnClear: function(){
+    stylingBeforeClearToReload: function(){
       var currentStyles = StylingFactory.getCurrentStyleSheet();
       var removedStyles = StylingFactory.getRemovedStyles();
-      for(var style in removedStyles){
-        findInvalidClassesAndStyles(style, removedStyles);
+      console.log("CURRENT STYLES: ", currentStyles);
+      console.log("REMOVED: ", removedStyles);
+      for(var className in removedStyles){
+        findInvalidClassesAndStyles(className, removedStyles[className]);
       }
       for(var style in currentStyles){
-        findCurrentStylesAndRefresh(style, currentStyles);
+        findCurrentStylesAndRefresh(style, currentStyles[style]);
       }
     }
   }
