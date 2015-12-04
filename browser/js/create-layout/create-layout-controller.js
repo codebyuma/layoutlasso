@@ -297,7 +297,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     //===== Components ===== //
     //add Nav Bar function
     $scope.addNavBar = function() {
-        GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.counter++);
+        GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
 
 
