@@ -230,6 +230,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.exportHTML = function() {
         GridFactory.saveGridLocal();
         var html = ExportFactory.convertToHTML();
+        var css = ExportFactory.produceStyleSheet();
         if (html) {
             html = BrowserifyFactory.beautifyHTML(html, {
                 indent_size: 4
@@ -245,6 +246,17 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             a.download = "layoutlasso.html";
             a.click();
             window.URL.revokeObjectURL(url);
+        }
+        if(css){
+          var cssBlob = new Blob([css], {
+            type: "text/css"
+          });
+          var cssUrl = window.URL.createObjectURL(cssBlob);
+          var b = document.createElement("a");
+          b.href = cssUrl;
+          b.download = "layoutlassoStylesheet.css";
+          b.click();
+          window.URL.revokeObjectURL(cssUrl);
         }
     };
 

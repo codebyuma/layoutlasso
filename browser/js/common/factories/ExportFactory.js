@@ -1,4 +1,4 @@
-app.factory('ExportFactory', function(GridFactory) {
+app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
 
   var ExportFactory = {};
 
@@ -144,6 +144,8 @@ app.factory('ExportFactory', function(GridFactory) {
             return html;
         }
     };
+
+    ExportFactory.produceStyleSheet = StyleSaveLoadFactory.produceStyleSheetForExport
 
   return ExportFactory;
 });

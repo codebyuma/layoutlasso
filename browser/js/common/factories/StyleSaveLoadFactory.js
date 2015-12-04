@@ -1,8 +1,30 @@
 app.factory("StyleSaveLoadFactory", function(StylingFactory){
 
 
-  var parseAndFormatToExport = function(){
+  var removeQuotationMarks = function(string){
+    return string.replace('"', '');
+  }
 
+  var buildCssObject = function(obj){
+    var convertedObj = " {\n" // Opening bracket.
+    for(var prop in obj){
+      convertedObj += "\t" + prop + ": ";
+      convertedObj += removeQuotationMarks(obj[prop]) + ";\n";
+
+    }
+    convertedObj += "\n}\n\n"; // End of css style spacing with two brackets.
+    return convertedObj;
+  }
+
+  var parseAndFormatToExport = function(){
+    var cssToExport = "";
+    var classesToExport = StylingFactory.getCurrentStyleSheet();
+    for(var classStyle in classesToExport){
+      var className = "." + classStyle;
+      cssToExport += className;
+      cssToExport += buildCssObject(classesToExport[classStyle]);
+    }
+    return cssToExport;
   }
 
   var getCurrentStylingToSave = function(){
@@ -56,7 +78,9 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     resetStylesOnClose: function(scope){
       StylingFactory.resetCurrentStyleSheetObjs();
       scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames() /* resets values in class menu.*/
-    }
+    },
+
+    produceStyleSheetForExport: parseAndFormatToExport
   }
 
 })
