@@ -34,7 +34,7 @@ button {
   }
 
   .new-element {
-    background-color: lightgreen;
+    background-color: $opalBlue;
   }
 
 
@@ -51,7 +51,7 @@ button {
   top: 0px;
   width: 120px;
   height: calc(100% + 100px);
-  background-color: #666;
+  background-color: $semolina;
   box-shadow: 0px 0px 10px black;
 
   .button-holder {
@@ -74,58 +74,56 @@ button {
 
   .lasso-toolbar-btn {
     // background-color: #3FA9F5;
-    margin: 5px auto;
-    border-radius: 0px;
-    width: 100%;
-    outline: none;
-    transition: all 0.25s;
-    border: none;
-    &:hover {
-      box-shadow: 0px 5px 10px #222;
-      color: yellow;
-    }
-    &:active {
-      box-shadow: 0px 5px 10px #222 inset;
-      // color: #fff;
-    }
-    &:focus {
-      color: lightblue;
-    }
+    // background-color: $arctic;
+    // color: $cloudDancer;
+      margin: 5px auto;
+      border-radius: 0px;
+      width: 100%;
+      outline: none;
+      transition: all 0.25s;
+      border: none;
+      
+      &:hover {
+        box-shadow: 0px 5px 10px #222;
+        color: yellow;
+      }
+      &:active {
+        box-shadow: 0px 5px 10px #222 inset;
+        // color: #fff;
+      }
+      &:focus {
+        color: lightblue;
+      }
     
-  }
+    }
 
   }
 
-}
+  .menu-directive {
+    position: fixed;
+    background-color: $semolina;
+    width: 400px;
+    height: auto;
+    padding: 10px;
+    box-shadow: 0px 5px 10px #666;
+  }
 
-.menu-directive {
-  position: fixed;
-  background-color: #FFF;
-  width: 400px;
-  height: auto;
-  padding: 10px;
-  box-shadow: 0px 5px 10px #666;
-}
+  #lasso-logo {
+    float: left;
+    height: 70px;
+    padding: 10px;
+    margin-left: 30px;
+  }
 
-#lasso-logo {
-  float: left;
-  height: 70px;
-  padding: 10px;
-  margin-left: 30px;
-  // padding: 10px; 
-  // padding-left: 10px;
-  // margin-top: 5px;
-  // margin-right: 20px;
-  // width: 40px;
-}
+  #toolbar-left {
+   left: 0px;
+   z-index: 1;
+   color: white;
+  }
 
-#toolbar-left {
- left: 0px;
- z-index: 1;
- color: white;
-}
+  #toolbar-right {
+    right: 0px;
+    z-index: 1;
+  }
 
-#toolbar-right {
-  right: 0px;
-  z-index: 1;
 }

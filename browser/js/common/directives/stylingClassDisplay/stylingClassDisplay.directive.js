@@ -9,11 +9,11 @@ app.directive("classDisplay", function(StylingFactory, $rootScope){
         scope.newClass.name = className;
         scope.newClass.styles = StylingFactory.convertToEditableObj(className);
         scope.styleMenuOpen = true;
-        console.log(scope.newClass);
       }
 
       scope.removeClassStyling = function(className){
         // Removes inline styles and associated class name.
+        StylingFactory.addToRemovedClassObj(className);
         StylingFactory.removeStyleClass(className);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
       }

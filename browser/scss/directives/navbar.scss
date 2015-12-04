@@ -4,21 +4,22 @@ navbar {
   top: 0px;
   width: 100vw;
   background: #FF9313;
+  // background: $russet;
   box-shadow: 0px 1px 14px black;
   z-index: 2000;
 
   .container {
     width: 95%;
-    // margin: auto;
-    // margin: 10px;
-    margin-top: 10px; 
-    // margin-right: auto;
-    margin-bottom: 0px;
-    margin-left: 10px;
-    // 50px 0px 10px;
-    // max-width: 1340px;
-    // padding: 10px;
-    // padding-top: 20px;
+    margin-top: 10px 0px 0px 10px;
+    width: 91%;
+    max-width: 1340px;
+    padding-top: 20px;
+  }
+
+  lasso-logo {
+    margin-top: 5px;
+    margin-right: 20px;
+    width: 40px;
   }
 
   a {
@@ -30,7 +31,8 @@ navbar {
     cursor: pointer;
     transition: all 0.2s;
     &.active {
-      background-color: red !important;
+      // background-color: red !important;
+      // background-color: $arctic !important;
       color: #fff;
       z-index: 100;
       box-shadow: 0px 5px 10px #666;
@@ -52,16 +54,6 @@ navbar {
     background: none;
     outline: none !important;
   }
-
-  // #lasso-logo {
-  //   float: left;
-  //   height: 50px; 
-  //   // padding: 10px; 
-  //   // padding-left: 10px;
-  //   // margin-top: 5px;
-  //   // margin-right: 20px;
-  //   // width: 40px;
-  // }
 
   .welcome {
     float: right;
