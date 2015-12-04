@@ -2,6 +2,8 @@ app.factory("StylingFactory", function(){
 
   var pageStyleSheet = {};
 
+  var removedStyles = {};
+
   /* Apply styling of scope.styleGroup hash DOM elements  */
 
   var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, nameOfClass, callback){
@@ -30,7 +32,6 @@ app.factory("StylingFactory", function(){
     matchingElements.each(function(idx, el){
       /* To use removeClass jQuery method, have to convert to jQuery obj. Will not remove class if applying updated class stylings*/
       if(!updateOrExport) $(el).removeClass(className);
-      console.log(stylesToRemove);
       for(var style in stylesToRemove){
         el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
       }
@@ -83,7 +84,6 @@ app.factory("StylingFactory", function(){
   var removePageStyleClass = function(name){
     removeClassInlineStyles(name);
     delete pageStyleSheet[name]; /* Removing class from pageStylesheet object. */
-    console.log("PAGE STYLESHEET: ", pageStyleSheet);
   }
 
 
@@ -98,7 +98,6 @@ app.factory("StylingFactory", function(){
       } else {
         pageStyleSheet[stylesObj.name] = stylesObj.cssObj;
       }
-      console.log(pageStyleSheet);
     },
 
     updateSpecificClass: updateStyleClass,
@@ -110,12 +109,14 @@ app.factory("StylingFactory", function(){
     },
 
     applyUpdatedStyling: function(classElements, styleObj){
-      console.log("APPLYING UPDATE: ", classElements, styleObj)
       classElements.each(function(idx, el){
-        console.log("ELEMENT TO APPLY STYLING: ", el)
         $(el).css(styleObj)
       })
       return;
+    },
+
+    populatePageStyleSheetOnLoad: function(cssObj){
+      pageStyleSheet = cssObj;
     },
 
     findClassElements: findMatchingClasses,
@@ -124,6 +125,25 @@ app.factory("StylingFactory", function(){
 
     removeStyleClass: removePageStyleClass,
 
-    convertToEditableObj: convertToEditableClassObj
+    convertToEditableObj: convertToEditableClassObj,
+
+    addToRemovedClassObj: function(className){
+      removedStyles[className] = pageStyleSheet[className];
+      return;
+    },
+
+    getRemovedStyles: function(){
+      return removedStyles;
+    },
+
+    getCurrentStyleSheet: function(){
+      return pageStyleSheet;
+    },
+
+    resetCurrentStyleSheetObjs: function(){
+      pageStyleSheet = {};
+      removedStyles = {};
+      return;
+    }
   }
 })

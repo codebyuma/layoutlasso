@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
 
     GridFactory.init();
     $scope.user = theUser;
@@ -85,6 +85,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
+        StyleSaveLoadFactory.resetStylesOnClose($scope);
         GridFactory.clearSavedGrid();
         $scope.clearGrid();
     }
@@ -143,14 +144,16 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             // DO WE WANT TO ADD THIS TO THE SESSION SO IT PERSISTS?
             $scope.page = data.page;
             $scope.project = data.project;
-
             if ($scope.save) { // only save if the user has clicked save (vs. when loading a page)
                 GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;
             } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
+                StylingFactory.resetCurrentStyleSheetObjs();
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
                 $scope.loadGrid($scope, $scope.page);
+                StyleSaveLoadFactory.stylingToLoadFromBackend($scope.page.css)
+                $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
             }
         })
     }
@@ -189,11 +192,15 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         }
     }
 
-    $scope.clearGrid = GridFactory.clearGrid;
+    $scope.clearGrid = function(){
+      GridFactory.clearGrid();
+      $scope.pageStyleSheet = [];
+    }
 
     $scope.loadGrid = function() {
         GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
+        $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
     }
 
     //===== Templates ===== //
@@ -226,8 +233,10 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     // TODO disable button if grid is empty
 
     $scope.exportHTML = function() {
+        StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
         var html = ExportFactory.convertToHTML();
+        var css = ExportFactory.produceStyleSheet();
         if (html) {
             html = BrowserifyFactory.beautifyHTML(html, {
                 indent_size: 4
@@ -244,6 +253,18 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             a.click();
             window.URL.revokeObjectURL(url);
         }
+        if(css){
+          var cssBlob = new Blob([css], {
+            type: "text/css"
+          });
+          var cssUrl = window.URL.createObjectURL(cssBlob);
+          var b = document.createElement("a");
+          b.href = cssUrl;
+          b.download = "layoutlassoStylesheet.css";
+          b.click();
+          window.URL.revokeObjectURL(cssUrl);
+        }
+        StyleSaveLoadFactory.stylingBeforeClearToReload();
     };
 
     $scope.gridEmpty = function() {

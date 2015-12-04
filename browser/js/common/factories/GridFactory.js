@@ -1,4 +1,4 @@
-app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope) {
+app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope, StyleSaveLoadFactory) {
     var GridFactory = {};
 
     var options = {
@@ -119,6 +119,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.saveGridBackend = function(page) {
         page.grid = GridFactory.savedGrid;
+        page.css = StyleSaveLoadFactory.stylingToSave();
         PageFactory.savePage(page)
             .then(function(updatedPage) {
                 $rootScope.$broadcast('saved');
@@ -137,7 +138,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
-
         if (GridFactory.savedGrid.length === 0) {
             if (page) {
                 GridFactory.savedGrid = page.grid;
@@ -153,6 +153,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             }
         });
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid; // ===== not sure if I need to do this??????
+        StyleSaveLoadFactory.stylingBeforeClearToReload();
     }
 
     GridFactory.loadNestedGrid = function(scope, node) {

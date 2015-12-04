@@ -28,7 +28,7 @@ button {
   }
 
   .new-element {
-    background-color: lightgreen;
+    background-color: $opalBlue;
   }
 
 
@@ -45,7 +45,7 @@ button {
   top: 0px;
   width: 120px;
   height: calc(100% + 100px);
-  background-color: #666;
+  background-color: $semolina;
   box-shadow: 0px 0px 10px black;
 
   .button-holder {
@@ -54,30 +54,30 @@ button {
     height: auto;
     width: 100%;
 
-  .lasso-toolbar-btn {
-    background-color: #3FA9F5;
-    margin: 5px auto;
-    border-radius: 0px;
-    width: 100%;
-    outline: none;
-    transition: all 0.25s;
-    border: none;
-    &:hover {
-      box-shadow: 0px 5px 10px #222;
+    .lasso-toolbar-btn {
+      background-color: $arctic;
+      color: $cloudDancer;
+      margin: 5px auto;
+      border-radius: 0px;
+      width: 100%;
+      outline: none;
+      transition: all 0.25s;
+      border: none;
+      &:hover {
+        box-shadow: 0px 5px 10px #666;
+      }
+      &:active {
+        box-shadow: 0px 5px 10px #666 inset;
+        color: #fff;
+      }
     }
-    &:active {
-      box-shadow: 0px 5px 10px #222 inset;
-      color: #fff;
-    }
-  }
-
   }
 
 }
 
 .menu-directive {
   position: fixed;
-  background-color: #FFF;
+  background-color: $semolina;
   width: 400px;
   height: auto;
   padding: 10px;
