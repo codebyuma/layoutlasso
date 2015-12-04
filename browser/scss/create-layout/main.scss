@@ -10,6 +10,10 @@ button {
   border: none;
 }
 
+:focus {
+  color: white;
+}
+
 .create-layout {
   position: relative;
   width: 100vw;
@@ -21,7 +25,7 @@ button {
     margin: auto; //20px 10px 
     margin-left: 180px;
     margin-right: 40px;
-    width: calc(100% - 200px);
+    width: calc(100% - 240px);
     min-height: 1000px;
     height: auto;
     z-index: 0;
@@ -82,8 +86,12 @@ button {
     }
     &:active {
       box-shadow: 0px 5px 10px #222 inset;
-      color: #fff;
+      // color: #fff;
     }
+    &:focus {
+      color: lightblue;
+    }
+    
   }
 
   }

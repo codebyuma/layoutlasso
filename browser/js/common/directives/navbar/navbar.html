@@ -7,7 +7,8 @@
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
+            <span> Signed is as: </span>
+            <span id="user-email"> {{ user.email }} | </span>
             <a ng-click="logout()">Logout</a>
         </div>
     </div>

@@ -12,7 +12,7 @@ navbar {
     // margin: auto;
     // margin: 10px;
     margin-top: 10px; 
-    margin-right: auto;
+    // margin-right: auto;
     margin-bottom: 0px;
     margin-left: 10px;
     // 50px 0px 10px;
@@ -65,7 +65,7 @@ navbar {
 
   .welcome {
     float: right;
-    margin-top: 12px;
+    margin-top: 22px;
     span {
       color: black;
       font-size: 16px;
@@ -77,4 +77,12 @@ navbar {
     }
   }
 
+  #user-email {
+    font-style: italic;
+  }
+
 }
+
+
+
+
