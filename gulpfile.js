@@ -16,6 +16,7 @@ var mocha = require('gulp-mocha');
 var karma = require('karma').server;
 var istanbul = require('gulp-istanbul');
 var notify = require('gulp-notify');
+var browserify = require('browserify');
 
 // Development tasks
 // --------------------------------------------------------------
@@ -99,6 +100,10 @@ gulp.task('buildCSS', function () {
 // Production tasks
 // --------------------------------------------------------------
 
+gulp.task('buildBrowserify', function(){
+    browserify('browser/js/common/factories/BrowserifyFactory.js')
+})
+
 gulp.task('buildCSSProduction', function () {
     return gulp.src('./browser/scss/main.scss')
         .pipe(sass())
@@ -116,7 +121,7 @@ gulp.task('buildJSProduction', function () {
         .pipe(gulp.dest('./public'));
 });
 
-gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction']);
+gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction', 'buildBrowserify']);
 
 // Composed tasks
 // --------------------------------------------------------------
