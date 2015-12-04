@@ -1,6 +1,6 @@
 app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, TemplateFactory) {
 
-
+    GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
@@ -11,6 +11,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     $rootScope.$on('user logged out', function(event, data) {
         $scope.user = null;
+        $scope.closeAll();
     })
 
     // helper function to show message on screen for 2 seconds (ex. save confirmation)
@@ -84,7 +85,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
-        GridFactory.savedGrid = [];
+        GridFactory.clearSavedGrid();
         $scope.clearGrid();
     }
 
@@ -246,8 +247,6 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     };
 
     $scope.gridEmpty = function() {
-        if ($scope.nestedGrids['main-grid'] === undefined) // it was complaining without this check
-            return true;
         return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
     }
 

@@ -21,7 +21,7 @@ app.controller('LoginCtrl', function ($scope, AuthService, $state) {
             $scope.user = user;
             $state.go('create');
         }).catch(function () {
-            $scope.error = 'Invalid login credentials.';
+            $scope.error = 'Please enter valid login credentials.';
         });
 
     };
