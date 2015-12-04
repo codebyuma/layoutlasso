@@ -85,6 +85,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
+        StyleSaveLoadFactory.resetStylesOnClose($scope);
         GridFactory.clearSavedGrid();
         $scope.clearGrid();
     }

@@ -1,5 +1,10 @@
 app.factory("StyleSaveLoadFactory", function(StylingFactory){
 
+
+  var parseAndFormatToExport = function(){
+
+  }
+
   var getCurrentStylingToSave = function(){
     return StylingFactory.convertForSaving();
   }
@@ -46,6 +51,11 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
       for(var style in currentStyles){
         findCurrentStylesAndRefresh(style, currentStyles[style]);
       }
+    },
+
+    resetStylesOnClose: function(scope){
+      StylingFactory.resetCurrentStyleSheetObjs();
+      scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames() /* resets values in class menu.*/
     }
   }
 
