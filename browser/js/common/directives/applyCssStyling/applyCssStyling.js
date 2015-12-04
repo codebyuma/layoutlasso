@@ -1,4 +1,4 @@
-app.directive("cssApplicator", function(StylingFactory, $rootScope){
+app.directive("cssApplicator", function(StylingFactory, GridFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/applyCssStyling/applyCssStyling.template.html",
@@ -43,6 +43,7 @@ app.directive("cssApplicator", function(StylingFactory, $rootScope){
       var applyStylingAndClass = function(nameOfClass, stylingObj, styleGroup){
         StylingFactory.populateStyleSheetObject({name: nameOfClass, cssObj: stylingObj})
         StylingFactory.applyStylingToGroup(styleGroup, stylingObj, nameOfClass, resetScopeStyleObjs);
+        GridFactory.saveGridLocal();
         return;
       }
 

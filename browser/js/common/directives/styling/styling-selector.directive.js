@@ -12,8 +12,7 @@ app.directive("stylingSelector", function($rootScope){
       }
 
       var styleGroupPopulated = function(){
-        // Check if style group populated and return boolean.
-        console.log(Object.keys(scope.styleGroup));
+        /* Check if style group populated and return boolean. Used change boolean for menu display */
         return Object.keys(scope.styleGroup).length === 0;
       }
 
