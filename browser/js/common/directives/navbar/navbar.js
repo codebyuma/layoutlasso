@@ -6,10 +6,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         templateUrl: 'js/common/directives/navbar/navbar.html',
         link: function (scope) {
 
-            scope.items = [
-                { label: 'Create', state: 'create' }
-            ];
-
             scope.user = null;
 
             scope.isLoggedIn = function () {
