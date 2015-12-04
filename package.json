@@ -13,12 +13,14 @@
     "node": ">=4.0.0"
   },
   "devDependencies": {
-  "browserify": "latest",
-  "watchify": "latest"
-},
+    "browserify": "latest",
+    "watchify": "latest"
+  },
   "dependencies": {
+    "ace-builds": "^1.2.2",
     "angular-animate": "^1.4.7",
     "angular-mocks": "^1.4.0",
+    "angular-ui-ace": "^0.2.3",
     "angular-ui-bootstrap": "^0.14.3",
     "angular-ui-router": "^0.2.15",
     "babel": "^5.0.12",
