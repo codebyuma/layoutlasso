@@ -127,8 +127,9 @@ app.factory("StylingFactory", function(){
 
     convertToEditableObj: convertToEditableClassObj,
 
-    addRemovedClass: function(className){
+    addToRemovedClassObj: function(className){
       removedStyles[className] = pageStyleSheet[className];
+      return;
     },
 
     getRemovedStyles: function(){
@@ -137,6 +138,12 @@ app.factory("StylingFactory", function(){
 
     getCurrentStyleSheet: function(){
       return pageStyleSheet;
+    },
+
+    resetCurrentStyleSheetObjs: function(){
+      pageStyleSheet = {};
+      removedStyles = {};
+      return;
     }
   }
 })
