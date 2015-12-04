@@ -9,13 +9,16 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         float: true
     };
 
-    GridFactory.counter = 0;
-    GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
-    GridFactory.savedGrid = [];
 
-    GridFactory.nestedGrids = {};
-    // key is the gridId, value is the grid object
-    GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
+    GridFactory.init = function (){
+        GridFactory.counter = 0;
+        GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
+        GridFactory.savedGrid = [];
+        GridFactory.nestedGrids = {};
+        // key is the gridId, value is the grid object
+        GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
+    }
+
 
     GridFactory.getMainGrid = function() {
         return GridFactory.main_grid;
@@ -67,7 +70,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // adds a new grid to the parent grid or main grid
     GridFactory.addNewGridElement = function(scope, grid, content) {
        grid = grid || GridFactory.main_grid;
-       GridFactory.counter++; // this may be a problem when we load in a saved grid and remove and add - may have multiple with the same id
+       GridFactory.counter++;
        var el = GridFactory.createElement(scope, GridFactory.counter, content);
        var newWidget = grid.add_widget(el, 0, 0, 3, 2, true);
    }
@@ -150,6 +153,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.clearGrid = function() {
         GridFactory.main_grid.remove_all();
         GridFactory.nestedGrids = {};
+        GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
     }
 
     GridFactory.clearSavedGrid = function() {
