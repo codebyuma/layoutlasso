@@ -132,6 +132,8 @@ app.factory("StylingFactory", function(){
       return;
     },
 
+    
+
     getRemovedStyles: function(){
       return removedStyles;
     },

@@ -49,7 +49,7 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     var elementsToRemoveStyling = StylingFactory.findClassElements(className);
     elementsToRemoveStyling.each(function(idx, el){
       findAndRemoveClassStyles(el, removedStyleObj);
-      $(el).removeClass(className);
+      $(el).css(removedStyleObj);
     })
   }
 
@@ -65,9 +65,9 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
     stylingBeforeClearToReload: function(){
       var currentStyles = StylingFactory.getCurrentStyleSheet();
       var removedStyles = StylingFactory.getRemovedStyles();
-      for(var className in removedStyles){
-        findInvalidClassesAndStyles(className, removedStyles[className]);
-      }
+      // for(var className in removedStyles){
+      //   findInvalidClassesAndStyles(className, removedStyles[className]);
+      // }
       for(var style in currentStyles){
         findCurrentStylesAndRefresh(style, currentStyles[style]);
       }
