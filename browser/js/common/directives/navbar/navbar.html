@@ -1,8 +1,10 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
-        <div class="navbar-header">
-            <a ui-sref="home"> <lasso-logo></lasso-logo> </a>
+
+        <div ng-show="project">Currently viewing: <br>
+            <div>Project - {{ project.name }}</div>
         </div>
+        <div ng-show="page">Page: {{ page.name }}</div>
         
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>

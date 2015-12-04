@@ -1,7 +1,14 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory, GridFactory, AuthService, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+// theUser
+    console.log("Hi I'm here in the ")
 
     GridFactory.init();
-    $scope.user = theUser;
+
+    AuthService.getLoggedInUser()
+    .then(function( user ){
+        $scope.user = user;
+    })
+
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
