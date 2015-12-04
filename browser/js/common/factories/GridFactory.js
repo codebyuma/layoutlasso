@@ -38,7 +38,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-user-content'>" + content + "</div><div class='lasso-end-user-content'></div>\
   </div></div>\
   <div class='row'>\
-  <div class='lasso-button-box'>\
+  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
   <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
@@ -60,8 +60,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.addNestedGrid = function(scope, id) {
         var thisWidget = $('#' + id);
+        //thisWidget.append($compile("<button> test </button>")(scope));
 
         // remove buttons
+        $('#lasso-button-box-' + id).remove();
         $('#lasso-nest-btn-' + id).remove();
         $('#lasso-x-btn-' + id).remove();
 
@@ -70,6 +72,12 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             newGridID + "'></div>")(scope));
 
+        thisWidget.append($compile(" <div class='row'>\
+  <div class='lasso-button-box'>\
+  <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+  <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
+  </div></div>")(scope))
+
         // save the new grid to nestedGrids object on the $scope
         var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
         GridFactory.nestedGrids[newGridID] = newGrid;
@@ -77,6 +85,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + id + " .lasso-button-box")
             .append($compile("<button ng-click='addNewGridElement(nestedGrids." + newGridID + ")'>Add Widget</button>")(scope));
+       
+        
     }
 
     GridFactory.removeWidget = function(idNum) {
