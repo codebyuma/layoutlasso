@@ -232,7 +232,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
-        var pageName, projectName;
+        var pageName, projectName, filename;
 
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
@@ -240,11 +240,18 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         if ($scope.page && $scope.page){
             pageName = $scope.page.name.replace(/\s/g, '');
             projectName = $scope.project.name.replace(/\s/g, '');
+            filename = projectName + "-" + pageName;
+        } else {
+            filename="layoutlasso"
         }
 
 
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
+        if (css){
+            html = ExportFactory.convertToHTML('<link rel="stylesheet" href="' + filename + ".css" + '">');
+        }
+
         if (html) {
             html = BrowserifyFactory.beautifyHTML(html, {
                 indent_size: 4
@@ -257,11 +264,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             var url = window.URL.createObjectURL(htmlBlob);
             var a = document.createElement("a");
             a.href = url;
-            if ($scope.page && $scope.project){
-                a.download = projectName + "-" + pageName + ".html";
-            } else {
-                a.download = "layoutlasso.html";
-            }
+            a.download = filename + ".html";
             a.click(); // simulates the launch
             window.URL.revokeObjectURL(url);
         }
@@ -272,11 +275,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
-          if ($scope.page && $scope.project){
-            b.download = projectName + "-" + pageName + ".css";
-          } else {
-            b.download = "layoutlassoStylesheet.css";
-          }
+          b.download = filename + ".css";
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
