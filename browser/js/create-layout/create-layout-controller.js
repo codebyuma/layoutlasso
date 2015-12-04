@@ -92,6 +92,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     // prompt user to login or sign up
     $scope.promptUserLogin = function() {
+        // move these into a factory? 
         $scope.userLoginModal = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
@@ -231,8 +232,17 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
+        var pageName, projectName;
+
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
+
+        if ($scope.page && $scope.page){
+            pageName = $scope.page.name.replace(/\s/g, '');
+            projectName = $scope.project.name.replace(/\s/g, '');
+        }
+
+
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
         if (html) {
@@ -248,11 +258,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             var a = document.createElement("a");
             a.href = url;
             if ($scope.page && $scope.project){
-                a.download = $scope.project.name + "-" + $scope.page.name + ".html";
+                a.download = projectName + "-" + pageName + ".html";
             } else {
                 a.download = "layoutlasso.html";
             }
-            a.click();
+            a.click(); // simulates the launch
             window.URL.revokeObjectURL(url);
         }
         if(css){
@@ -263,7 +273,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
           var b = document.createElement("a");
           b.href = cssUrl;
           if ($scope.page && $scope.project){
-            b.download = $scope.project.name + "-" + $scope.page.name + ".css";
+            b.download = projectName + "-" + pageName + ".css";
           } else {
             b.download = "layoutlassoStylesheet.css";
           }
@@ -327,4 +337,5 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.styleMenuOpen = false;
     // Boolean to indicate if class menu is open or not.
     $scope.classMenuOpen = false;
+
 })
