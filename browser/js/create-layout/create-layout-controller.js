@@ -92,7 +92,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     // prompt user to login or sign up
     $scope.promptUserLogin = function() {
-        // move these into a factory? 
+        // move these into a factory?
         $scope.userLoginModal = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
@@ -316,6 +316,9 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
 
+    $scope.addButton = function(type) {
+        GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+    }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements

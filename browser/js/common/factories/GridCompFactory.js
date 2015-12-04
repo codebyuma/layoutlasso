@@ -10,5 +10,11 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
     }
 
+    // type is a string representing the bootstrap type of button "primary", "danger", "warning"
+    GridCompFactory.addButton = function(scope, grid, id, type){
+      var el = GridFactory.createElement(scope, id, LayoutComponentFactory.addButton(type))
+      grid.add_widget(el, 0, 0, 2, 1, true);
+    }
+
 	return GridCompFactory;
 })
