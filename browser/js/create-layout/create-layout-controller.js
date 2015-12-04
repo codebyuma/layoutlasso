@@ -237,14 +237,13 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
 
-        if ($scope.page && $scope.page){
+        if ($scope.page && $scope.project){
             pageName = $scope.page.name.replace(/\s/g, '');
             projectName = $scope.project.name.replace(/\s/g, '');
             filename = projectName + "-" + pageName;
         } else {
             filename="layoutlasso"
         }
-
 
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
