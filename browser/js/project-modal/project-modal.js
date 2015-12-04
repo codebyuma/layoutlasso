@@ -29,7 +29,7 @@ app.controller('ProjectModalCtrl', function($scope, createProjBool, UserFactory,
                 $scope.user.projects.push($scope.project);
                 return UserFactory.saveUser($scope.user)
             })
-            .then(function(updatedUser) {
+            .then(function(updatedUser) { //OB/ND: Move this to the backend
                 $scope.user = updatedUser;
                 $scope.inSave = false;
                 $uibModalInstance.close({

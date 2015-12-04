@@ -66,7 +66,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
             <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
             <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
-  </div></div></div>")(scope);
+  </div></div></div>")(scope); //OB/ND: Do you need to pass scope in?
 
         return el;
     }

@@ -32,7 +32,7 @@ router.put('/:id', function (req, res, next){
 	req.page.set(req.body)
 	req.page.save()
 	.then(function ( page ){
-		res.status(200).json( page );
+		res.status(200).json( page ); //OB/ND : 200 is default, dont need to set it
 	})
 	.then(null, next);
 })
