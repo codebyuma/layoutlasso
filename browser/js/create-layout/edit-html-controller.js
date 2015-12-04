@@ -2,6 +2,13 @@ app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content
 
   $scope.content = content;
 
+  $scope.aceLoaded = function(_editor){
+    _editor.getSession().setValue($scope.content);
+    _editor.getSession().on('change', function () {
+       $scope.content = _editor.getSession().getValue();
+   });
+  };
+
   $scope.save = function() {
     var newContent = $("#editable-content").html();
 
@@ -10,7 +17,7 @@ app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content
         return $("<span />", { html: convert }).text();
     };
     newContent = convert(newContent);
-    $uibModalInstance.close(newContent);
+    $uibModalInstance.close($scope.content);
   }
 
   $scope.cancel = function () {
