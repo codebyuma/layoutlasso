@@ -1,5 +1,5 @@
 app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
-
+    //OB/ND : Split this file up, maybe a factory for modals
     GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
@@ -12,7 +12,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $rootScope.$on('user logged out', function(event, data) {
         $scope.user = null;
         $scope.closeAll();
-    })
+    }) //OB/ND : can do $scope.on / fsg already has an event for logout
 
     // helper function to show message on screen for 2 seconds (ex. save confirmation)
     $scope.showMessage = function(_message) {
@@ -176,7 +176,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
-            GridFactory.saveGridBackend($scope.page);
+            GridFactory.saveGridBackend($scope.page); //OB/ND: Not waiting for the factory function to resolve?
             $scope.save = false;
         } else {
             if (!$scope.user) {

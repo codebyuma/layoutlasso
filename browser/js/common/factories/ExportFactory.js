@@ -1,5 +1,5 @@
 app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
-
+//OB/ND: maybe use directives?
   var ExportFactory = {};
 
     // for html generator
@@ -20,6 +20,7 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
     return '<div class="col-' + sz + '-' + span + '">';
   }
 
+  //OB/ND : Template Strings
   function offsetMaker(sz, span) {
     return '<div class="col-' + sz + '-offset-' + span + '">';
   }
