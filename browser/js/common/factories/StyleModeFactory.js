@@ -1,41 +1,57 @@
-app.factory("StyleModeFactory", function(StylingFactory){
+app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
   var StyleModeFactory = {};
   /* */
-  var addToCurrentStylesObj = function(element){
-  }
+  var styleRefCounter = 0;
 
   var getParentWidgetId = function(targetElement){
     return $(targetElement).closest(".grid-stack-item").attr("id");
   }
 
-  var styleRefCounter = 0;
+  var addToSelectedElementToStyleGroup = function(scope, element){
+    element.addClass("lasso-styling-in-progress");
+    element.data("styling-ref", styleRefCounter);
+    console.log("DATA ATTRIBUTE: ", element.data("styling-ref"));
+    var elementToStyleObj = { widgetRef: getParentWidgetId(element), element: element }
+    scope.styleGroup[styleRefCounter] = elementToStyleObj;
+    console.log("STYLEGROUP ADDED: ", scope.styleGroup)
+    styleRefCounter++;
+  }
+
+  var removeSelectedElementFromStyleGroup = function(scope, element){
+    element.removeClass("lasso-styling-in-progress");
+    console.log("ASSIGNED STYLING DATA: ", element.data("styling-ref"));
+    delete scope.styleGroup[element.data("styling-ref")];
+    console.log("STYLEGROUP ON REMOVE: ", scope.styleGroup)
+  }
+
 
   StyleModeFactory.removeIdentityClass = function(classDesignator){
-    $(classDesignator).each(function(idx, el){
+    $("." + classDesignator).each(function(idx, el){
       $(el).removeClass(classDesignator);
     })
   }
+
 
   /* Initiating Click event listeners when in styling mode */
   StyleModeFactory.elementSelectEventListenerInit = function(scope){
     $("#main-grid").on("click", ".lasso-user-content", function(event){
       var self = $(event.target);
-      console.log("EVENT TARGET CHILDREN ", self.children());
-      if(self.hasClass("lasso-styling-in-progress")){
-        self.removeClass("lasso-styling-in-progress");
-        console.log("ASSIGNED STYLING DATA: ", self.data("styling-ref"));
-        delete scope.styleGroup[self.data("styling-ref")];
-        console.log("STYLEGROUP REMOVE: ", scope.styleGroup)
-
+      var defaultHtml = $compile("<p>Edit or style this html!</p>")(scope);
+      if(!scope.styleMenuOpen){
+        scope.styleMenuOpen = true;
+        $rootScope.$digest();
+      }
+      if(self.hasClass("lasso-user-content")){
+        if(self.children().length === 0){
+          self.html(defaultHtml);
+          addToSelectedElementToStyleGroup(scope, $(self.children()[0]));
+        } else {
+          return;
+        }
+      } else if(self.hasClass("lasso-styling-in-progress")){
+        removeSelectedElementFromStyleGroup(scope, self);
       } else {
-        self.addClass("lasso-styling-in-progress");
-        self.data("styling-ref", styleRefCounter);
-        console.log("DATA ATTRIBUTE: ", self.data("styling-ref"));
-        var elementToStyleObj = { widgetRef: getParentWidgetId(self), element: self }
-        scope.styleGroup[styleRefCounter] = elementToStyleObj;
-        console.log("STYLEGROUP ADDED: ", scope.styleGroup)
-        styleRefCounter++;
-
+        addToSelectedElementToStyleGroup(scope, self);
       }
     })
   }

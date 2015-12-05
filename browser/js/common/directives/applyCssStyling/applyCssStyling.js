@@ -11,6 +11,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
       }
       // Resets form and style group.
       var resetScopeStyleObjs = function(){
+        StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
@@ -62,7 +63,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
           return;
       }
 
-      /* Process form data for storage in StylingFactory */
+      /* Process form data for storage in StylingFactory and update element styles */
       scope.getCssFormData = function(data){
         var cssToApply = createCssObjectFromForm(data);
         var newClassName = assignClassName(scope.newClass.name);
