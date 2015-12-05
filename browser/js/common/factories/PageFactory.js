@@ -9,8 +9,8 @@ app.factory('PageFactory', function($rootScope, $http){
     }
 
 
-    PageFactory.savePage = function(updatedPage){
-        return $http.put('/api/pages/' + updatedPage._id, updatedPage)
+    PageFactory.savePage = function(id, pageUpdates){
+        return $http.put('/api/pages/' + id, pageUpdates)
         .then(function(page){
             return page.data
         })

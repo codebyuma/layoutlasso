@@ -23,14 +23,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	res.status(200).send( req.project );
+	res.send( req.project );
 })
 
 router.put('/:id', function (req, res, next){
 	req.project.set(req.body);
 	req.project.save()
 	.then(function ( project ){
-		res.status(200).json( project );
+		res.send( project );
 	})
 	.then(null, next);
 })
