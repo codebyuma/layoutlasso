@@ -123,12 +123,13 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
     return html;
   };
 
-  ExportFactory.convertToHTML = function() {
+  ExportFactory.convertToHTML = function(cssLink) {
+        var cssLink = cssLink || "";
         if (GridFactory.savedGrid.length == 0) {
           return;
         } else {
             var html = "";
-            html += bits.htmlopen + bits.headopen + bits.bootstrapCDN;
+            html += bits.htmlopen + bits.headopen + bits.bootstrapCDN + cssLink;
             html += bits.headclose + bits.bodyopen + bits.container;
             var parentObj = makeParentObject();
             for (var key in parentObj) {

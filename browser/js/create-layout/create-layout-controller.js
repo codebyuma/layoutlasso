@@ -120,6 +120,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     // prompt user to login or sign up
     $scope.promptUserLogin = function() {
+        // move these into a factory?
         $scope.userLoginModal = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
@@ -259,10 +260,25 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
+        var pageName, projectName, filename;
+
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
+
+        if ($scope.page && $scope.project){
+            pageName = $scope.page.name.replace(/\s/g, '');
+            projectName = $scope.project.name.replace(/\s/g, '');
+            filename = projectName + "-" + pageName;
+        } else {
+            filename="layoutlasso"
+        }
+
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
+        if (css){
+            html = ExportFactory.convertToHTML('<link rel="stylesheet" href="' + filename + ".css" + '">');
+        }
+
         if (html) {
             html = BrowserifyFactory.beautifyHTML(html, {
                 indent_size: 4
@@ -275,8 +291,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
             var url = window.URL.createObjectURL(htmlBlob);
             var a = document.createElement("a");
             a.href = url;
-            a.download = "layoutlasso.html";
-            a.click();
+            a.download = filename + ".html";
+            a.click(); // simulates the launch
             window.URL.revokeObjectURL(url);
         }
         if(css){
@@ -286,7 +302,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
-          b.download = "layoutlassoStylesheet.css";
+          b.download = filename + ".css";
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
@@ -327,6 +343,4 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.addNavBar = function() {
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
-
-
 })
