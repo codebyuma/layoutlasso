@@ -64,9 +64,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
-            <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-            <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
-  </div></div></div>")(scope);
+            <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+            </div></div></div>")(scope);
 
         return el;
     }

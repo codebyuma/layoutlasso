@@ -1,3 +1,8 @@
+@mixin button-transition {
+  transition: 0.2s all;
+  -webkit-transition: 0.2s all;
+}
+
 $main-grid-background-color: #E9F7FF; // blues: very light #F5FAFF  light #CFEDFF
 
 h3    {

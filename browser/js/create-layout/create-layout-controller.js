@@ -1,4 +1,34 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
+
+
+
+    /* ===== GRID STYLING SCOPE OBJECTS  =====*/
+    // CSS Setting and Getting on elements
+    // This object has elements to be styled assigned to it, with id's as keys.
+    $scope.styleGroup = {};
+
+    /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
+    $scope.newClass = {};
+
+    /* Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives. */
+    $scope.pageStyleSheet = [];
+
+    // boolean to define whether a style is being updated;
+    $scope.classEditMode = false;
+    // Boolean to indicate whether the css styling menu is open or not.
+    $scope.styleMenuOpen = false;
+    // Boolean to indicate if class menu is open or not.
+    $scope.classMenuOpen = false;
+    // Boolean to indicate whether css styling mode is active
+    $scope.stylingModeActive = false;
+
+
+    $scope.toggleStyleMode = function(){
+      StyleModeFactory.toggleStyleModeActions($scope);
+      return;
+    }
+
+
 
     GridFactory.init();
     $scope.user = theUser;
@@ -76,7 +106,6 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // prompt user to login or sign up
     $scope.promptUserLogin = function() {
-        // move these into a factory? 
         ModalFactory.launchUserLoginModal($scope)
         ModalFactory.userLoginModal.result.then(function(user) {
             $scope.user = user;
@@ -130,6 +159,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
             GridFactory.saveGridBackend($scope.page)
@@ -244,24 +274,4 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.addNavBar = function() {
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
-
-    /* ===== GRID STYLING SCOPE OBJECTS  =====*/
-    // CSS Setting and Getting on elements
-
-    // This object has elements to be styled assigned to it, with id's as keys.
-    $scope.styleGroup = {};
-
-    /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
-    $scope.newClass = {};
-
-    /* Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives. */
-    $scope.pageStyleSheet = [];
-
-    // boolean to define whether a style is being updated;
-    $scope.classEditMode = false;
-    // Boolean to indicate whether the css styling menu is open or not.
-    $scope.styleMenuOpen = false;
-    // Boolean to indicate if class menu is open or not.
-    $scope.classMenuOpen = false;
-
 })

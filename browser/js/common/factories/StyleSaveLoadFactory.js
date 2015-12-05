@@ -1,4 +1,4 @@
-app.factory("StyleSaveLoadFactory", function(StylingFactory){
+app.factory("StyleSaveLoadFactory", function(StylingFactory, StyleModeFactory){
 
 
   var removeQuotationMarks = function(string){
@@ -89,6 +89,8 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory){
         })
       }
     },
+
+    removeElementSelectedClassOnSave: StyleModeFactory.removeIdentityClass,
 
     produceStyleSheetForExport: parseAndFormatToExport
   }
