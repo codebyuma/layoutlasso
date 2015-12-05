@@ -62,6 +62,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
+        $scope.save = false; // once GridFactory.saveGridBackend completes, update save flag on scope
         growl.success("Page saved!");
 
         if ($scope.closeSave) { // if we're supposed to close the project after the save, close it
@@ -165,8 +166,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
-            GridFactory.saveGridBackend($scope.page);
-            $scope.save = false;
+            GridFactory.saveGridBackend($scope.page)
         } else {
             if (!$scope.user) {
                 $scope.promptUserLogin();
