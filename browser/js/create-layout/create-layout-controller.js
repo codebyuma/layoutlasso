@@ -1,7 +1,6 @@
 
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
-
-
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+// removed theUser, 
     GridFactory.init();
 
     AuthService.getLoggedInUser()

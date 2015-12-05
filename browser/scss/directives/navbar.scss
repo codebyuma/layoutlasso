@@ -9,10 +9,10 @@ navbar {
   z-index: 2000;
 
   .container {
-    width: 95%;
+    width: 90%;
     margin-top: 10px; 
     margin-bottom: 0px;
-    margin-left: 350px;
+    margin-left: 120px;
   }
 
   a {
@@ -68,6 +68,11 @@ navbar {
 
 }
 
+.navbar-static-top {
+    width: 90%;
+    margin-left: 120px;
+    z-index: 0
+  }
 
 
 
