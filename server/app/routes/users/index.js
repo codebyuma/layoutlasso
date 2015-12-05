@@ -33,7 +33,7 @@ router.put('/:id/projects', function (req, res, next){
 	req.user.projects.push(req.body.project); 
 	req.user.save()
 	.then(function ( user ){
-		res.status(200).send( user );
+		res.send( user );
 	})
 	.then(null, next);
 })
@@ -42,7 +42,7 @@ router.put('/:id', function (req, res, next){
 	req.user.set(req.body);
 	req.user.save()
 		.then(function ( user ){
-		res.status(200).send( user );
+		res.send( user );
 	})
 	.then(null, next);
 })
