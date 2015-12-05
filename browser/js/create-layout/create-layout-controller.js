@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory, ModalFactory) {
 
     GridFactory.init();
     $scope.user = theUser;
@@ -43,13 +43,14 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // close button - prompt user to ask if they want to save the page first or not before closing
     $scope.close = function() {
-        var closeModal = $uibModal.open({
-            animation: $scope.animationEnabled,
-            templateUrl: "/js/close-modal/close-modal.html",
-            controller: "CloseModalCtrl"
-        })
+        // var closeModal = $uibModal.open({
+        //     animation: $scope.animationEnabled,
+        //     templateUrl: "/js/close-modal/close-modal.html",
+        //     controller: "CloseModalCtrl"
+        // })
+        ModalFactory.launchCloseModal($scope);
 
-        closeModal.result.then(function(save) {
+        ModalFactory.closeModal.result.then(function(save) {
             if (save) {
                 $scope.closeSave = true; // flag to indicate that project and page should be removed from scope after we save
                 $scope.saveGrid();

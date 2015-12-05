@@ -147,9 +147,11 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     GridFactory.saveGridBackend = function(page) {
-        page.grid = GridFactory.savedGrid;
-        page.css = StyleSaveLoadFactory.stylingToSave();
-        PageFactory.savePage(page)
+        var changes = {
+            grid: GridFactory.savedGrid,
+            css: StyleSaveLoadFactory.stylingToSave()
+        };
+        PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
                 $rootScope.$broadcast('saved');
             })
