@@ -7,13 +7,23 @@ h3    {
 }
 
 button {
+  outline: none;
   border: none;
+  transition: all 0.25s;
 }
 
+<<<<<<< HEAD
 :focus {
   color: white;
 }
 
+=======
+button:hover {
+  box-shadow: 0px 5px 10px black;
+}
+
+
+>>>>>>> master
 .create-layout {
   position: relative;
   width: 100vw;
@@ -34,7 +44,7 @@ button {
   }
 
   .new-element {
-    background-color: lightgreen;
+    background-color: $opalBlue;
   }
 
 
@@ -51,7 +61,7 @@ button {
   top: 0px;
   width: 120px;
   height: calc(100% + 100px);
-  background-color: #666;
+  background-color: $semolina;
   box-shadow: 0px 0px 10px black;
 
   .button-holder {
@@ -60,6 +70,7 @@ button {
     height: auto;
     width: 100%;
 
+<<<<<<< HEAD
   .elements {
     background-color: #FF7D13;
   }
@@ -94,19 +105,39 @@ button {
     
   }
 
+=======
+    .lasso-toolbar-btn {
+      background-color: $arctic;
+      color: $cloudDancer;
+      margin: 5px auto;
+      border-radius: 0px;
+      width: 100%;
+      outline: none;
+      transition: all 0.25s;
+      border: none;
+      &:hover {
+        box-shadow: 0px 5px 10px #666;
+      }
+      &:active {
+        box-shadow: 0px 5px 10px #666 inset;
+        color: #fff;
+      }
+    }
+>>>>>>> master
   }
 
 }
 
 .menu-directive {
   position: fixed;
-  background-color: #FFF;
+  background-color: $semolina;
   width: 400px;
   height: auto;
   padding: 10px;
   box-shadow: 0px 5px 10px #666;
 }
 
+<<<<<<< HEAD
 #lasso-logo {
   // float: left;
   height: 70px;
@@ -118,6 +149,10 @@ button {
   // margin-top: 5px;
   // margin-right: 20px;
   // width: 40px;
+=======
+.ace_editor {
+  height: 380px;
+>>>>>>> master
 }
 
 #toolbar-left {

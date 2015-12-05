@@ -15,8 +15,6 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
 
             scope.logout = function () {
                 AuthService.logout().then(function () {
-                   removeUser();
-                   $rootScope.$broadcast('user logged out');
                    $state.go('create');
                 });
             };

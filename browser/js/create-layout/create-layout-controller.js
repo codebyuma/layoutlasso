@@ -1,6 +1,6 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory, GridFactory, AuthService, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
-// theUser
-    console.log("Hi I'm here in the ")
+
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+
 
     GridFactory.init();
 
@@ -16,22 +16,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
     $scope.save = false;
     $scope.change, $scope.message = null;
 
-    $rootScope.$on('user logged out', function(event, data) {
+    $rootScope.$on(AUTH_EVENTS.logoutSuccess, function(event, data) {
         $scope.user = null;
         $scope.closeAll();
     })
 
-    // helper function to show message on screen for 2 seconds (ex. save confirmation)
-    $scope.showMessage = function(_message) {
-        $scope.message = _message;
-        $scope.change = true; // trigger confirmation message on the page
-
-        $timeout(function() {
-            $scope.change = false;
-            $scope.message = false;
-        }, 2000);
-
-    }
 
     // ==== Loading, Creating and Saving Projects and Pages ===== //
 
@@ -80,7 +69,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
 
     // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
-        $scope.showMessage("Page saved");
+        growl.success("Page saved!");
 
         if ($scope.closeSave) { // if we're supposed to close the project after the save, close it
             $scope.closeAll();
@@ -99,6 +88,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
 
     // prompt user to login or sign up
     $scope.promptUserLogin = function() {
+        // move these into a factory? 
         $scope.userLoginModal = $uibModal.open({
             animation: $scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
@@ -238,10 +228,27 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
+
+        var pageName, projectName, filename;
+
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
+
+        if ($scope.page && $scope.project){
+            pageName = $scope.page.name.replace(/\s/g, '');
+            projectName = $scope.project.name.replace(/\s/g, '');
+            filename = projectName + "-" + pageName;
+        } else {
+            filename="layoutlasso"
+        }
+
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
+
+        if (css){
+            html = ExportFactory.convertToHTML('<link rel="stylesheet" href="' + filename + ".css" + '">');
+        }
+
         if (html) {
             html = BrowserifyFactory.beautifyHTML(html, {
                 indent_size: 4
@@ -254,8 +261,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
             var url = window.URL.createObjectURL(htmlBlob);
             var a = document.createElement("a");
             a.href = url;
-            a.download = "layoutlasso.html";
-            a.click();
+            a.download = filename + ".html";
+            a.click(); // simulates the launch
             window.URL.revokeObjectURL(url);
         }
         if(css){
@@ -265,7 +272,9 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
-          b.download = "layoutlassoStylesheet.css";
+
+          b.download = filename + ".css";
+
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
@@ -304,7 +313,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
     //===== Components ===== //
     //add Nav Bar function
     $scope.addNavBar = function() {
-        GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.counter++);
+        GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
 
 
@@ -326,4 +335,5 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, GridCompFactory,
     $scope.styleMenuOpen = false;
     // Boolean to indicate if class menu is open or not.
     $scope.classMenuOpen = false;
+
 })

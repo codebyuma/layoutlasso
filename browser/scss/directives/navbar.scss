@@ -4,6 +4,7 @@ navbar {
   top: 0px;
   width: 100vw;
   background: #FF9313;
+
   box-shadow: 0px 1px 14px black;
   z-index: 2000;
 
@@ -11,8 +12,7 @@ navbar {
     width: 95%;
     margin-top: 10px; 
     margin-bottom: 0px;
-    margin-left: 10px;
-
+    margin-left: 350px;
   }
 
   a {
@@ -23,8 +23,9 @@ navbar {
   .nav > li > a { // Button
     cursor: pointer;
     transition: all 0.2s;
-    &.active {
-      background-color: red !important;
+    &:active {
+      // ? arctic ??
+      background-color: $arctic !important;
       color: #fff;
       z-index: 100;
       box-shadow: 0px 5px 10px #666;

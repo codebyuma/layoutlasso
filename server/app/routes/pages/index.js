@@ -7,7 +7,6 @@ var Page = require('../../../db/models/page.js');
 
 
 router.param('id', function (req, res, next, id){
-	console.log('req params page id', id)
 	Page.findById(id)
 	.then(function ( page ){
 		req.page = page;
