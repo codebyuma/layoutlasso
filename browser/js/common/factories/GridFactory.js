@@ -199,6 +199,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // parentId will be in form of grid#, like grid2
         // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
         var thisWidget = $('#' + node.parentId.slice(4));
+        console.log("in load nested grid, this widget is", thisWidget);
 
         // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
@@ -210,10 +211,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids[node.parentId] = newGrid;
 
         // create a new element using the node and add it to the grid-# parent div with the node's coordinates
-        var el = GridFactory.createElement(scope, node.id);
+        var el = GridFactory.createElement(scope, node.id, node.content);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
-        thisWidget = $('#' + node.parentId.slice(4));
+
+        var thisWidget = $('#' + node.parentId.slice(4));
+        console.log("in load nested grid, this widget is now", thisWidget);
+        //thisWidget = $('#' + node.parentId.slice(4));
   //       $('#lasso-button-box-' + id).remove();
         
   //       thisWidget.append($compile(" <div class='row'>\
