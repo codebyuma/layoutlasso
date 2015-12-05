@@ -153,7 +153,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         };
         PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
-                $rootScope.$broadcast('saved');
+                $rootScope.$broadcast('saved', updatedPage);
             })
     }
 
