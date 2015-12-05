@@ -1,7 +1,19 @@
-
 .lasso-styling-in-progress {
+  box-sizing: border-box;
   border: 2px dotted red;
 }
+
+.lasso-highlight-class {
+  border: 2px solid red;
+  box-sizing: border-box;
+}
+
+.lasso-highlight-on-hover {
+  border: 2px dashed red;
+  box-sizing: border-box;
+}
+
+
 
 styling-selector button{
   outline: none;

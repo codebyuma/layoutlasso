@@ -65,7 +65,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             id + ")' class='btn btn-default lasso-nest-btn' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
             <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-            <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
   </div></div></div>")(scope);
 
         return el;

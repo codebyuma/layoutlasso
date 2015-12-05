@@ -17,31 +17,15 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.styleMenuOpen = false;
     // Boolean to indicate if class menu is open or not.
     $scope.classMenuOpen = false;
+    // Boolean to indicate whether css styling mode is active
+    $scope.stylingModeActive = false;
 
 
     $scope.toggleStyleMode = function(){
-      if(!$scope.classEditMode){
-        $scope.styleMenuOpen = true;
-
-        StyleModeFactory.clickEventsInit($scope);
-
-        $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
-            console.log(event.target);
-            $(event.target).css({
-              "box-shadow": "0px 5px 10px purple"
-            })
-
-            $(event.target).on("mouseleave", function(event){
-              $(this).css({
-                "box-shadow": "none"
-              })
-            })
-        })
-      } else {
-
-      }
-
+      StyleModeFactory.toggleStyleModeActions($scope);
+      return;
     }
+
 
 
     GridFactory.init();
