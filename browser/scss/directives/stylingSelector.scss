@@ -1,6 +1,6 @@
 .lasso-styling-in-progress {
-  box-sizing: border-box;
-  border: 2px dotted red;
+  box-sizing: border-box !important; /* Required */
+  border: 2px dotted red !important;
 }
 
 .lasso-highlight-class {
@@ -9,7 +9,7 @@
 }
 
 .lasso-highlight-on-hover {
-  border: 2px dashed red;
+  border: 2px dashed red !important;
   box-sizing: border-box;
 }
 
@@ -26,7 +26,7 @@ styling-selector button:hover {
 }
 
 
-.style-group-active {
+.style-mode-active {
   background-color: green;
   color: white;
 }

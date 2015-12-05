@@ -194,6 +194,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
             GridFactory.saveGridBackend($scope.page);

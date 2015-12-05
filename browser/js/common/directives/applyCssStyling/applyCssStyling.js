@@ -5,17 +5,13 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
     link: function(scope, element, attrs){
       scope.newClass.styles = [{ key: "", value: ""}];
 
-
-      var removeStyleGroupActiveClass = function(){
-        $(".style-group-active").removeClass("style-group-active");
-      }
-      // Resets form and style group.
+      /* Resets form and style group. Removes 'selection styling.' 
+      */
       var resetScopeStyleObjs = function(){
         StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
-        removeStyleGroupActiveClass();
         scope.classEditMode = false;
         scope.styleMenuOpen = false;
         return;
