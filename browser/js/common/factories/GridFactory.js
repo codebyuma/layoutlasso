@@ -92,7 +92,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             newGridID + "'></div>")(scope));
 
-        thisWidget.append($compile(" <div class='row'>\
+        thisWidget.append($compile(" <div class='row nested-buttons'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
@@ -200,7 +200,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
         var parentId = node.parentId.slice(4);
         var thisWidget = $('#' + parentId);
-        console.log("in load nested grid, this widget is", thisWidget);
 
         // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
@@ -209,7 +208,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // remove and re-add buttons to the outer grid div
         $('#lasso-button-box-' + parentId).remove();
         
-        thisWidget.append($compile(" <div class='row'>\
+        thisWidget.append($compile(" <div class='row nested-buttons'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
@@ -225,17 +224,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var el = GridFactory.createElement(scope, node.id, node.content);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
-
-  //       var thisWidget = $('#' + node.parentId.slice(4));
-  //       thisWidget = $('#' + node.parentId.slice(4));
-  //       $('#lasso-button-box-' + node.parentId).remove();
-        
-  //       thisWidget.append($compile(" <div class='row'>\
-  // <div class='lasso-button-box'>\
-  // <button ng-click='removeWidget(" + node.parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
-  //  <button ng-click='editHTML(" +node.parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-  // <styling-selector data-style-selector-ref='" + inode.parentId + "'></styling-selector>\
-  // </div></div>")(scope))
         
     }
 
