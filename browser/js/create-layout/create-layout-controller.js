@@ -1,4 +1,5 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory, StyleModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory, StyleModeFactory) {
+
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
@@ -28,6 +29,8 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
 
 
+
+
     GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
@@ -37,22 +40,11 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     $scope.save = false;
     $scope.change, $scope.message = null;
 
-    $rootScope.$on('user logged out', function(event, data) {
+    $rootScope.$on(AUTH_EVENTS.logoutSuccess, function(event, data) {
         $scope.user = null;
         $scope.closeAll();
     })
 
-    // helper function to show message on screen for 2 seconds (ex. save confirmation)
-    $scope.showMessage = function(_message) {
-        $scope.message = _message;
-        $scope.change = true; // trigger confirmation message on the page
-
-        $timeout(function() {
-            $scope.change = false;
-            $scope.message = false;
-        }, 2000);
-
-    }
 
     // ==== Loading, Creating and Saving Projects and Pages ===== //
 
@@ -101,7 +93,7 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
 
     // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
-        $scope.showMessage("Page saved");
+        growl.success("Page saved!");
 
         if ($scope.closeSave) { // if we're supposed to close the project after the save, close it
             $scope.closeAll();

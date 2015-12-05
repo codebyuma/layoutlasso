@@ -41,7 +41,6 @@ router.post('/', function (req, res, next){
 		res.status(201).send(project);
 	})
 	.then(null, function(err){
-		console.log("post project router fail")
 		err.status = 400;
 		next(err);
 	})
