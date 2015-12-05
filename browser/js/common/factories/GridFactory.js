@@ -51,7 +51,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
-        var content = content || "Your content here";
+        var content = content || "<p>Your content here</p>";
         var el = $compile("<div class='grid-stack-item' id=" +
             id + "><div class='grid-stack-item-content new-element container'>\
   <div class='row'>\
@@ -65,6 +65,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
             <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+            <button style-nested-grid-item data-element-selector=" + id + "></button>\
             </div></div></div>")(scope);
 
         return el;
@@ -131,7 +132,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             el = $(el);
             var node = el.data('_gridstack_node');
             var userContent = getUserContent(el.context.innerHTML);
-
             return { // store content here too.
                 id: el.attr('id'),
                 parentId: el[0].offsetParent.id,
@@ -152,6 +152,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         };
         PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
+                console.log("UPDATED PAGE: ", updatedPage);
                 $rootScope.$broadcast('saved', updatedPage);
             })
     }
@@ -200,7 +201,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids[node.parentId] = newGrid;
 
         // create a new element using the node and add it to the grid-# parent div with the node's coordinates
-        var el = GridFactory.createElement(scope, node.id);
+        var el = GridFactory.createElement(scope, node.id, node.content);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
     }
