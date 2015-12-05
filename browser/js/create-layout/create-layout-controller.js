@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
 
     GridFactory.init();
     $scope.user = theUser;
@@ -14,17 +14,6 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         $scope.closeAll();
     })
 
-    // helper function to show message on screen for 2 seconds (ex. save confirmation)
-    $scope.showMessage = function(_message) {
-        $scope.message = _message;
-        $scope.change = true; // trigger confirmation message on the page
-
-        $timeout(function() {
-            $scope.change = false;
-            $scope.message = false;
-        }, 2000);
-
-    }
 
     // ==== Loading, Creating and Saving Projects and Pages ===== //
 
@@ -73,7 +62,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
-        $scope.showMessage("Page saved");
+        growl.success("Page saved!");
 
         if ($scope.closeSave) { // if we're supposed to close the project after the save, close it
             $scope.closeAll();
