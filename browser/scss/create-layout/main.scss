@@ -17,10 +17,10 @@ button {
   transition: all 0.25s;
 }
 
+
 button:hover {
   box-shadow: 0px 5px 10px black;
 }
-
 
 .create-layout {
   position: relative;
@@ -49,6 +49,11 @@ button:hover {
     bottom: 0;
     z-index: 1000;
   }
+
+}
+
+.nested-buttons {
+  margin-left: 10px;
 }
 
 .toolbar {
