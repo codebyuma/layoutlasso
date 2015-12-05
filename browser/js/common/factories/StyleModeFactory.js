@@ -10,18 +10,14 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
   var addToSelectedElementToStyleGroup = function(scope, element){
     element.addClass("lasso-styling-in-progress");
     element.data("styling-ref", styleRefCounter);
-    console.log("DATA ATTRIBUTE: ", element.data("styling-ref"));
     var elementToStyleObj = { widgetRef: getParentWidgetId(element), element: element }
     scope.styleGroup[styleRefCounter] = elementToStyleObj;
-    console.log("STYLEGROUP ADDED: ", scope.styleGroup)
     styleRefCounter++;
   }
 
   var removeSelectedElementFromStyleGroup = function(scope, element){
     element.removeClass("lasso-styling-in-progress");
-    console.log("ASSIGNED STYLING DATA: ", element.data("styling-ref"));
     delete scope.styleGroup[element.data("styling-ref")];
-    console.log("STYLEGROUP ON REMOVE: ", scope.styleGroup)
   }
 
 
@@ -31,9 +27,21 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     })
   }
 
+  StyleModeFactory.initiateStylingHoverEvents = function(){
+    $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
+      event.stopPropagation();
+      $(event.target).addClass("lasso-highlight-on-hover");
+
+      $(event.target).on("mouseleave", function(event){
+        $(this).removeClass("lasso-highlight-on-hover");
+      })
+
+    });
+  }
 
   /* Initiating Click event listeners when in styling mode */
   StyleModeFactory.elementSelectEventListenerInit = function(scope){
+    StyleModeFactory.initiateStylingHoverEvents();
     $("#main-grid").on("click", ".lasso-user-content", function(event){
       var self = $(event.target);
       var defaultHtml = $compile("<p>Edit or style this html!</p>")(scope);
@@ -56,9 +64,10 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     })
   }
 
-  /* Remove events when exiting out of styling mode */
-  StyleModeFactory.removeClickEventHandlers = function(){
+  /* Remove event handlers for lasso-user-content elements when exiting out of styling mode */
+  StyleModeFactory.removeEventHandlers = function(){
     $("#main-grid").off("click", ".lasso-user-content");
+    $("#main-grid").off("mouseenter", ".lasso-user-content");
     return;
   }
 
@@ -77,19 +86,11 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
         scope.styleMenuOpen = true;
 
         StyleModeFactory.elementSelectEventListenerInit(scope);
+        /* */
 
-        $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
-          event.stopPropagation();
-          $(event.target).addClass("lasso-highlight-on-hover");
-
-          $(event.target).on("mouseleave", function(event){
-            $(this).removeClass("lasso-highlight-on-hover");
-          })
-
-        });
       } else if(scope.stylingModeActive){
         scope.stylingModeActive = false;
-        StyleModeFactory.removeClickEventHandlers();
+        StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;
       }
     }
