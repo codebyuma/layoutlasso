@@ -59,7 +59,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-user-content'>" + content + "</div><div class='lasso-end-user-content'></div>\
   </div></div>\
   <div class='row'>\
-  <div class='lasso-button-box'>\
+  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
   <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
@@ -81,8 +81,10 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.addNestedGrid = function(scope, id) {
         var thisWidget = $('#' + id);
+        //thisWidget.append($compile("<button> test </button>")(scope));
 
         // remove buttons
+        $('#lasso-button-box-' + id).remove();
         $('#lasso-nest-btn-' + id).remove();
         $('#lasso-x-btn-' + id).remove();
 
@@ -90,6 +92,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var newGridID = "grid" + id; // use the id number of the cell clicked
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             newGridID + "'></div>")(scope));
+
+        thisWidget.append($compile(" <div class='row nested-buttons'>\
+  <div class='lasso-button-box'>\
+  <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+   <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+  <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
+  </div></div>")(scope))
 
         // save the new grid to nestedGrids object on the $scope
         var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
@@ -190,11 +199,23 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     GridFactory.loadNestedGrid = function(scope, node) {
         // parentId will be in form of grid#, like grid2
         // assume we always attach a nested grid to a parent grid that has the same id number, so grab the grid with that id number
-        var thisWidget = $('#' + node.parentId.slice(4));
+        var parentId = node.parentId.slice(4);
+        var thisWidget = $('#' + parentId);
 
         // add a subclass to the parent widget with the actual "grid-#"" id in it.
         thisWidget.append($compile("<div class='grid-stack grid-stack-nested' id='" +
             node.parentId + "'></div>")(scope));
+
+        // remove and re-add buttons to the outer grid div
+        $('#lasso-button-box-' + parentId).remove();
+        
+        thisWidget.append($compile(" <div class='row nested-buttons'>\
+  <div class='lasso-button-box'>\
+  <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+   <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+  <styling-selector data-style-selector-ref='" + parentId + "'></styling-selector>\
+  <button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + node.parentId + ")'><span class='glyphicon glyphicon-plus'></span></button>\
+            </div></div>")(scope));
 
         // create a new grid and then save the grid to nestedGrids object on the $scope
         var newGrid = $('#' + node.parentId).gridstack(options).data('gridstack');
@@ -204,6 +225,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var el = GridFactory.createElement(scope, node.id, node.content);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
+        
     }
 
     return GridFactory;
