@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, TemplateFactory, StyleModeFactory) {
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
@@ -18,16 +18,31 @@ app.controller("CreateLayoutCtrl", function($scope, $rootScope, theUser, GridCom
     // Boolean to indicate if class menu is open or not.
     $scope.classMenuOpen = false;
 
-    $scope.getElementToStyle = function(){
-      $("#main-grid").on("click", ".lasso-user-content", function(event){
-        console.log(event.target);
-        $(event.target).css({
-          "border": "2px dotted red"
+
+    $scope.toggleStyleMode = function(){
+      if(!$scope.classEditMode){
+        $scope.styleMenuOpen = true;
+
+        StyleModeFactory.clickEventsInit($scope);
+
+        $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
+            console.log(event.target);
+            $(event.target).css({
+              "box-shadow": "0px 5px 10px purple"
+            })
+
+            $(event.target).on("mouseleave", function(event){
+              $(this).css({
+                "box-shadow": "none"
+              })
+            })
         })
-      })
+      } else {
+
+      }
+
     }
 
-    $scope.getElementToStyle();
 
     GridFactory.init();
     $scope.user = theUser;

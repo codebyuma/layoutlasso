@@ -1,4 +1,4 @@
-app.directive("cssApplicator", function(StylingFactory, GridFactory, $rootScope){
+app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/applyCssStyling/applyCssStyling.template.html",
@@ -66,6 +66,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, $rootScope)
       scope.getCssFormData = function(data){
         var cssToApply = createCssObjectFromForm(data);
         var newClassName = assignClassName(scope.newClass.name);
+        StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         return;
