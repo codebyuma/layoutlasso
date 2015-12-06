@@ -51,7 +51,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // helper function to create a new element
     GridFactory.createElement = function(scope, id, content) {
-        var content = content || "Your content here";
+        var content = content || "<p>Your content here</p>";
         var el = $compile("<div class='grid-stack-item' id=" +
             id + "><div class='grid-stack-item-content new-element container'>\
   <div class='row'>\
