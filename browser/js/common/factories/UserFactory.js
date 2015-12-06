@@ -24,6 +24,13 @@ app.factory('UserFactory', function($rootScope, $http){
         })
     }
 
+    UserFactory.updateUserProjects = function (id, projectId){
+        return $http.put('/api/users/' + id + "/projects", {project: projectId})
+        .then(function(user){
+            return user.data
+        })
+    }
+
     UserFactory.deleteUser = function(id){
         return $http.delete('/api/users/' + id)
         .then(function(user){

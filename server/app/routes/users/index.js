@@ -27,14 +27,27 @@ router.get('/:id', function (req, res, next){
 		res.status(200).send(req.user);
 })
 
+// router to update user's projects
+// adds project's id to the list, even though we populated the array with actual objects
+router.put('/:id/projects', function (req, res, next){
+	req.user.projects.push(req.body.project); 
+	req.user.save()
+	.then(function ( user ){
+		res.send( user );
+	})
+	.then(null, next);
+})
+
 router.put('/:id', function (req, res, next){
 	req.user.set(req.body);
 	req.user.save()
 		.then(function ( user ){
-		res.status(200).send( user );
+		res.send( user );
 	})
 	.then(null, next);
 })
+
+
 
 router.post('/', function (req, res, next){
 	User.create(req.body)

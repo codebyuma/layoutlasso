@@ -7,7 +7,6 @@ var Page = require('../../../db/models/page.js');
 
 
 router.param('id', function (req, res, next, id){
-	console.log('req params page id', id)
 	Page.findById(id)
 	.then(function ( page ){
 		req.page = page;
@@ -25,14 +24,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	res.status(200).json( req.page );
+	res.send( req.page );
 })
 
 router.put('/:id', function (req, res, next){
 	req.page.set(req.body)
 	req.page.save()
 	.then(function ( page ){
-		res.status(200).json( page );
+		res.send( page );
 	})
 	.then(null, next);
 })
