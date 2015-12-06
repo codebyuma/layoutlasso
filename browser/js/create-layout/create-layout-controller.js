@@ -2,6 +2,22 @@
 app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, TemplateFactory) {
 // removed theUser
 
+    GridFactory.init();
+
+    AuthService.getLoggedInUser()
+    .then(function( user ){
+        $scope.user = user;
+    })
+
+    $scope.project, $scope.page = null;
+    $rootScope.main_grid = GridFactory.getMainGrid();
+    $scope.main_grid = $rootScope.main_grid;
+    $scope.nestedGrids = GridFactory.getNestedGrids();
+
+    $scope.save = false;
+    $scope.change, $scope.message = null;
+
+
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
     // This object has elements to be styled assigned to it, with id's as keys.
@@ -30,19 +46,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
 
 
 
-    GridFactory.init();
-
-    AuthService.getLoggedInUser()
-    .then(function( user ){
-        $scope.user = user;
-    })
-
-    $scope.project, $scope.page = null;
-    $scope.main_grid = GridFactory.getMainGrid();
-    $scope.nestedGrids = GridFactory.getNestedGrids();
-
-    $scope.save = false;
-    $scope.change, $scope.message = null;
+    
+    
 
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function(event, data) {
         $scope.user = null;
@@ -153,6 +158,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
     // ==== Modifying the grid on scope ===== //
 
     $scope.addNewGridElement = function(grid, content) {
+        console.log("in add new grid element, main grid?", $rootScope.main_grid);
         GridFactory.addNewGridElement($scope, grid, content);
     }
 
@@ -260,7 +266,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
     };
 
     $scope.gridEmpty = function() {
-        return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
+        if (!$scope.nestedGrids['main-grid']){
+            return true;
+        }
+        else {
+            return $scope.nestedGrids['main-grid'].grid.nodes.length == 0;
+        }
     }
 
     //===== Edit HTML ===== //

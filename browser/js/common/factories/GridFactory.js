@@ -11,6 +11,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
 
     GridFactory.init = function (){
+        console.log("in gridFactory init");
         GridFactory.counter = 0;
         GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
         GridFactory.savedGrid = [];
@@ -75,7 +76,9 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
        grid = grid || GridFactory.main_grid;
        GridFactory.counter++;
        var el = GridFactory.createElement(scope, GridFactory.counter, content);
+       console.log("in add new grid element, el", el)
        var newWidget = grid.add_widget(el, 0, 0, 3, 2, true);
+       console.log("in add new grid element, new widget", newWidget);
    }
 
     GridFactory.addNestedGrid = function(scope, id) {
