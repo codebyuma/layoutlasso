@@ -183,6 +183,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.clearGrid = function(){
       StyleModeFactory.deactivateStyleMode($scope);
       GridFactory.clearGrid();
+      $scope.nestedGrids = GridFactory.getNestedGrids();
       $scope.pageStyleSheet = [];
     }
 
