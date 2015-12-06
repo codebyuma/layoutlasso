@@ -1,4 +1,4 @@
-app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
+app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, NestedStylingFactory){
   var StyleModeFactory = {};
   /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
@@ -94,18 +94,19 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);
-    var toDisplayNone = parent.find(".grid-stack-nested");
+    var toDisplayNone = parent.children(".grid-stack-nested");
     callback(toDisplayNone)
   }
 
   /* Initiate all event Listeners and actions for styling mode */
 
   StyleModeFactory.toggleStyleModeActions = function(scope){
+    var mainGrid = $("#main-grid");
     if(!scope.classEditMode){
       if(!scope.stylingModeActive){
         scope.stylingModeActive = true;
         scope.styleMenuOpen = true;
-
+        NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
         /* */
 

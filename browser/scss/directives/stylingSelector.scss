@@ -13,7 +13,9 @@
   box-sizing: border-box;
 }
 
-
+.editable-widget {
+  border: 2px solid purple !important;
+}
 
 styling-mode-selector {
   outline: none;
