@@ -3,10 +3,10 @@ app.config(function($stateProvider){
     url: "/",
     templateUrl: "/js/create-layout/create-layout.template.html",
     controller: "CreateLayoutCtrl"
-    // resolve: {
-    // 	theUser: function (AuthService){
-    // 		return AuthService.getLoggedInUser();
-    // 	}
-    // }
+    resolve: {
+    	theUser: function (AuthService){
+    		return AuthService.getLoggedInUser();
+    	}
+    } 
   })
 });

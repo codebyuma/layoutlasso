@@ -1,8 +1,8 @@
-app.directive('leftMenu', function () {
+// app.directive('leftMenu', function () {
 	
-	return {
-		restrict: 'E',
-		templateUrl: "js/common/directives/left-menu/left-menu.html",
-		controller: "CreateLayoutCtrl"
-	}
-})
+// 	return {
+// 		restrict: 'E',
+// 		templateUrl: "js/common/directives/left-menu/left-menu.html",
+// 		controller: "CreateLayoutCtrl"
+// 	}
+// })

@@ -1,5 +1,5 @@
 
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, TemplateFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, theUser, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, TemplateFactory) {
 // removed theUser
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
@@ -32,10 +32,10 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
 
     GridFactory.init();
 
-    AuthService.getLoggedInUser()
-    .then(function( user ){
-        $scope.user = user;
-    })
+    // AuthService.getLoggedInUser()
+    // .then(function( user ){
+    //     $scope.user = user;
+    // })
 
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
@@ -287,4 +287,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
     $scope.addNavBar = function() {
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
+
+    $scope.addImage = function() {
+        GridCompFactory.addImage($scope, GridFactory.main_grid, GridFactory.incrementCounter());
+    }
+
 })

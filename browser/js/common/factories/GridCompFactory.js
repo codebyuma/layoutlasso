@@ -10,5 +10,16 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
     }
 
+    GridCompFactory.addYouTubeVideo = function (scope, main_grid, counter){
+      
+    }
+
+    GridCompFactory.addImage = function (scope, main_grid, counter){
+
+      var grid = GridFactory.main_grid;
+
+
+    }
+
 	return GridCompFactory;
 })
