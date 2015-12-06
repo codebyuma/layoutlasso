@@ -5,9 +5,7 @@
   "main": "server/start.js",
   "scripts": {
     "postinstall": "gulp build",
-    "start": "nodemon --watch server -e js,html server/start.js",
-    "build-js": "browserify browser/js/common/factories/BrowserifyFactory.js -o node_modules/browserify.js",
-    "watch-js": "watchify browser/js/common/factories/BrowserifyFactory.js -o node_modules/browserify.js -v"
+    "start": "nodemon --watch server -e js,html server/start.js"
   },
   "engines": {
     "node": ">=4.0.0"
