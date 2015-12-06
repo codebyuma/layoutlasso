@@ -180,6 +180,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.clearGrid = function(){
       GridFactory.clearGrid();
+      $scope.nestedGrids = GridFactory.getNestedGrids();
       $scope.pageStyleSheet = [];
     }
 

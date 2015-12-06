@@ -80,7 +80,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.addNestedGrid = function(scope, id) {
         var thisWidget = $('#' + id);
-        //thisWidget.append($compile("<button> test </button>")(scope));
 
         // remove buttons
         $('#lasso-button-box-' + id).remove();
@@ -169,6 +168,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.main_grid.remove_all();
         GridFactory.nestedGrids = {};
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
+        
     }
 
     GridFactory.clearSavedGrid = function() {

@@ -1,3 +1,4 @@
+var app = angular.module('FullstackGeneratedApp');
 app.factory('BrowserifyFactory', function() {
     var BrowserifyFactory = {};
 
