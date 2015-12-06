@@ -57,9 +57,12 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory, StyleModeFactory){
     stylingToSave: getCurrentStylingToSave,
 
     stylingToLoadFromBackend: function(cssJson){
-      var savedStyleObj = JSON.parse(cssJson);
-      StylingFactory.resetCurrentStyleSheetObjs();
-      StylingFactory.populatePageStyleSheetOnLoad(savedStyleObj);
+      if(cssJson){
+        var savedStyleObj = JSON.parse(cssJson);
+        StylingFactory.resetCurrentStyleSheetObjs();
+        StylingFactory.populatePageStyleSheetOnLoad(savedStyleObj);
+      }
+      return;
     },
 
     stylingBeforeClearToReload: function(){

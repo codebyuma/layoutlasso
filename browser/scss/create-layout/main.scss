@@ -22,6 +22,10 @@ button:hover {
   box-shadow: 0px 5px 10px black;
 }
 
+button:active {
+  box-shadow: 0px 5px 10px black inset;
+}
+
 .create-layout {
   position: relative;
   width: 100vw;
