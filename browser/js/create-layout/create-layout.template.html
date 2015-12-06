@@ -2,22 +2,6 @@
   <div class="button-holder">
     <button ng-click="addNewGridElement()" class="btn lasso-toolbar-btn btn-left">Add Element</button><br>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
-
-<div>
-    <div uib-dropdown auto-close="outsideClick">
-    <button id="add-button-dropdown" class="btn lasso-toolbar-btn btn-left" uib-dropdown-toggle>
-      Add Buttons <span class="caret"></span>
-    </button>
-    <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-      <li role="menuitem"><button ng-click="addButton('default')" class="btn lasso-toolbar-btn btn-left">Default</button></li>
-      <li role="menuitem"><button ng-click="addButton('primary')" class="btn lasso-toolbar-btn btn-left">Primary</button></li>
-      <li role="menuitem"><button ng-click="addButton('success')" class="btn lasso-toolbar-btn btn-left">Success</button></li>
-      <li role="menuitem"><button ng-click="addButton('info')" class="btn lasso-toolbar-btn btn-left">Info</button></li>
-      <li role="menuitem"><button ng-click="addButton('warning')" class="btn lasso-toolbar-btn btn-left">Warning</button></li>
-      <li role="menuitem"><button ng-click="addButton('danger')" class="btn lasso-toolbar-btn btn-left">Danger</button></li>
-    </ul>
-</div>
-
     <button ng-click="new()" class="btn btn-default">New</button>
     <button ng-click="open()" class="btn btn-default">Open</button>
     <button ng-click="close()" ng-show="project" class="btn btn-default">Close</button>

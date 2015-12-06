@@ -1,0 +1,11 @@
+<div id="html-modal" class="modal-header">
+     <h3 class="modal-title">Add a Component</h3>
+ </div>
+ <div class="modal-body">
+   <ul role="menu" aria-labelledby="single-button" ng-repeat="button in buttons">
+     <li role="menuitem"><button class="btn btn-' + {{ button }} + '-btn-sm" ng-click="save(['button', button])">{{ button }}</button></li>
+   </ul>
+ </div>
+ <div class="modal-footer">
+     <button class="btn btn-warning" type="button" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span></button>
+ </div>

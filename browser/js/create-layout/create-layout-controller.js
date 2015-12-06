@@ -28,8 +28,6 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
       return;
     }
 
-
-
     GridFactory.init();
     $scope.user = theUser;
     $scope.project, $scope.page = null;
@@ -50,7 +48,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.new = function() {
         if (!$scope.user) {
             $scope.promptUserLogin();
-            ModalFactory.userLoginModal.result.then(function(user) {
+            Factory.userLoginModal.result.then(function(user) {
                 $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
@@ -277,6 +275,20 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     //===== Components ===== //
     $scope.addNavBar = function() {
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
+    }
+
+    $scope.addComponents = function(id) {
+      // launch modal to select components to add to a widget
+      ModalFactory.launchAddComponentsModal($scope, id);
+      ModalFactory.addComponentsModal.result.then(function(component){
+          // append the selected component to the DOM  GridCompFactory .addButton()
+          // get the content of the widget and append the html to it.
+          console.log("selected", component);
+          if(component[1] == "button"){
+            GridCompFactory.addNestedButton($scope, component[0], component[2]);
+          }
+
+      })
     }
 
     $scope.addButton = function(type) {
