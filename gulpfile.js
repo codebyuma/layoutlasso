@@ -17,6 +17,7 @@ var karma = require('karma').server;
 var istanbul = require('gulp-istanbul');
 var notify = require('gulp-notify');
 var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 
 // Development tasks
 // --------------------------------------------------------------
@@ -100,9 +101,24 @@ gulp.task('buildCSS', function () {
 // Production tasks
 // --------------------------------------------------------------
 
-gulp.task('buildBrowserify', function(){
-    browserify('browser/js/common/factories/BrowserifyFactory.js')
-})
+// gulp.task('buildBrowserify', function(){
+//     return browserify(gulp.src('./browser/js/common/factories/BrowserifyFactory.js'))
+//     .bundle()
+//     .pipe(gulp.dest('./browser/js/common/factories/BrowserifyFactory.js'));
+// })
+
+gulp.task('buildBrowserify', function () {
+  return browserify('./browser/js/common/factories/BrowserifyFactory.js')
+    .bundle()
+    .pipe(source('browserified.js'))
+    .pipe(gulp.dest('./node_modules'));
+});
+
+// gulp.task('buildBrowserify', function() {
+//   return browserify('browser/js/common/factories/BrowserifyFactory.js')
+//   .bundle()
+//   .pipe(gulp.dest('browser/js/common/factories/BrowserifyFactory.js'));
+// });
 
 gulp.task('buildCSSProduction', function () {
     return gulp.src('./browser/scss/main.scss')
@@ -128,7 +144,7 @@ gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction', 'buildB
 
 gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
-        runSeq(['buildJSProduction', 'buildCSSProduction']);
+        runSeq(['buildJSProduction', 'buildCSSProduction', 'browserify']);
     } else {
         runSeq(['buildJS', 'buildCSS']);
     }
