@@ -125,27 +125,22 @@ gulp.task('buildJSProduction', function () {
         .pipe(gulp.dest('./public'));
 });
 
-gulp.task('buildProduction', ['buildBrowserify', 'buildCSSProduction', 'buildJSProduction']);
+gulp.task('buildProduction', ['buildCSSProduction', 'buildJSProduction', 'buildBrowserify']);
 
 // Composed tasks
 // --------------------------------------------------------------
 
 gulp.task('build', function () {
     if (process.env.NODE_ENV === 'production') {
-        runSeq(['buildBrowserify', 'buildJSProduction', 'buildCSSProduction']);
+        runSeq(['buildJSProduction', 'buildCSSProduction', 'buildBrowserify']);
     } else {
-        runSeq(['buildBrowserify', 'buildJS', 'buildCSS']);
+        runSeq(['buildJS', 'buildCSS', 'buildBrowserify']);
     }
 });
 
 gulp.task('default', function () {
 
     gulp.start('build');
-
-    // Run browser testing when a browser test file changes.
-    gulp.watch('./browser/js/common/factories/BrowserifyFactory.js', function () {
-        runSeq('buildBrowserify', 'reload');
-    });
 
     // Run when anything inside of browser/js changes.
     gulp.watch('browser/js/**', function () {
@@ -161,6 +156,11 @@ gulp.task('default', function () {
 
     // Reload when a template (.html) file changes.
     gulp.watch(['browser/**/*.html', 'server/app/views/*.html'], ['reload']);
+
+    // Run browser testing when a browser test file changes.
+    gulp.watch('./browser/js/common/factories/BrowserifyFactory.js', function () {
+        runSeq('buildBrowserify', 'reload');
+    });
 
     // Run server tests when a server file or server test file changes.
     gulp.watch(['tests/server/**/*.js'], ['testServerJS']);
