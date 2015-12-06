@@ -1,6 +1,6 @@
 app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
   var StyleModeFactory = {};
-  /* */
+  /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
 
   var getParentWidgetId = function(targetElement){
@@ -47,7 +47,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
       var defaultHtml = $compile("<p>Edit or style this html!</p>")(scope);
       if(!scope.styleMenuOpen){
         scope.styleMenuOpen = true;
-        $rootScope.$digest();
+        $rootScope.$digest(); // Requried as the change of scope value does not trigger any $scope digest.
       }
       if(self.hasClass("lasso-user-content")){
         if(self.children().length === 0){
@@ -71,11 +71,32 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     return;
   }
 
+  /* Function to reset all style mode attributes to apply on function that load and close a project. Ensures all menus and actions are deactivated and event listeners are toggled off. */
+
+  StyleModeFactory.deactivateStyleMode = function(scope){
+    if(scope.stylingModeActive){
+      StyleModeFactory.toggleStyleModeActions(scope);
+    }
+    scope.classMenuOpen = false;
+    scope.styleMenuOpen = false;
+    scope.classEditMode = false;
+    return;
+  }
+
   /* Remove lasso-styling in progress class */
 
 
 
   /* Remove an individual element from a class */
+
+
+  /* Get find and remove all nested grid elements to allow editing of native html */
+
+  StyleModeFactory.findNestedGrid = function(parentId, callback){
+    var parent = $("#" + parentId);
+    var toDisplayNone = parent.find(".grid-stack-nested");
+    callback(toDisplayNone)
+  }
 
   /* Initiate all event Listeners and actions for styling mode */
 
@@ -89,6 +110,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
         /* */
 
       } else if(scope.stylingModeActive){
+        $("styling-mode-selector").removeClass("style-mode-active");
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;
