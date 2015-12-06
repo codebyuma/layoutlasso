@@ -3,7 +3,7 @@
  </div>
  <div class="modal-body">
    <ul role="menu" aria-labelledby="single-button" ng-repeat="button in buttons">
-     <li role="menuitem"><button class="btn btn-' + {{ button }} + '-btn-sm" ng-click="save(['button', button])">{{ button }}</button></li>
+     <li role="menuitem"><button  ng-class="'btn btn-' + button" ng-click="save(['button', button])">{{ button }}</button></li>
    </ul>
  </div>
  <div class="modal-footer">

@@ -279,14 +279,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     }
 
     $scope.addComponents = function(id) {
-      // launch modal to select components to add to a widget
+      // launch modal so user can select components to add to a widget
       ModalFactory.launchAddComponentsModal($scope, id);
       ModalFactory.addComponentsModal.result.then(function(component){
-          // append the selected component to the DOM  GridCompFactory .addButton()
-          // get the content of the widget and append the html to it.
-          console.log("selected", component);
+          // append the selected component to the DOM
           if(component[1] == "button"){
-            GridCompFactory.addNestedButton($scope, component[0], component[2]);
+            GridCompFactory.addButton($scope, component[0], component[2]);
           }
 
       })
