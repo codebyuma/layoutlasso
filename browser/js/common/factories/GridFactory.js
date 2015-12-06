@@ -72,7 +72,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // adds a new grid to the parent grid or main grid
     GridFactory.addNewGridElement = function(scope, grid, content) {
-        console.log("in add new grid element, grid is", grid);
        grid = grid || GridFactory.main_grid;
        GridFactory.counter++;
        var el = GridFactory.createElement(scope, GridFactory.counter, content);
@@ -81,7 +80,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.addNestedGrid = function(scope, id) {
         var thisWidget = $('#' + id);
-        
 
         // remove buttons
         $('#lasso-button-box-' + id).remove();
@@ -167,6 +165,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     GridFactory.clearGrid = function() {
+        //GridFactory.counter = 0;
         GridFactory.main_grid.remove_all();
         // GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
         GridFactory.nestedGrids = {};
