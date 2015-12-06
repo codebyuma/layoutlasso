@@ -74,8 +74,8 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
             id + "'><span class='glyphicon glyphicon-th'></span></button>\
-            <button ng-click='editHTML(" + id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-            <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button>\
+  <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+  <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button>\
             <button style-nested-grid-item data-element-selector=" + id + "></button>\
             </div></div></div>")(scope);
 
@@ -105,9 +105,9 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             newGridID + "'></div>")(scope));
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box'>\
-  <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
-  <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+  <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+  <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
   <button title='Add components' ng-click='addComponents(" + id + ")' class='lasso-addcomp-btn'><span class='glyphicon glyphicon-modal-window'></span></button>\
   <button style-nested-grid-item data-element-selector=" + id + "></button>\
   </div></div>")(scope))
@@ -117,7 +117,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.nestedGrids[newGridID] = newGrid;
 
         // add an Add Widget Button to the newly nested grid
-        $("#" + id + " .lasso-button-box")
+        $("#" + "lasso-button-box-" + id )
             .append($compile("<button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + newGridID + ")'><span class='glyphicon glyphicon-plus'></span></button>")(scope));
 
         return newGrid;
@@ -153,6 +153,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             el = $(el);
             var node = el.data('_gridstack_node');
             var userContent = getUserContent(el.context.innerHTML);
+
             return { // store content here too.
                 id: el.attr('id'),
                 parentId: el[0].offsetParent.id,
@@ -164,12 +165,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             };
         });
 
+        GridFactory.savedGrid.gridCount = GridFactory.counter;
+
     }
 
     GridFactory.saveGridBackend = function(page) {
         var changes = {
             grid: GridFactory.savedGrid,
-            css: StyleSaveLoadFactory.stylingToSave()
+            css: StyleSaveLoadFactory.stylingToSave(),
+            gridCount:  GridFactory.counter
         };
         PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
@@ -190,10 +194,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
+
         if (GridFactory.savedGrid.length === 0) {
             if (page) {
                 GridFactory.savedGrid = page.grid;
+                GridFactory.savedGrid.gridCount = page.gridCount;
+                GridFactory.counter = page.gridCount;
             }
+        } else {
+            GridFactory.counter = GridFactory.savedGrid.gridCount;
         }
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array
@@ -225,7 +234,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-  <button style-nested-grid-item data-element-selector=" + parentId + "></button>\
+   <button style-nested-grid-item data-element-selector=" + parentId + "></button>\
   <button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + node.parentId + ")'><span class='glyphicon glyphicon-plus'></span></button>\
             </div></div>")(scope));
 
