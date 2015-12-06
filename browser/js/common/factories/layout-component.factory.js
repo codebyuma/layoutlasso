@@ -11,6 +11,9 @@ app.factory("LayoutComponentFactory",  function($compile){
           </div>\
         </div>\
       </nav>';
+    },
+    addButton: function(type) {
+      return '<button ng-click="click()" class="btn btn-'+ type +'"> Click Me </button>';
     }
   }
 
