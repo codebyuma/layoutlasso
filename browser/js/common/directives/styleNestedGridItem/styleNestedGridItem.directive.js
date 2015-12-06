@@ -16,10 +16,9 @@ app.directive("styleNestedGridItem", function(StyleModeFactory, NestedStylingFac
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
             el.fadeOut(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "editable-widget"));
           });
+          styleThisElement = !styleThisElement;
         } else {
-          console.log("ENTERED ELSE!")
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
-            console.log("ELEMENT: ", el);
             el.fadeIn(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "editable-widget"))
             });
           };
