@@ -12,7 +12,7 @@ app.factory("NestedStylingFactory", function(){
 
   /* Helper function to add editable class to the element to be styled when the nested styling button is clicked */
   NestedStylingFactory.toggleParentEditable = function(parentIdentifier, classToRemove){
-    var parentEl = $("#" + parentIdentifier).children("grid-stack-item-content").first();
+    var parentEl = $("#" + parentIdentifier).children(".grid-stack-item-content").first();
     if(parentEl.hasClass(classToRemove)){
       parentEl.removeClass(classToRemove);
     } else {
@@ -24,16 +24,13 @@ app.factory("NestedStylingFactory", function(){
   NestedStylingFactory.findEditableLayer = function(mainGridElement, targetElementDesignator){
     var targets = mainGridElement.find(targetElementDesignator);
     var editableTargets = [];
-    console.log("TARGETS: ", targets);
     if(targets.length) {
       targets.each(function(idx, el){
         var children = $(el).children(".grid-stack-nested").length;
-        console.log("CHILDREN", children);
         if(!children){
           editableTargets.push($(el));
         }
       })
-      console.log(editableTargets);
       editableTargets.forEach(function(el){
         el.children(".grid-stack-item-content").addClass("editable-widget");
       })

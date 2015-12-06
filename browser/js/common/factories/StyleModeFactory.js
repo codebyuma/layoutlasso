@@ -94,7 +94,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);
-    var toDisplayNone = parent.children(".grid-stack-nested");
+    var toDisplayNone = parent.children(".grid-stack-nested").first();
     callback(toDisplayNone)
   }
 
