@@ -17,9 +17,9 @@ app.factory("NestedStylingFactory", function(){
   }
 
   NestedStylingFactory.clearNestedStyling = function(){
-    $("#main-grid").find(".editable-widget")
+    $("#main-grid").find(".lasso-editable-widget")
     .each(function(idx, el){
-      $(el).removeClass("editable-widget");
+      $(el).removeClass("lasso-editable-widget");
     })
     return;
   }
@@ -43,13 +43,13 @@ app.factory("NestedStylingFactory", function(){
     if(targets.length) {
       editableTargets = checkIfNestedGrid(targets);
       editableTargets.forEach(function(el){
-        el.children(".grid-stack-item-content").addClass("editable-widget");
+        el.children(".grid-stack-item-content").addClass("lasso-editable-widget");
       })
     } else {
       mainGridElement
       .children(targetElementDesignator)
       .each(function(idx, el){
-        $(el).addClass("editable-widget")
+        $(el).addClass("lasso-editable-widget")
       })
     }
 

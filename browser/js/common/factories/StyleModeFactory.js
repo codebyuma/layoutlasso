@@ -103,7 +103,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   /* Remove an individual element from a class */
 
 
-  /* Get find and remove all nested grid elements to allow editing of native html */
+  /* find and apply display-none to nested grid element to allow editing of native html */
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);

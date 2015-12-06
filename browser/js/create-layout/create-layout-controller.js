@@ -214,7 +214,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     //===== Exporting ===== //
     $scope.exportHTML = function() {
         var pageName, projectName, filename;
-
+        // Clear styling if trying to export in styling mode.
+        if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
 
@@ -259,8 +260,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
-        if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
         StyleSaveLoadFactory.stylingBeforeClearToReload();
+        if($scope.stylingModeActive) NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
     };
 
     $scope.gridEmpty = function() {
@@ -296,12 +297,15 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
           }
+        // Re-render editable layer on componenet addition.
+        StyleModeFactory.resetEditableLayers($scope);
 
       })
     }
 
     $scope.addButton = function(type) {
         GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+
     }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/

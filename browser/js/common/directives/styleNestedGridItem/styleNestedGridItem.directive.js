@@ -14,12 +14,12 @@ app.directive("styleNestedGridItem", function(StyleModeFactory, NestedStylingFac
         if(!styleThisElement){
           styleThisElement = !styleThisElement;
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
-            el.fadeOut(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "editable-widget"));
+            el.fadeOut(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "lasso-editable-widget"));
           });
           styleThisElement = !styleThisElement;
         } else {
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
-            el.fadeIn(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "editable-widget"))
+            el.fadeIn(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "lasso-editable-widget"))
             });
           };
           styleThisElement = !styleThisElement;
