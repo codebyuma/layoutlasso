@@ -24,14 +24,14 @@ router.get('/', function (req, res, next){
 })
 
 router.get('/:id', function (req, res, next){
-	res.status(200).json( req.page );
+	res.send( req.page );
 })
 
 router.put('/:id', function (req, res, next){
 	req.page.set(req.body)
 	req.page.save()
 	.then(function ( page ){
-		res.status(200).json( page );
+		res.send( page );
 	})
 	.then(null, next);
 })

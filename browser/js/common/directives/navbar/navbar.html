@@ -1,10 +1,10 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
 
-        <div ng-show="project">Currently viewing: <br>
+<!--         <div ng-show="project">Currently viewing: <br>
             <div>Project - {{ project.name }}</div>
         </div>
-        <div ng-show="page">Page: {{ page.name }}</div>
+        <div ng-show="page">Page: {{ page.name }}</div> -->
         
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
@@ -14,4 +14,4 @@
             <a ng-click="logout()">Logout</a>
         </div>
     </div>
-</nav>
+</nav>  

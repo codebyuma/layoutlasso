@@ -23,21 +23,16 @@ app.controller('ProjectModalCtrl', function($scope, createProjBool, UserFactory,
 
     $scope.createProject = function(project) {
 
-        ProjectFactory.createProject(project.name)
-            .then(function(theProject) {
-                $scope.project = theProject;
-                $scope.user.projects.push($scope.project);
-                return UserFactory.saveUser($scope.user)
-            })
-            .then(function(updatedUser) {
-                $scope.user = updatedUser;
+        ProjectFactory.createProject(project.name, $scope.user)
+            .then (function (theUpdates){
+                $scope.project = theUpdates.project;
+                $scope.user = theUpdates.user;
                 $scope.inSave = false;
                 $uibModalInstance.close({
                     project: $scope.project,
                     user: $scope.user
                 })
             })
-
 
     }
 

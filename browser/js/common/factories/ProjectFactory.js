@@ -1,11 +1,17 @@
-app.factory('ProjectFactory', function($http){
+app.factory('ProjectFactory', function($http, UserFactory){
 
     var ProjectFactory = {};
 
-    ProjectFactory.createProject = function(_name){
+    ProjectFactory.createProject = function(_name, user){
+        var objectToReturn = {};
         return $http.post('/api/projects/', {name: _name})
-        .then(function(project){
-            return project.data
+        .then(function(savedProject){
+            objectToReturn.project = savedProject.data; 
+            return UserFactory.updateUserProjects(user._id, savedProject.data._id)
+        })
+        .then(function(savedUser){
+            objectToReturn.user = savedUser;
+            return objectToReturn;
         })
     }
 

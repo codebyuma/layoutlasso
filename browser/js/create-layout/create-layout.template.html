@@ -34,6 +34,7 @@
     <br>
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
     <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn btn-left">Templates</button>
+    <styling-mode-selector class="btn lasso-toolbar-btn btn-left">Styling Mode</styling-mode-selector>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
     <button class="btn lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
 >>>>>>> master
@@ -46,9 +47,11 @@
  -->
  
 <section class="create-layout">
-  <div class="alert alert-warning alert-dismissible" role="alert" ng-show="change">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <center>{{ message }}</center>
+
+  <div class="project-info" > 
+    <!-- style="margin: left; ">  -->
+      <span ng-show="project"> Project: {{ project.name }} </span>
+      <span ng-show="page"> Page: {{ page.name }} </span>
   </div>
 
   <div class="page-layout">

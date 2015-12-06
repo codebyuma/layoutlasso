@@ -7,9 +7,9 @@ app.factory("StylingFactory", function(){
   /* Apply styling of scope.styleGroup hash DOM elements  */
 
   var applyStylingToSelectedObjs = function(groupToStyle, stylesObj, nameOfClass, callback){
-    for(var el in groupToStyle){
-      groupToStyle[el].addClass(nameOfClass);
-      groupToStyle[el].css(stylesObj);
+    for(var elObj in groupToStyle){
+      groupToStyle[elObj].element.addClass(nameOfClass);
+      groupToStyle[elObj].element.css(stylesObj);
     }
     callback();
   }
