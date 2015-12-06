@@ -102,9 +102,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var newGrid = $('#' + newGridID).gridstack(options).data('gridstack');
         GridFactory.nestedGrids[newGridID] = newGrid;
 
-       
-        console.log("id is", id);
-
         // add an Add Widget Button to the newly nested grid
         $("#" + "lasso-button-box-" + id )
             .append($compile("<button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + newGridID + ")'><span class='glyphicon glyphicon-plus'></span></button>")(scope));
@@ -154,12 +151,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             };
         });
 
+        GridFactory.savedGrid.gridCount = GridFactory.counter;
+
     }
 
     GridFactory.saveGridBackend = function(page) {
         var changes = {
             grid: GridFactory.savedGrid,
-            css: StyleSaveLoadFactory.stylingToSave()
+            css: StyleSaveLoadFactory.stylingToSave(),
+            gridCount:  GridFactory.counter
         };
         PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
@@ -180,10 +180,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     GridFactory.loadGrid = function(scope, page) {
         GridFactory.clearGrid();
+
         if (GridFactory.savedGrid.length === 0) {
             if (page) {
                 GridFactory.savedGrid = page.grid;
+                GridFactory.savedGrid.gridCount = page.gridCount;
+                GridFactory.counter = page.gridCount;
             }
+        } else {
+            GridFactory.counter = GridFactory.savedGrid.gridCount;
         }
         _.each(GridFactory.savedGrid, function(node) {
             if (node.parentId === "main-grid") { // should load main-grid first as it's first in the array

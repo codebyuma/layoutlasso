@@ -46,6 +46,7 @@ var seedTemplates = function() {
     var templates = [
         {
             name: "Grid squares 4 x 4 with navbar",
+            gridCount: 18,
             grid: [
                 {
                 "id": "0",
@@ -208,6 +209,7 @@ var seedTemplates = function() {
 
         {
             "name": "Content field - side columns - nav bar - large cover image",
+            "gridCount": 15,
             "grid": [
                 {
                   "id": "1",
@@ -316,6 +318,7 @@ var seedTemplates = function() {
 
         {
             name: "Simple gallery - 3 x 3 square grid",
+            gridCount: 9,
             grid: [ 
                  { id: '1',
                    parentId: 'main-grid',
