@@ -4,7 +4,7 @@
   "description": "A generated project at Fullstack Academy",
   "main": "server/start.js",
   "scripts": {
-    "postinstall": "bower install && gulp build",
+    "postinstall": "gulp build",
     "start": "nodemon --watch server -e js,html server/start.js"
   },
   "engines": {
