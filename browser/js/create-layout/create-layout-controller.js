@@ -150,8 +150,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     // ==== Modifying the grid on scope ===== //
 
     $scope.addNewGridElement = function(grid, content) {
-        if($scope.stylingModeActive) StyleModeFactory.resetEditableLayers(); // Rescan GRID for editable layers if style mode active.
         GridFactory.addNewGridElement($scope, grid, content);
+        if($scope.stylingModeActive) StyleModeFactory.resetEditableLayers($scope); // Rescan GRID for editable layers if style mode active.
     }
 
     $scope.addNestedGrid = function(id) {
