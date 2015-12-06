@@ -105,7 +105,7 @@ gulp.task('buildBrowserify', function () {
   return browserify('./browser/js/common/factories/BrowserifyFactory.js')
     .bundle()
     .pipe(source('browserified.js'))
-    .pipe(gulp.dest('./node_modules'));
+    .pipe(gulp.dest('./public'));
 });
 
 gulp.task('buildCSSProduction', function () {
