@@ -1,20 +1,17 @@
-app.directive("cssApplicator", function(StylingFactory, GridFactory, $rootScope){
+app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFactory, $rootScope){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/applyCssStyling/applyCssStyling.template.html",
     link: function(scope, element, attrs){
       scope.newClass.styles = [{ key: "", value: ""}];
 
-
-      var removeStyleGroupActiveClass = function(){
-        $(".style-group-active").removeClass("style-group-active");
-      }
-      // Resets form and style group.
+      /* Resets form and style group. Removes 'selection styling.' 
+      */
       var resetScopeStyleObjs = function(){
+        StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
         scope.styleGroup = {};
-        removeStyleGroupActiveClass();
         scope.classEditMode = false;
         scope.styleMenuOpen = false;
         return;
@@ -62,10 +59,11 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, $rootScope)
           return;
       }
 
-      /* Process form data for storage in StylingFactory */
+      /* Process form data for storage in StylingFactory and update element styles */
       scope.getCssFormData = function(data){
         var cssToApply = createCssObjectFromForm(data);
         var newClassName = assignClassName(scope.newClass.name);
+        StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         applyStylingAndClass(newClassName, cssToApply, scope.styleGroup);
         scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         return;

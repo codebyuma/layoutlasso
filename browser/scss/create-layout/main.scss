@@ -1,3 +1,8 @@
+@mixin button-transition {
+  transition: 0.2s all;
+  -webkit-transition: 0.2s all;
+}
+
 $main-grid-background-color: #E9F7FF; // blues: very light #F5FAFF  light #CFEDFF
 
 h3    {
@@ -7,7 +12,14 @@ h3    {
 }
 
 button {
+  outline: none;
   border: none;
+  transition: all 0.25s;
+}
+
+
+button:hover {
+  box-shadow: 0px 5px 10px black;
 }
 
 .create-layout {
@@ -37,6 +49,11 @@ button {
     bottom: 0;
     z-index: 1000;
   }
+
+}
+
+.nested-buttons {
+  margin-left: 10px;
 }
 
 .toolbar {

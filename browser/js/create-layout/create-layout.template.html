@@ -1,29 +1,22 @@
 <aside id="toolbar-left" class="toolbar">
   <div class="button-holder">
-    <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button><br>
+    <button ng-click="addNewGridElement()" class="btn lasso-toolbar-btn btn-left">Add Element</button><br>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
 
 <div>
     <div class="btn-group" uib-dropdown is-open="status.isopen">
-    <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
-      Button dropdown <span class="caret"></span>
+    <button id="add-button-dropdown" class="btn lasso-toolbar-btn btn-left" uib-dropdown-toggle auto-close="outsideClick" ng-disabled="disabled">
+      Add Buttons <span class="caret"></span>
     </button>
     <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-      <li role="menuitem"><a href="#">Action</a></li>
-      <li role="menuitem"><a href="#">Another action</a></li>
-      <li role="menuitem"><a href="#">Something else here</a></li>
-      <li class="divider"></li>
-      <li role="menuitem"><a href="#">Separated link</a></li>
+      <li role="menuitem"><button ng-click="addButton('default')" class="btn lasso-toolbar-btn btn-left">Add Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('primary')" class="btn lasso-toolbar-btn btn-left">Primary Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('success')" class="btn lasso-toolbar-btn btn-left">Success Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('info')" class="btn lasso-toolbar-btn btn-left">Info Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('warning')" class="btn lasso-toolbar-btn btn-left">Warning Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('danger')" class="btn lasso-toolbar-btn btn-left">Danger Button</button></li>
     </ul>
 </div>
-
-    <button ng-click="addButton('default')" class="btn lasso-toolbar-btn btn-left">Add Button</button>
-    <button ng-click="addButton('primary')" class="btn lasso-toolbar-btn btn-left">Primary Button</button>
-    <button ng-click="addButton('success')" class="btn lasso-toolbar-btn btn-left">Success Button</button>
-    <button ng-click="addButton('info')" class="btn lasso-toolbar-btn btn-left">Info Button</button>
-    <button ng-click="addButton('warning')" class="btn lasso-toolbar-btn btn-left">Warning Button</button>
-    <button ng-click="addButton('danger')" class="btn lasso-toolbar-btn btn-left">Danger Button</button>
-
 
     <button ng-click="new()" class="btn btn-default">New</button>
     <button ng-click="open()" class="btn btn-default">Open</button>
@@ -34,6 +27,7 @@
     <br>
     <button ng-click="loadGrid()" class="btn btn-default">Load Grid</button>
     <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn btn-left">Templates</button>
+    <styling-mode-selector class="btn lasso-toolbar-btn btn-left">Styling Mode</styling-mode-selector>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
     <button class="btn lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
     <div ng-show="project">Currently viewing: <br>
@@ -46,11 +40,9 @@
 </aside>
 
 <section class="create-layout">
-  <div class="alert alert-warning alert-dismissible" role="alert" ng-show="change">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-   <center>{{ message }}</center>
-  </div>
+
   <div class="page-layout">
+    <div growl></div>
     <div class="grid-stack" id="main-grid">
     </div>
 
