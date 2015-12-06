@@ -160,7 +160,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         };
         PageFactory.savePage(page._id, changes)
             .then(function(updatedPage) {
-                console.log("UPDATED PAGE: ", updatedPage);
                 $rootScope.$broadcast('saved', updatedPage);
             })
     }
@@ -169,7 +168,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         GridFactory.main_grid.remove_all();
         GridFactory.nestedGrids = {};
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
-        
+
     }
 
     GridFactory.clearSavedGrid = function() {
