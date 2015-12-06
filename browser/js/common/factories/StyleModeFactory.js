@@ -71,6 +71,18 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     return;
   }
 
+  /* Function to reset all style mode attributes to apply on function that load and close a project. Ensures all menus and actions are deactivated and event listeners are toggled off. */
+
+  StyleModeFactory.deactivateStyleMode = function(scope){
+    if(scope.stylingModeActive){
+      StyleModeFactory.toggleStyleModeActions(scope);
+    }
+    scope.classMenuOpen = false;
+    scope.styleMenuOpen = false;
+    scope.classEditMode = false;
+    return;
+  }
+
   /* Remove lasso-styling in progress class */
 
 
@@ -80,9 +92,10 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
 
   /* Get find and remove all nested grid elements to allow editing of native html */
 
-  StyleModeFactory.findNestGrid = function(parentId){
+  StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);
-    return parent.find(".grid-stack-nested");
+    var toDisplayNone = parent.find(".grid-stack-nested");
+    callback(toDisplayNone)
   }
 
   /* Initiate all event Listeners and actions for styling mode */
@@ -97,6 +110,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
         /* */
 
       } else if(scope.stylingModeActive){
+        $("styling-mode-selector").removeClass("style-mode-active");
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;

@@ -97,7 +97,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-  <styling-selector data-style-selector-ref='" + id + "'></styling-selector>\
+  <button style-nested-grid-item data-element-selector=" + id + "></button>\
   </div></div>")(scope))
 
         // save the new grid to nestedGrids object on the $scope
@@ -208,12 +208,12 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
         // remove and re-add buttons to the outer grid div
         $('#lasso-button-box-' + parentId).remove();
-        
+
         thisWidget.append($compile(" <div class='row nested-buttons'>\
   <div class='lasso-button-box'>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
-  <styling-selector data-style-selector-ref='" + parentId + "'></styling-selector>\
+  <button style-nested-grid-item data-element-selector=" + parentId + "></button>\
   <button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + node.parentId + ")'><span class='glyphicon glyphicon-plus'></span></button>\
             </div></div>")(scope));
 
@@ -225,7 +225,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         var el = GridFactory.createElement(scope, node.id, node.content);
         GridFactory.nestedGrids[node.parentId].add_widget(el, node.x, node.y, node.width, node.height, false);
 
-        
+
     }
 
     return GridFactory;

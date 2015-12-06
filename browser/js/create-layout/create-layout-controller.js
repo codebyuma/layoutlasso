@@ -99,6 +99,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
+        StyleModeFactory.deactivateStyleMode($scope);
         StyleSaveLoadFactory.resetStylesOnClose($scope);
         GridFactory.clearSavedGrid();
         $scope.clearGrid();
@@ -134,6 +135,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
                 GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;
             } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
+                StyleModeFactory.deactivateStyleMode($scope);
                 StylingFactory.resetCurrentStyleSheetObjs();
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
@@ -179,6 +181,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     }
 
     $scope.clearGrid = function(){
+      StyleModeFactory.deactivateStyleMode($scope);
       GridFactory.clearGrid();
       $scope.pageStyleSheet = [];
     }
