@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory) {
 
 
 
@@ -150,6 +150,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     // ==== Modifying the grid on scope ===== //
 
     $scope.addNewGridElement = function(grid, content) {
+        if($scope.stylingModeActive) StyleModeFactory.resetEditableLayers(); // Rescan GRID for editable layers if style mode active.
         GridFactory.addNewGridElement($scope, grid, content);
     }
 
@@ -161,6 +162,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
         StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
@@ -202,6 +204,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
             GridFactory.loadGrid($scope, selectedItem);
             $scope.nestedGrids = GridFactory.getNestedGrids();
         })
+        // If style mode is active, scan grid and show editable layer.
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
+
     }
 
     //===== Exporting ===== //
@@ -252,6 +257,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
+        if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
         StyleSaveLoadFactory.stylingBeforeClearToReload();
     };
 

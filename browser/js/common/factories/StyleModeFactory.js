@@ -39,6 +39,18 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     });
   }
 
+  /* Reset and rescan GRID for editable layers on adding new elements or widgets or any other GRID actions */
+
+  StyleModeFactory.resetEditableLayers = function(scope){
+    if(scope.stylingModeActive){
+      NestedStylingFactory.clearNestedStyling() // Remove all styling
+      NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item"); // Re-render on correct elements.
+    } else {
+      NestedStylingFactory.clearNestedStyling();
+    }
+    return;
+  }
+
   /* Initiating Click event listeners when in styling mode */
   StyleModeFactory.elementSelectEventListenerInit = function(scope){
     StyleModeFactory.initiateStylingHoverEvents();
@@ -74,6 +86,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   /* Function to reset all style mode attributes to apply on function that load and close a project. Ensures all menus and actions are deactivated and event listeners are toggled off. */
 
   StyleModeFactory.deactivateStyleMode = function(scope){
+    NestedStylingFactory.clearNestedStyling();
     if(scope.stylingModeActive){
       StyleModeFactory.toggleStyleModeActions(scope);
     }
@@ -95,8 +108,8 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);
     var toDisplayNone = parent.children(".grid-stack-nested").first();
-    console.log("IN FIND NESTED GRID:", toDisplayNone.length);
-    callback(toDisplayNone)
+    if(toDisplayNone.length) callback(toDisplayNone);
+    return;
   }
 
   /* Initiate all event Listeners and actions for styling mode */
@@ -113,6 +126,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
 
       } else if(scope.stylingModeActive){
         $("styling-mode-selector").removeClass("style-mode-active");
+        NestedStylingFactory.clearNestedStyling();
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;

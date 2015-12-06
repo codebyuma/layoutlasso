@@ -5,9 +5,23 @@ app.factory("NestedStylingFactory", function(){
 
   // Check each element to see if a nested grid is inside.
 
+  var checkIfNestedGrid = function(targetArray){
+    var editableTargets = [];
+    targetArray.each(function(idx, el){
+      var children = $(el).children(".grid-stack-nested").length;
+      if(!children){
+        editableTargets.push($(el));
+      }
+    });
+    return editableTargets;
+  }
 
-  var checkIfNestedGrid = function(targetElement){
-
+  NestedStylingFactory.clearNestedStyling = function(){
+    $("#main-grid").find(".editable-widget")
+    .each(function(idx, el){
+      $(el).removeClass("editable-widget");
+    })
+    return;
   }
 
   /* Helper function to add editable class to the element to be styled when the nested styling button is clicked */
@@ -20,17 +34,14 @@ app.factory("NestedStylingFactory", function(){
     }
   }
 
+
+
   // Find and highlight all stylable elements
   NestedStylingFactory.findEditableLayer = function(mainGridElement, targetElementDesignator){
     var targets = mainGridElement.find(targetElementDesignator);
     var editableTargets = [];
     if(targets.length) {
-      targets.each(function(idx, el){
-        var children = $(el).children(".grid-stack-nested").length;
-        if(!children){
-          editableTargets.push($(el));
-        }
-      })
+      editableTargets = checkIfNestedGrid(targets);
       editableTargets.forEach(function(el){
         el.children(".grid-stack-item-content").addClass("editable-widget");
       })
