@@ -72,6 +72,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // adds a new grid to the parent grid or main grid
     GridFactory.addNewGridElement = function(scope, grid, content) {
+        console.log("in add new grid element, grid is", grid);
        grid = grid || GridFactory.main_grid;
        GridFactory.counter++;
        var el = GridFactory.createElement(scope, GridFactory.counter, content);
@@ -166,11 +167,11 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     GridFactory.clearGrid = function() {
-        console.log("in grid factory clear grid first", GridFactory.main_grid);
         GridFactory.main_grid.remove_all();
+        // GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
         GridFactory.nestedGrids = {};
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
-        console.log("in grid factory clear grid second", GridFactory.main_grid);
+        
     }
 
     GridFactory.clearSavedGrid = function() {
