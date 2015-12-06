@@ -180,6 +180,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
                 $scope.promptProjectLoad();
             }
         }
+        if($scope.stylingModeActive){
+          NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
+        }
     }
 
     $scope.clearGrid = function(){
@@ -193,6 +196,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
         $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
     }
 
     //===== Templates ===== //
