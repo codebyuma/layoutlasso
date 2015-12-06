@@ -2,6 +2,16 @@
   box-sizing: border-box;
 }
 
+// options
+$cloudDancer: #F0EEE9;
+$opalBlue: #C3DDD6;
+$fancyGreen: #DFF0D8;
+$semolina: #CEB899;
+$russet: #8F5F50;
+$frostedAlmond: #D2C2AC;
+$frostyAlmond: rgba(210, 194, 172, 0.6);
+$arctic: #648589;
+$adobeBlue: rgba(199, 223, 255, 1);
 
 $cloudDancer: #F0EEE9;
 $opalBlue: #C3DDD6;
@@ -15,7 +25,7 @@ $adobeBlue: rgba(199, 223, 255, 1);
 
 
 body {
-  background: $cloudDancer;
+  background: white;
 }
 
 @mixin clearfix {
@@ -29,18 +39,20 @@ body {
 #main {
   padding-top: 0px;
   width: 100vw;
-  margin: 120px auto;
+  margin: 40px auto;
   z-index: 0;
 }
 
-.main-grid {
-  background: red;
+#main-grid {
+
 }
 
 .modal-dialog{
   z-index: 1040;
   margin-top:20%;
 }
+
+
 
 @import 'directives/main';
 @import 'home/main';

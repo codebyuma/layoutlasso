@@ -1,6 +1,6 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
 
-
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, TemplateFactory) {
+// removed theUser
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
@@ -31,7 +31,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
 
     GridFactory.init();
-    $scope.user = theUser;
+
+    AuthService.getLoggedInUser()
+    .then(function( user ){
+        $scope.user = user;
+    })
+
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
@@ -201,6 +206,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
+
         var pageName, projectName, filename;
 
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
@@ -216,6 +222,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
+
         if (css){
             html = ExportFactory.convertToHTML('<link rel="stylesheet" href="' + filename + ".css" + '">');
         }
@@ -243,7 +250,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
+
           b.download = filename + ".css";
+
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }

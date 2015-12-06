@@ -4,11 +4,8 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         restrict: 'E',
         scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
+        // controller: 'CreateLayoutCtrl',
         link: function (scope) {
-
-            scope.items = [
-                { label: 'Create', state: 'create' }
-            ];
 
             scope.user = null;
 

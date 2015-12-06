@@ -1,3 +1,4 @@
+
 app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content, GridFactory, BrowserifyFactory) {
 
   $scope.aceLoaded = function(_editor){

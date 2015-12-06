@@ -1,19 +1,17 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
-        <div class="navbar-header">
-            <lasso-logo></lasso-logo>
+
+<!--         <div ng-show="project">Currently viewing: <br>
+            <div>Project - {{ project.name }}</div>
         </div>
-        <ul class="nav navbar-nav">
-            <li ng-repeat="item in items" ng-show="!item.auth || isLoggedIn()">
-                <a ui-sref-active="active" ui-sref="{{ item.state }}">{{ item.label }}</a>
-            </li>
-        </ul>
+        <div ng-show="page">Page: {{ page.name }}</div> -->
         
         <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
         <div ng-show="user" class="welcome">
-            <span>Welcome, {{ user.email }}!</span>
+            <span> Signed is as: </span>
+            <span id="user-email"> {{ user.email }} | </span>
             <a ng-click="logout()">Logout</a>
         </div>
     </div>
-</nav>
+</nav>  

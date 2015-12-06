@@ -1,5 +1,28 @@
-<aside id="toolbar-left" class="toolbar">
+<!-- <aside id="toolbar-left" class="toolbar">
+  <div>
+    <a href="/">
+      <img id="lasso-logo" src="js/common/directives/lasso-logo/LLicon.png">
+    </a>
+  </div>
   <div class="button-holder">
+<<<<<<< HEAD
+    <button ng-click="new()" class="btn lasso-toolbar-btn project">New</button>
+    <button ng-click="open()" class="btn lasso-toolbar-btn project">Open</button>
+    <button ng-click="close()" ng-show="project" class="btn lasso-toolbar-btn grid-mgmt">Close</button>
+    <hr>
+    <button ng-click="clearGrid()" class="btn lasso-toolbar-btn grid-mgmt">Clear Grid</button>
+    <button ng-click="saveGrid()" class="btn lasso-toolbar-btn grid-mgmt">Save Grid</button>
+    <button ng-click="loadGrid()" class="btn lasso-toolbar-btn grid-mgmt">Load Grid</button>
+    <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn grid-mgmt">Templates</button>
+    <hr>
+    <button ng-click="addNewGridElement()" class="btn lasso-toolbar-btn elements">Add Element</button><br>
+    <button ng-click="addNavBar()" class="btn lasso-toolbar-btn elements">Add Navbar</button>
+    <button class="lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
+
+    <hr>
+    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
+    
+=======
     <button ng-click="addNewGridElement()" class="btn btn-default">Add Element</button><br>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
     <button ng-click="new()" class="btn btn-default">New</button>
@@ -14,16 +37,22 @@
     <styling-mode-selector class="btn lasso-toolbar-btn btn-left">Styling Mode</styling-mode-selector>
     <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
     <button class="btn lasso-toolbar-btn" ng-click="showClassPanel()">Show Classes</button>
+>>>>>>> master
     <div ng-show="project">Currently viewing: <br>
       <div>Project - {{ project.name }}</div>
     </div>
     <div ng-show="page">Page: {{ page.name }}</div>
-
-
   </div>
 </aside>
-
+ -->
+ 
 <section class="create-layout">
+
+  <div class="project-info" > 
+    <!-- style="margin: left; ">  -->
+      <span ng-show="project"> Project: {{ project.name }} </span>
+      <span ng-show="page"> Page: {{ page.name }} </span>
+  </div>
 
   <div class="page-layout">
     <div growl></div>
@@ -34,3 +63,4 @@
 </section>
 <css-applicator ng-show="styleMenuOpen" class="menu-directive"></css-applicator>
 <class-display ng-show="classMenuOpen" class="menu-directive"></class-display>
+
