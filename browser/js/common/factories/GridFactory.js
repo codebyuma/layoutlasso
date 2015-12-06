@@ -165,9 +165,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     }
 
     GridFactory.clearGrid = function() {
-        //GridFactory.counter = 0;
         GridFactory.main_grid.remove_all();
-        // GridFactory.main_grid = $('#main-grid').gridstack(options).data('gridstack');
         GridFactory.nestedGrids = {};
         GridFactory.nestedGrids["main-grid"] = GridFactory.main_grid;
         
