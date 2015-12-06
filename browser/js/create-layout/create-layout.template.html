@@ -4,17 +4,17 @@
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn btn-left">Add Navbar</button>
 
 <div>
-    <div class="btn-group" uib-dropdown is-open="status.isopen">
-    <button id="add-button-dropdown" class="btn lasso-toolbar-btn btn-left" uib-dropdown-toggle auto-close="outsideClick" ng-disabled="disabled">
+    <div uib-dropdown auto-close="outsideClick">
+    <button id="add-button-dropdown" class="btn lasso-toolbar-btn btn-left" uib-dropdown-toggle>
       Add Buttons <span class="caret"></span>
     </button>
     <ul class="uib-dropdown-menu" role="menu" aria-labelledby="single-button">
-      <li role="menuitem"><button ng-click="addButton('default')" class="btn lasso-toolbar-btn btn-left">Add Button</button></li>
-      <li role="menuitem"><button ng-click="addButton('primary')" class="btn lasso-toolbar-btn btn-left">Primary Button</button></li>
-      <li role="menuitem"><button ng-click="addButton('success')" class="btn lasso-toolbar-btn btn-left">Success Button</button></li>
-      <li role="menuitem"><button ng-click="addButton('info')" class="btn lasso-toolbar-btn btn-left">Info Button</button></li>
-      <li role="menuitem"><button ng-click="addButton('warning')" class="btn lasso-toolbar-btn btn-left">Warning Button</button></li>
-      <li role="menuitem"><button ng-click="addButton('danger')" class="btn lasso-toolbar-btn btn-left">Danger Button</button></li>
+      <li role="menuitem"><button ng-click="addButton('default')" class="btn lasso-toolbar-btn btn-left">Default</button></li>
+      <li role="menuitem"><button ng-click="addButton('primary')" class="btn lasso-toolbar-btn btn-left">Primary</button></li>
+      <li role="menuitem"><button ng-click="addButton('success')" class="btn lasso-toolbar-btn btn-left">Success</button></li>
+      <li role="menuitem"><button ng-click="addButton('info')" class="btn lasso-toolbar-btn btn-left">Info</button></li>
+      <li role="menuitem"><button ng-click="addButton('warning')" class="btn lasso-toolbar-btn btn-left">Warning</button></li>
+      <li role="menuitem"><button ng-click="addButton('danger')" class="btn lasso-toolbar-btn btn-left">Danger</button></li>
     </ul>
 </div>
 
