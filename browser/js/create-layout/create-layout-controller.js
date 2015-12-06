@@ -200,6 +200,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         ModalFactory.templateModal.result.then(function(selectedItem){
             GridFactory.clearSavedGrid();
             GridFactory.loadGrid($scope, selectedItem);
+            $scope.nestedGrids = GridFactory.getNestedGrids();
         })
     }
 
