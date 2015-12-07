@@ -285,7 +285,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         $('#lasso-button-box-' + parentId).remove();
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box lasso-button-box-hide'>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+ parentId + "''>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
    <button style-nested-grid-item data-element-selector=" + parentId + "></button>\
