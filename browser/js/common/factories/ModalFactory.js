@@ -1,4 +1,4 @@
-app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
+app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
     var ModalFactory = {};
 
     ModalFactory.closeModal;
@@ -11,7 +11,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
-            animation: $scope.animationEnabled,
+            animation: scope.animationEnabled,
             templateUrl: "/js/close-modal/close-modal.html",
             controller: "CloseModalCtrl"
         })
@@ -19,7 +19,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchUserLoginModal = function (scope){
         ModalFactory.userLoginModal = $uibModal.open({
-            animation: $scope.animationEnabled,
+            animation: scope.animationEnabled,
             templateUrl: "/js/login-modal/login-modal.html",
             controller: "LoginModalCtrl"
         })
@@ -27,7 +27,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
         ModalFactory.projectLoadModal = $uibModal.open({
-            animation: $scope.animationEnabled,
+            animation: scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
             controller: "ProjectModalCtrl",
             resolve: {
@@ -42,7 +42,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchPageLoadModal = function (scope){
         ModalFactory.pageLoadModal = $uibModal.open({
-            animation: $scope.animationEnabled,
+            animation: scope.animationEnabled,
             templateUrl: "/js/page-modal/page-modal.html",
             controller: "PageModalCtrl",
             resolve: { // getting from factory so we can populate pages in the project
@@ -55,7 +55,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchTemplatesLoadModal = function (scope){
         ModalFactory.templateModal = $uibModal.open({
-            animation: $scope.animationsEnabled,
+            animation: scope.animationsEnabled,
             templateUrl: 'js/template-modal/template-modal.html',
             controller: 'templateModalCtrl',
             resolve: {
@@ -68,7 +68,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchEditHtmlModal = function (scope, id){
         ModalFactory.editHtmlModal = $uibModal.open({
-         animation: $scope.animationsEnabled,
+         animation: scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
          controller: 'EditHTMLModalCtrl',
          resolve: {
@@ -81,7 +81,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, $scope, GridFactor
 
     ModalFactory.launchAddComponentsModal = function (scope, id) {
       ModalFactory.addComponentsModal = $uibModal.open({
-        animation: $scope.animationsEnabled,
+        animation: scope.animationsEnabled,
         templateUrl: '/js/add-components-modal/add-components.html',
         controller: 'AddComponentsModalCtrl',
         resolve: {
