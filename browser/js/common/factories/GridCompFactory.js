@@ -10,6 +10,32 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       var newWidget = grid.add_widget(el, 0, 0, 12, 1, true);
     }
 
+    GridCompFactory.addImage = function (scope, id, url){
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addImage(url));
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addImage(url))
+        console.log("element in addImage: ", el);
+      }
+      grid.add_widget(el, 0, 0, 4, 2, true);
+    }
+
+    GridCompFactory.addVideo = function (scope, id, url){
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        // note: addVideo function in layout-component factory may not be necessary, as we ask the user to enter embed-ready code here
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), url)
+
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), url)
+      }
+      grid.add_widget(el, 0, 0, 4, 2, true);
+    }
+
+
     // type is a string representing the bootstrap type of button "primary", "danger", "warning"
     GridCompFactory.addButton = function(scope, id, type){
       // check if id is a grid, if so, just add button as widget to grid
@@ -20,6 +46,9 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
         var grid = GridFactory.addNestedGrid(scope, id);
         var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addButton(type))
       }
+
+      grid.add_widget(el, 0, 0, 6, 1, true);
+
       grid.add_widget(el, 0, 0, 2, 2, true);
       StyleModeFactory.resetEditableLayers(scope);
     }
@@ -47,6 +76,7 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       }
       grid.add_widget(el, 0, 0, 4, 3, true);
       StyleModeFactory.resetEditableLayers(scope);
+
     }
 
 	return GridCompFactory;
