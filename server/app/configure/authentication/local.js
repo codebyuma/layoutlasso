@@ -12,7 +12,7 @@ module.exports = function(app) {
     var strategyFn = function(email, password, done) {
         User.findOne({
                 email: email
-            })
+            }).populate('projects').exec()
             .then(function(user) {
                 // user.correctPassword is a method from the User schema.
                 if (!user || !user.correctPassword(password)) {
@@ -70,7 +70,7 @@ module.exports = function(app) {
 
                 User.findOne({
                         'email': req.body.email
-                    }).exec()
+                    }).populate('projects').exec()
                     .then(function(user) {
                         if (user){
                             console.log("USER FOUND", user);
