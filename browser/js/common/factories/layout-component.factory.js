@@ -16,10 +16,10 @@ app.factory("LayoutComponentFactory",  function($compile){
       return '<button ng-click="click()" class="btn btn-'+ type +'"> Click Me </button>';
     },
     addInputForm: function() {
-      return '<div class="input-group">\
+      return '<form><div class="input-group">\
         <span class="input-group-addon" id="basic-addon1">Input:</span>\
         <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">\
-      </div>'
+      </div></form>'
     },
     addList: function() {
       return '<div class="list-group" width="100%">\
