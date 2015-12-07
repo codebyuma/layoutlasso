@@ -32,11 +32,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     GridFactory.init();
 
-    // AuthService.getLoggedInUser()
-    // .then(function( user ){
-    //     $scope.user = user;
-    // })
-
+    $scope.user = theUser;
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
