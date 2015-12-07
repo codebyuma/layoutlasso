@@ -1,4 +1,4 @@
-app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope, StyleSaveLoadFactory, StyleModeFactory) {
+app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory, UserFactory, $rootScope, StyleSaveLoadFactory) {
     var GridFactory = {};
 
     var options = {
@@ -78,7 +78,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button>\
             <button style-nested-grid-item data-element-selector=" + id + "></button>\
             </div></div></div>")(scope);
-
         return el;
     }
 
@@ -88,7 +87,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
        GridFactory.counter++;
        var el = GridFactory.createElement(scope, GridFactory.counter, content);
        var newWidget = grid.add_widget(el, 0, 0, 3, 2, true);
-       StyleModeFactory.resetEditableLayers(scope);
    }
 
     GridFactory.addNestedGrid = function(scope, id) {
@@ -120,9 +118,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + "lasso-button-box-" + id )
             .append($compile("<button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + newGridID + ")'><span class='glyphicon glyphicon-plus'></span></button>")(scope));
-
-        StyleModeFactory.resetEditableLayers(scope);
-
         return newGrid;
     }
 
