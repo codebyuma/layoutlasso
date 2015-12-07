@@ -96,16 +96,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     return;
   }
 
-  /* Remove mode specific styling function, takes a selector, elementType can be a literal class ".testing", or an element tag when dealing with ng-directives, if you only want to add and remove a single class */
-
-  StyleModeFactory.refreshDisplayOfElements = function(classIdentifier, elementTag){
-    var matchingDOMObjs = $("." + classIdentifier);
-    if(matchingDOMObjs.length){
-      matchingDOMObjs.removeClass(classIdentifier);
-    } else {
-      $(elementTag).addClass(classIdentifier);
-    }
-  }
+  /* Remove class from styling buttons REMOVED, will return if ng-cloak not working */
 
 
 
@@ -131,12 +122,10 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
-        StyleModeFactory.toggleDisplayOfElements("lasso-hide-button", "style-nested-grid-item");
         /* */
 
       } else if(scope.stylingModeActive){
         $("styling-mode-selector").removeClass("style-mode-active");
-        StyleModeFactory.toggleDisplayOfElements("lasso-hide-button", "style-nested-grid-item");
         NestedStylingFactory.clearNestedStyling();
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();

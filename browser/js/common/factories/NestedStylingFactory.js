@@ -40,7 +40,6 @@ app.factory("NestedStylingFactory", function(){
   NestedStylingFactory.findEditableLayer = function(mainGridElement, targetElementDesignator){
     var targets = mainGridElement.find(targetElementDesignator);
     var editableTargets = [];
-    console.log("FINDING NESTED LAYERS", targets);
     if(targets.length) {
       editableTargets = checkIfNestedGrid(targets);
       editableTargets.forEach(function(el){

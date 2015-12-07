@@ -8,6 +8,11 @@ app.directive("styleNestedGridItem", function(StyleModeFactory, NestedStylingFac
 
       var mainGrid = $("#main-grid");
       var target = ".grid-stack-item";
+      // if(scope.styleModeActive){
+      //   $(element).removeClass("lasso-hide-button");
+      // } else {
+      //   $(element).addClass("lasso-hide-button");
+      // }
 
       element.on("click", function(event){
         var parentIdentifier = self.data("element-selector");
