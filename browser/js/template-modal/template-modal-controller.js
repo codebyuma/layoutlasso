@@ -1,6 +1,11 @@
-app.controller('templateModalCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
+app.controller('templateModalCtrl', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
 
-	$scope.templates = allTemplates;
+	
+
+	TemplateFactory.getAll()
+	.then (function (allTemplates){
+		$scope.templates = allTemplates;
+	})
 
 	$scope.getTemplate = function( template ){
 		TemplateFactory.getTemplate( template._id )
@@ -9,4 +14,4 @@ app.controller('templateModalCtrl', ['$scope', '$uibModalInstance', function ($s
 		})
 	}
 
-}])
+})

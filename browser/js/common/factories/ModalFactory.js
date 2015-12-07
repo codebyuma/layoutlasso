@@ -57,12 +57,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserF
         ModalFactory.templateModal = $uibModal.open({
             animation: scope.animationsEnabled,
             templateUrl: 'js/template-modal/template-modal.html',
-            controller: 'templateModalCtrl',
-            resolve: {
-                allTemplates: function(TemplateFactory){
-                    return TemplateFactory.getAll();
-                }
-            }
+            controller: 'templateModalCtrl'
         })
     }
 
