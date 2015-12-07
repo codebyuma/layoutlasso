@@ -1,4 +1,4 @@
-app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
+app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, NestedStylingFactory){
   var StyleModeFactory = {};
   /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
@@ -39,6 +39,18 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     });
   }
 
+  /* Reset and rescan GRID for editable layers on adding new elements or widgets or any other GRID actions */
+
+  StyleModeFactory.resetEditableLayers = function(scope){
+    if(scope.stylingModeActive){
+      NestedStylingFactory.clearNestedStyling() // Remove all styling
+      NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item"); // Re-render on correct elements.
+    } else {
+      NestedStylingFactory.clearNestedStyling();
+    }
+    return;
+  }
+
   /* Initiating Click event listeners when in styling mode */
   StyleModeFactory.elementSelectEventListenerInit = function(scope){
     StyleModeFactory.initiateStylingHoverEvents();
@@ -74,6 +86,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
   /* Function to reset all style mode attributes to apply on function that load and close a project. Ensures all menus and actions are deactivated and event listeners are toggled off. */
 
   StyleModeFactory.deactivateStyleMode = function(scope){
+    NestedStylingFactory.clearNestedStyling();
     if(scope.stylingModeActive){
       StyleModeFactory.toggleStyleModeActions(scope);
     }
@@ -83,34 +96,37 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope){
     return;
   }
 
-  /* Remove lasso-styling in progress class */
+  /* Remove class from styling buttons REMOVED, will return if ng-cloak not working */
 
 
 
   /* Remove an individual element from a class */
 
 
-  /* Get find and remove all nested grid elements to allow editing of native html */
+  /* find and apply display-none to nested grid element to allow editing of native html */
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
     var parent = $("#" + parentId);
-    var toDisplayNone = parent.find(".grid-stack-nested");
-    callback(toDisplayNone)
+    var toDisplayNone = parent.children(".grid-stack-nested").first();
+    if(toDisplayNone.length) callback(toDisplayNone);
+    return;
   }
 
   /* Initiate all event Listeners and actions for styling mode */
 
   StyleModeFactory.toggleStyleModeActions = function(scope){
+    var mainGrid = $("#main-grid");
     if(!scope.classEditMode){
       if(!scope.stylingModeActive){
         scope.stylingModeActive = true;
         scope.styleMenuOpen = true;
-
+        NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
         /* */
 
       } else if(scope.stylingModeActive){
         $("styling-mode-selector").removeClass("style-mode-active");
+        NestedStylingFactory.clearNestedStyling();
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;

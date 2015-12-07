@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory) {
 
 
 
@@ -48,7 +48,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.new = function() {
         if (!$scope.user) {
             $scope.promptUserLogin();
-            Factory.userLoginModal.result.then(function(user) {
+            ModalFactory.userLoginModal.result.then(function(user) {
                 $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
@@ -149,16 +149,21 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.addNewGridElement = function(grid, content) {
         GridFactory.addNewGridElement($scope, grid, content);
+        if($scope.stylingModeActive) StyleModeFactory.resetEditableLayers($scope); // Rescan GRID for editable layers if style mode active.
     }
 
     $scope.addNestedGrid = function(id) {
         GridFactory.addNestedGrid($scope, id);
     }
 
-    $scope.removeWidget = GridFactory.removeWidget;
+    $scope.removeWidget = function(id, gridID){
+      GridFactory.removeWidget(id, gridID, $scope);
+      StyleModeFactory.resetEditableLayers($scope);
+    }
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
         StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
@@ -176,6 +181,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
                 $scope.promptProjectLoad();
             }
         }
+        if($scope.stylingModeActive){
+          NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
+        }
     }
 
     $scope.clearGrid = function(){
@@ -189,6 +197,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
         $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
     }
 
     //===== Templates ===== //
@@ -200,12 +209,16 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
             GridFactory.loadGrid($scope, selectedItem);
             $scope.nestedGrids = GridFactory.getNestedGrids();
         })
+        // If style mode is active, scan grid and show editable layer.
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
+
     }
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
         var pageName, projectName, filename;
-
+        // Clear styling if trying to export in styling mode.
+        if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
 
@@ -251,6 +264,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           window.URL.revokeObjectURL(cssUrl);
         }
         StyleSaveLoadFactory.stylingBeforeClearToReload();
+        if($scope.stylingModeActive) NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
     };
 
     $scope.gridEmpty = function() {
@@ -295,6 +309,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.addButtonToMain = function(type) {
         GridCompFactory.addButton($scope, GridFactory.main_grid, type);
+        // Re-render editable layer on componenet addition.
+        // StyleModeFactory.resetEditableLayers($scope);
+      }
+
+    $scope.addButton = function(type) {
+        GridCompFactory.addButton($scope, GridFactory.incrementCounter(), type);
     }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
