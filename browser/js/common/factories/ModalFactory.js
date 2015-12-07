@@ -72,14 +72,20 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
         })
     }
 
-    ModalFactory.launchEditHtmlModal = function (scope, id){
-        ModalFactory.id = id;
+   
+ModalFactory.launchEditHtmlModal = function (scope, id){
         ModalFactory.editHtmlModal = $uibModal.open({
          animation: scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
-         controller: 'EditHTMLModalCtrl'
+         controller: 'EditHTMLModalCtrl',
+         resolve: {
+           content: function () {
+             return GridFactory.getWidgetContentById(id);
+           }
+         }
        });
     }
+
 
     ModalFactory.launchAddComponentsModal = function (scope, id) {
       ModalFactory.addComponentsModal = $uibModal.open({
