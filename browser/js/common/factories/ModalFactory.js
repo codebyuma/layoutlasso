@@ -8,7 +8,10 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.templateModal;
     ModalFactory.editHtmlModal;
     ModalFactory.addComponentsModal;
-
+    ModalFactory.createProjBool;
+    ModalFactory.user;
+    ModalFactory.project;
+    
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
             animation: scope.animationEnabled,
@@ -25,31 +28,35 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
         })
     }
 
+    ModalFactory.getCreateProjBool = function (){
+        return ModalFactory.createProjBool;
+    }
+
+    ModalFactory.getUser = function (){
+        return ModalFactory.user;
+    }
+
+    ModalFactory.getProject = function (){
+        return ModalFactory.project;
+    }
+
+
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
+        ModalFactory.createProjBool = _createProjBool;
+        ModalFactory.user = scope.user;
         ModalFactory.projectLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
-            controller: "ProjectModalCtrl",
-            resolve: {
-                createProjBool: _createProjBool, // boolean used to indicate what to ngshow in the modal
-                user: function(UserFactory) { // get user again to have projects populated
-                    if (scope.user)
-                        return UserFactory.getUser(scope.user._id);
-                }
-            }
+            controller: "ProjectModalCtrl"
         })
     }
 
     ModalFactory.launchPageLoadModal = function (scope){
+        ModalFactory.project = scope.project;
         ModalFactory.pageLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/page-modal/page-modal.html",
-            controller: "PageModalCtrl",
-            resolve: { // getting from factory so we can populate pages in the project
-                project: function(ProjectFactory) {
-                    return ProjectFactory.getProject(scope.project._id);
-                }
-            }
+            controller: "PageModalCtrl"
         })
     }
 
@@ -57,16 +64,12 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
         ModalFactory.templateModal = $uibModal.open({
             animation: scope.animationsEnabled,
             templateUrl: 'js/template-modal/template-modal.html',
-            controller: 'templateModalCtrl',
-            resolve: {
-                allTemplates: function(TemplateFactory){
-                    return TemplateFactory.getAll();
-                }
-            }
+            controller: 'templateModalCtrl'
         })
     }
 
-    ModalFactory.launchEditHtmlModal = function (scope, id){
+   
+ModalFactory.launchEditHtmlModal = function (scope, id){
         ModalFactory.editHtmlModal = $uibModal.open({
          animation: scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
@@ -78,6 +81,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
          }
        });
     }
+
 
     ModalFactory.launchAddComponentsModal = function (scope, id) {
       ModalFactory.addComponentsModal = $uibModal.open({
