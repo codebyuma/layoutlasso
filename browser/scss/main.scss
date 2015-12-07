@@ -13,6 +13,9 @@ $frostyAlmond: rgba(210, 194, 172, 0.6);
 $arctic: #648589;
 $adobeBlue: rgba(199, 223, 255, 1);
 
+.grid-stack-item-content {
+  border: 1px dotted black;
+}
 
 body {
   background: $cloudDancer;
