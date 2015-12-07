@@ -1,4 +1,4 @@
-app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFactory){
+app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFactory, StyleModeFactory){
     var GridCompFactory = {};
 
     GridCompFactory.addNavBar = function (scope, main_grid, counter){
@@ -15,12 +15,38 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       // check if id is a grid, if so, just add button as widget to grid
       if (GridFactory.isGrid("grid" + id)) {
         var grid = GridFactory.getGridById("grid" + id);
-        var el = GridFactory.createElement(scope, "grid" + id, LayoutComponentFactory.addButton(type))
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addButton(type))
       } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
         var grid = GridFactory.addNestedGrid(scope, id);
         var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addButton(type))
       }
       grid.add_widget(el, 0, 0, 2, 2, true);
+      StyleModeFactory.resetEditableLayers(scope);
+    }
+
+    GridCompFactory.addInputForm = function(scope, id) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addInputForm())
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addInputForm())
+      }
+      grid.add_widget(el, 0, 0, 6, 1, true);
+      StyleModeFactory.resetEditableLayers(scope);
+    }
+
+// array is an array of items to iterate over in an ng-repeat
+    GridCompFactory.addList = function(scope, id) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addList())
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addList())
+      }
+      grid.add_widget(el, 0, 0, 4, 3, true);
+      StyleModeFactory.resetEditableLayers(scope);
     }
 
 	return GridCompFactory;

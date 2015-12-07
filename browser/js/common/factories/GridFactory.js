@@ -78,7 +78,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button>\
             <button style-nested-grid-item data-element-selector=" + id + "></button>\
             </div></div></div>")(scope);
-
         return el;
     }
 
@@ -119,7 +118,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + "lasso-button-box-" + id )
             .append($compile("<button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + newGridID + ")'><span class='glyphicon glyphicon-plus'></span></button>")(scope));
-
         return newGrid;
     }
 
@@ -163,8 +161,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
       if(gridID === "main-grid") return;
       GridFactory.generateParentButtons(parent, scope);
       parent.remove();
-      // delete GridFactory.nestedGrids[gridID];
-
+      delete GridFactory.nestedGrids[gridID];
     }
 
 
