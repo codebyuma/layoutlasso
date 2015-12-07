@@ -59,7 +59,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     // open button - prompt user to open project and page
     $scope.open = function() {
         $uibModal.open({
-            animation: scope.animationsEnabled,
+            animation: $scope.animationsEnabled,
             templateUrl: 'js/template-modal/template-modal.html',
             controller: 'templateModalCtrl',
             resolve: {
