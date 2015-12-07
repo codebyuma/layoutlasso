@@ -11,7 +11,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.createProjBool;
     ModalFactory.user;
     ModalFactory.project;
-    
+
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
             animation: scope.animationEnabled,
