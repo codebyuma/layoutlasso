@@ -1,4 +1,4 @@
-app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
+app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
     var ModalFactory = {};
 
     ModalFactory.closeModal;
@@ -93,4 +93,4 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     }
 
     return ModalFactory;
-});
+}]);
