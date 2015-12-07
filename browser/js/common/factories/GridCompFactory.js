@@ -13,10 +13,11 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
     GridCompFactory.addImage = function (scope, id, url){
       if (GridFactory.isGrid("grid" + id)) {
         var grid = GridFactory.getGridById("grid" + id);
-        var el = GridFactory.createElement(scope, "grid" + id, LayoutComponentFactory.addImage(url))
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addImage(url));
       } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
         var grid = GridFactory.addNestedGrid(scope, id);
         var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addImage(url))
+        console.log("element in addImage: ", el);
       }
       grid.add_widget(el, 0, 0, 4, 2, true);
     }
@@ -25,7 +26,8 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       if (GridFactory.isGrid("grid" + id)) {
         var grid = GridFactory.getGridById("grid" + id);
         // note: addVideo function in layout-component factory may not be necessary, as we ask the user to enter embed-ready code here
-        var el = GridFactory.createElement(scope, "grid" + id, url)
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), url)
+
       } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
         var grid = GridFactory.addNestedGrid(scope, id);
         var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), url)

@@ -18,12 +18,14 @@ app.factory("LayoutComponentFactory",  function($compile){
     },
 
     addImage: function(url) {
-      return '<img src="' + url + '"></img>'
+      console.log('bananas pepes url: ', url)
+      return ('<img src=' + url + '>')
     },
 
     addVideo: function (url) {
       // may not actually need this function: just have user enter embed code
       return '<iframe width="420" height="315" src="' + url + '" frameborder="0" allowfullscreen></iframe>'
+    },
 
     addInputForm: function() {
       return '<form><div class="input-group">\
