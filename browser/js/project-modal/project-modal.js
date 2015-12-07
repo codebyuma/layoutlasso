@@ -1,8 +1,9 @@
-app.controller('ProjectModalCtrl', function($scope, createProjBool, UserFactory, ProjectFactory, ModalFactory, $uibModalInstance) {
+app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory, ModalFactory, $uibModalInstance) {
 
      $scope.projects = null;
      $scope.hasProjects = false;
 
+     // moving this back in from the resolve as it was breaking on heroku
     if (ModalFactory.getUser()!==null){
         UserFactory.getUser(ModalFactory.getUser()._id)
         .then (function (user){
