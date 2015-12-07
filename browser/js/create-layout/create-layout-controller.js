@@ -156,7 +156,10 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         GridFactory.addNestedGrid($scope, id);
     }
 
-    $scope.removeWidget = GridFactory.removeWidget;
+    $scope.removeWidget = function(id, gridID){
+      GridFactory.removeWidget(id, gridID, $scope);
+      StyleModeFactory.resetEditableLayers($scope);
+    }
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
