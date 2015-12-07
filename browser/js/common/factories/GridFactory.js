@@ -127,7 +127,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // Function to build the original button box
     GridFactory.buildButtonBox = function(id, scope){
 
-      return $compile("<div class='row nested-buttons'>\<div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+      return $compile("<div class='row'>\<div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
       <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
       <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" + id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" + id + "'><span class='glyphicon glyphicon-th'></span></button>\
       <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
@@ -148,14 +148,15 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
 
     // Regenerate the previous buttons on the parent.
     GridFactory.generateParentButtons = function(el, scope){
-      var elementToMod = GridFactory.findParentGrid(el);
-      var elementId = elementToMod.attr("id");
-      $('#lasso-button-box-' + elementId).remove();
+      var parentOfElementToMod = GridFactory.findParentGrid(el);
+      var elementId = parentOfElementToMod.attr("id");
+      var elementToAppendTo = parentOfElementToMod.children(".grid-stack-item-content");
+      $('#lasso-button-box-' + elementId).parent().remove()
+      $('#lasso-button-box-' + elementId);
       $('#lasso-nest-btn-' + elementId).remove();
       $('#lasso-x-btn-' + elementId).remove();
       $('#lasso-addcomp-btn').remove();
-      console.log("ELEMENT TO MOD: ", elementToMod);
-      elementToMod.append(GridFactory.buildButtonBox(elementId, scope));
+      elementToAppendTo.append(GridFactory.buildButtonBox(elementId, scope));
     }
 
     // Remove the empty nested grid and change buttons on parent.

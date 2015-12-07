@@ -11,22 +11,22 @@ app.directive("styleNestedGridItem", function(StyleModeFactory, NestedStylingFac
 
       element.on("click", function(event){
         var parentIdentifier = self.data("element-selector");
+        if(!scope.stylingModeActive) return;
         if(!styleThisElement){
           styleThisElement = !styleThisElement;
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
             el.fadeOut(300,  NestedStylingFactory.toggleParentEditable(parentIdentifier, "lasso-editable-widget"));
           });
-          console.log("SELF:", self.data("element-selector"));
-          self.addClass("lasso-hide-nested");
+          self.addClass("lasso-hide-children-active");
           styleThisElement = !styleThisElement;
         } else {
           StyleModeFactory.findNestedGrid(parentIdentifier, function(el){
             el.fadeIn(300, NestedStylingFactory.toggleParentEditable(parentIdentifier, "lasso-editable-widget"))
             });
-          };
-          self.removeClass("lasso-hide-nested");
-          styleThisElement = !styleThisElement;
-        })
-      }
+            self.removeClass("lasso-hide-children-active");
+        };
+        styleThisElement = !styleThisElement;
+      })
     }
-  })
+  }
+})
