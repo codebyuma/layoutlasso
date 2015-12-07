@@ -1,22 +1,20 @@
 navbar {
 
-  position: fixed;
+  // position: fixed;
   top: 0px;
   width: 100vw;
-  background: $russet;
+  background: #FF9313;
+
   box-shadow: 0px 1px 14px black;
   z-index: 2000;
 
   .container {
-    width: 91%;
-    max-width: 1340px;
-    padding-top: 20px;
-  }
-
-  lasso-logo {
-    margin-top: 5px;
-    margin-right: 20px;
-    width: 40px;
+    width: 100%;
+    margin-top: 10px; 
+    margin-right: 100px;
+    margin-bottom: 0px;
+    margin-left: 120px;
+    padding-right: 200px;
   }
 
   a {
@@ -24,10 +22,11 @@ navbar {
     font-size: 16px;
   }
 
-  .nav > li > a {
+  .nav > li > a { // Button
     cursor: pointer;
     transition: all 0.2s;
-    &.active {
+    &:active {
+      // ? arctic ??
       background-color: $arctic !important;
       color: #fff;
       z-index: 100;
@@ -46,13 +45,14 @@ navbar {
     float: right;
     border: 1px solid black;
     margin-top: 10px;
+    margin-right: 20px;
     background: none;
     outline: none !important;
   }
 
   .welcome {
     float: right;
-    margin-top: 12px;
+    margin-top: 22px;
     span {
       color: black;
       font-size: 16px;
@@ -64,4 +64,15 @@ navbar {
     }
   }
 
+  #user-email {
+    font-style: italic;
+  }
+
 }
+
+.navbar-static-top {
+    z-index: 0
+  }
+
+
+

@@ -7,6 +7,6 @@ app.config(function($stateProvider){
     	theUser: function (AuthService){
     		return AuthService.getLoggedInUser();
     	}
-    }
+    } 
   })
 });

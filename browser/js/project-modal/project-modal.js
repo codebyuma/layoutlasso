@@ -1,7 +1,6 @@
 app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory, ModalFactory, $uibModalInstance, AuthService) {
 
-     $scope.projects = null;
-     $scope.hasProjects = false;
+    
 
      AuthService.getLoggedInUser()
      .then (function (user){
@@ -9,6 +8,9 @@ app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory,
         if ($scope.user) {
             $scope.projects = $scope.user.projects;
             $scope.hasProjects = $scope.projects.length;
+        } else {
+            $scope.projects = null;
+            $scope.hasProjects = false;
         }
      })
      

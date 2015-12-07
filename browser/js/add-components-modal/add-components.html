@@ -1,10 +1,17 @@
 <div id="html-modal" class="modal-header">
      <h3 class="modal-title">Add a Component</h3>
  </div>
- <div class="modal-body">
-   <ul role="menu" aria-labelledby="single-button" ng-repeat="button in buttons">
-     <li role="menuitem"><button  ng-class="'btn btn-' + button" ng-click="save(['button', button])">{{ button }}</button></li>
-   </ul>
+
+<!-- ADD BUTTONS -->
+ <div class="modal-body"> Buttons:
+   <div role="menu" >
+     <span aria-labelledby="single-button" ng-repeat="button in buttons">
+     	<button ng-class="'btn btn-' + button" ng-click="save(['button', button])">{{ button }}</button>
+     </span>
+   </div>
+   <!-- </ul> -->
+
+ <div class="modal-body"> Form:
    <ul>
      <li role="menuitem">
        <button ng-click="save(['inputForm'])">Input Form
@@ -27,6 +34,23 @@
     </li>
   </ul>
  </div>
+
+<!-- ADD IMAGE OR VIDEO -->
+ <div class="modal-body"> Media:
+ 	<ul role="menu" aria-labelledby="single-button" ng-repeat="mediaItem in mediaItems">
+    	<li role="menuitem">
+    		<form id="url-form" name="urlForm">
+    			<div class="form-group">
+                    <label for="email">{{mediaItem}}</label>
+                    <input type="text" ng-model="url" class="form-control" id="email" placeholder="Enter url" required>
+    				<button type="submit" ng-class="'btn btn-' + mediaItem" ng-click="save([mediaItem, url])">Add</button>
+                </div>
+    		<!-- form to enter url--> 
+    	</li>
+	</ul>
+	<p> note: use embed code link for video </p>
+ </div>
+
  <div class="modal-footer">
      <button class="btn btn-warning" type="button" ng-click="cancel()"><span class="glyphicon glyphicon-remove"></span></button>
  </div>
