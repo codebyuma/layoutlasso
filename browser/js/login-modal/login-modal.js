@@ -1,12 +1,12 @@
 app.controller('LoginModalCtrl', function($scope, AuthService, $uibModalInstance) {
-
+    $scope.signup=false;
 
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel')
     }
 
     $scope.error = null;
-    $scope.signup=false;
+    
 
     $scope.showSignUp = function (){
         $scope.signup = true;
