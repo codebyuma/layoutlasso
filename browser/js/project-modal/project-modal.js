@@ -5,7 +5,6 @@ app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory,
 
      AuthService.getLoggedInUser()
      .then (function (user){
-        console.log("user", user)
         $scope.user = user;
         if (user)
             return UserFactory.getUser(user._id) // to get user with populated projects
@@ -13,7 +12,6 @@ app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory,
             return null
      })
      .then (function (updatedUser){
-        console.log("updated user", updatedUser)
         $scope.user = updatedUser;
         if ($scope.user) {
             $scope.projects = updatedUser.projects;
