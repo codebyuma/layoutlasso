@@ -5,7 +5,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
     link: function(scope, element, attrs){
       scope.newClass.styles = [{ key: "", value: ""}];
 
-      /* Resets form and style group. Removes 'selection styling.' 
+      /* Resets form and style group. Removes 'selection styling.'
       */
       var resetScopeStyleObjs = function(){
         StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");

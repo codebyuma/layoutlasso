@@ -76,6 +76,18 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     })
   }
 
+  /* Reset all styling mode objects on scope when exiting style mode */
+
+    StyleModeFactory.resetScopeStyleObjs = function(scope){
+      StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
+      scope.newClass.name = "";
+      scope.newClass.styles = [{key: "", value: ""}];
+      scope.styleGroup = {};
+      scope.classEditMode = false;
+      scope.styleMenuOpen = false;
+      return;
+    }
+
   /* Remove event handlers for lasso-user-content elements when exiting out of styling mode */
   StyleModeFactory.removeEventHandlers = function(){
     $("#main-grid").off("click", ".lasso-user-content");
@@ -127,6 +139,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
       } else if(scope.stylingModeActive){
         $("styling-mode-selector").removeClass("style-mode-active");
         NestedStylingFactory.clearNestedStyling();
+        StyleModeFactory.resetScopeStyleObjs(scope);
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.styleMenuOpen = false;
