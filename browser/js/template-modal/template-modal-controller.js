@@ -1,4 +1,4 @@
-app.controller('templateModalCtrl', ['$scope', '$uibModalInstance', 'TemplateFactory', 'allTemplates', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
+app.controller('templateModalCtrl', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
 
 	$scope.templates = allTemplates;
 
@@ -9,4 +9,4 @@ app.controller('templateModalCtrl', ['$scope', '$uibModalInstance', 'TemplateFac
 		})
 	}
 
-})]
+})
