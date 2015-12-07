@@ -1,6 +1,5 @@
 
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, theUser, $rootScope, growl, GridCompFactory, GridFactory, $uibModal, ExportFactory, $timeout, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, TemplateFactory) {
-// removed theUser
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory) {
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
@@ -53,7 +52,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
     $scope.new = function() {
         if (!$scope.user) {
             $scope.promptUserLogin();
-            Factory.userLoginModal.result.then(function(user) {
+            ModalFactory.userLoginModal.result.then(function(user) {
                 $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
@@ -154,16 +153,21 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
 
     $scope.addNewGridElement = function(grid, content) {
         GridFactory.addNewGridElement($scope, grid, content);
+        if($scope.stylingModeActive) StyleModeFactory.resetEditableLayers($scope); // Rescan GRID for editable layers if style mode active.
     }
 
     $scope.addNestedGrid = function(id) {
         GridFactory.addNestedGrid($scope, id);
     }
 
-    $scope.removeWidget = GridFactory.removeWidget;
+    $scope.removeWidget = function(id, gridID){
+      GridFactory.removeWidget(id, gridID, $scope);
+      StyleModeFactory.resetEditableLayers($scope);
+    }
 
     $scope.saveGrid = function() {
         $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
         StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
         if ($scope.user && $scope.project && $scope.page) {
@@ -181,6 +185,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
                 $scope.promptProjectLoad();
             }
         }
+        if($scope.stylingModeActive){
+          NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
+        }
     }
 
     $scope.clearGrid = function(){
@@ -194,6 +201,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
         GridFactory.loadGrid($scope, $scope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
         $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
     }
 
     //===== Templates ===== //
@@ -205,13 +213,17 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
             GridFactory.loadGrid($scope, selectedItem);
             $scope.nestedGrids = GridFactory.getNestedGrids();
         })
+        // If style mode is active, scan grid and show editable layer.
+        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
+
     }
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
 
         var pageName, projectName, filename;
-
+        // Clear styling if trying to export in styling mode.
+        if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
 
@@ -260,6 +272,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
           window.URL.revokeObjectURL(cssUrl);
         }
         StyleSaveLoadFactory.stylingBeforeClearToReload();
+        if($scope.stylingModeActive) NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
     };
 
     $scope.gridEmpty = function() {
@@ -300,6 +313,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
           } else if (component[1] == 'video'){
             GridCompFactory.addVideo($scope, component[0], component[2]);
           }
+        // Re-render editable layer on componenet addition.
+        StyleModeFactory.resetEditableLayers($scope);
 
       })
     }
@@ -307,6 +322,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
     $scope.addButton = function(type) {
         // why four params? (main_grid?)
         GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+
     }
 
     $scope.addVideo = function (url) {

@@ -72,7 +72,6 @@ app.factory("StyleSaveLoadFactory", function(StylingFactory, StyleModeFactory){
       var removedStyles = StylingFactory.getRemovedStyles();
 
       var pastStyling = _.extend(currentStyles, removedStyles);
-      console.log("RECOMBINED STYLING: ", pastStyling);
 
       for(var style in currentStyles){
         findCurrentStylesAndRefresh(style, currentStyles[style]);

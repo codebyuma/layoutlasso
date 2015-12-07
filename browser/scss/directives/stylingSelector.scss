@@ -13,7 +13,19 @@
   box-sizing: border-box;
 }
 
+.lasso-editable-widget {
+  border: 2px solid purple !important;
+  box-shadow: 0px 5px 10px #666;
+}
 
+.lasso-hide-children-active {
+  background-color: purple;
+  color: yellow;
+}
+
+.lasso-hide-button {
+  display: none;
+}
 
 styling-mode-selector {
   outline: none;
