@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, $uibModal, GridCompFactory, TemplateFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
 
 
 
@@ -58,25 +58,14 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // open button - prompt user to open project and page
     $scope.open = function() {
-        $uibModal.open({
-            animation: $scope.animationsEnabled,
-            templateUrl: 'js/template-modal/template-modal.html',
-            controller: 'templateModalCtrl',
-            resolve: {
-                allTemplates: function(TemplateFactory){
-                    return TemplateFactory.getAll();
-                }
-            }
-        })
-
-        // if (!$scope.user) {
-        //     $scope.promptUserLogin();
-        //     ModalFactory.userLoginModal.result.then(function(user) {
-        //         $scope.promptProjectLoad(false); // false is used in the modal to show 'select project and create project'
-        //     })
-        // } else {
-        //     $scope.promptProjectLoad(false);
-        // }
+        if (!$scope.user) {
+            $scope.promptUserLogin();
+            ModalFactory.userLoginModal.result.then(function(user) {
+                $scope.promptProjectLoad(false); // false is used in the modal to show 'select project and create project'
+            })
+        } else {
+            $scope.promptProjectLoad(false);
+        }
     }
 
     // close button - prompt user to ask if they want to save the page first or not before closing
