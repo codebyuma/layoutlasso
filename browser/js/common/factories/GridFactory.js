@@ -69,7 +69,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-user-content'>" + content + "</div><div class='lasso-end-user-content'></div>\
   </div></div>\
   <div class='row'>\
-  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
   <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
@@ -78,7 +78,6 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button>\
             <button style-nested-grid-item data-element-selector=" + id + "></button>\
             </div></div></div>")(scope);
-
         return el;
     }
 
@@ -105,7 +104,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             newGridID + "'></div>")(scope));
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
   <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
   <button title='Add components' ng-click='addComponents(" + id + ")' class='lasso-addcomp-btn'><span class='glyphicon glyphicon-modal-window'></span></button>\
@@ -119,14 +118,13 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         // add an Add Widget Button to the newly nested grid
         $("#" + "lasso-button-box-" + id )
             .append($compile("<button title='Add nested grid' ng-click='addNewGridElement(nestedGrids." + newGridID + ")'><span class='glyphicon glyphicon-plus'></span></button>")(scope));
-
         return newGrid;
     }
 
     // Function to build the original button box
     GridFactory.buildButtonBox = function(id, scope){
 
-      return $compile("<div class='row'>\<div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+      return $compile("<div class='row'>\<div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
       <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
       <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" + id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" + id + "'><span class='glyphicon glyphicon-th'></span></button>\
       <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
@@ -163,8 +161,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
       if(gridID === "main-grid") return;
       GridFactory.generateParentButtons(parent, scope);
       parent.remove();
-      // delete GridFactory.nestedGrids[gridID];
-
+      delete GridFactory.nestedGrids[gridID];
     }
 
 
@@ -285,7 +282,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         $('#lasso-button-box-' + parentId).remove();
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box'>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+ parentId + "''>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
    <button style-nested-grid-item data-element-selector=" + parentId + "></button>\

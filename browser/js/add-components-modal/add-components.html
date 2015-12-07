@@ -10,6 +10,32 @@
      </span>
    </div>
    <!-- </ul> -->
+
+ <div class="modal-body">
+   <ul role="menu" aria-labelledby="single-button" ng-repeat="button in buttons">
+     <li role="menuitem"><button  ng-class="'btn btn-' + button" ng-click="save(['button', button])">{{ button }}</button></li>
+   </ul>
+   <ul>
+     <li role="menuitem">
+       <button ng-click="save(['inputForm'])">Input Form
+         <form>
+           <div class="input-group">
+             <span class="input-group-addon" id="basic-addon1">Input Form</span>
+             <input type="text" class="form-control" placeholder="Username" aria-describedby="add-input-form">
+          </div>
+        </form>
+      </button>
+    </li>
+    <br>
+    <li>
+      <div ng-click="save(['list'])" class="list-group">
+        <a href="#" class="list-group-item active">
+          List Group
+        </a>
+        <a href="#" class="list-group-item">Items</a>
+      </div>
+    </li>
+  </ul>
  </div>
 
 <!-- ADD IMAGE OR VIDEO -->

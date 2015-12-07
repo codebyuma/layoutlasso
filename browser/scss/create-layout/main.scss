@@ -65,6 +65,11 @@ button:active {
     position: absolute;
     bottom: 0;
     z-index: 1000;
+    @include button-transition;
+  }
+
+  .lasso-button-box-hide {
+    display: none;
   }
 
 }
