@@ -3,7 +3,7 @@ app.factory("NestedStylingFactory", function(){
 
   var NestedStylingFactory = {};
 
-  
+
 
   // Check each element to see if a nested grid is inside.
 
