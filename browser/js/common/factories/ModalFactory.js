@@ -10,6 +10,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.addComponentsModal;
     ModalFactory.createProjBool;
     ModalFactory.user;
+    ModalFactory.project;
 
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
@@ -35,6 +36,10 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
         return ModalFactory.user;
     }
 
+    ModalFactory.getProject = function (){
+        return ModalFactory.project;
+    }
+
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
         ModalFactory.createProjBool = _createProjBool;
         ModalFactory.user = scope.user;
@@ -46,7 +51,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     }
 
     ModalFactory.launchPageLoadModal = function (scope){
-        console.log("in launch page modal, project on scope?", scope.project)
+        ModalFactory.project = scope.project;
         ModalFactory.pageLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/page-modal/page-modal.html",
