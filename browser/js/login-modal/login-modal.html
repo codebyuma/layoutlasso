@@ -24,12 +24,13 @@
             <p><oauth-button provider-name="Google"></oauth-button> | <oauth-button provider-name="GitHub"></oauth-button></p>
             <center>
                 <button type="submit" ng-show="!signup" class="btn btn-default" ng-click="loginForm.$valid && sendLogin(login)">Login</button>
-                <button ng-show="!signup" class="btn btn-default" ng-click="showSignUp()">Sign Up</button>
-               
                 <button type="submit" ng-show="signup" class="btn btn-default" ng-click="loginForm.$valid && sendSignUp(login)">Sign Up</button>
-                <button class="btn" type="button" ng-click="cancel()">Cancel</button>
+                <button class="btn" type="button" ng-click="cancel()">Cancel</button> <hr>
             </center>
             </form>
+            <center> <div ng-show="!signup"> New? Sign up for an acccount:</div>
+             <button ng-show="!signup" class="btn btn-default" ng-click="showSignUp()">Sign Up</button>
+            </center>
 
         </div>
 
