@@ -311,32 +311,23 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           console.log(component + " - component inside addcomponents on CL controller")
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
-<<<<<<< HEAD
           } else if (component[1] == 'image'){
             GridCompFactory.addImage($scope, component[0], component[2]);
           } else if (component[1] == 'video'){
             GridCompFactory.addVideo($scope, component[0], component[2]);
-=======
           } else if (component[1] === "inputForm") {
             GridCompFactory.addInputForm($scope, component[0]);
           } else if (component[1] === "list") {
             GridCompFactory.addList($scope, component[0], component[2]);
->>>>>>> master
           }
       })
     }
 
-<<<<<<< HEAD
-    $scope.addButton = function(type) {
-        // why four params? (main_grid?)
-        GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
-=======
     $scope.addButtonToMain = function(type) {
         GridCompFactory.addButton($scope, GridFactory.main_grid, type);
         // Re-render editable layer on componenet addition.
         // StyleModeFactory.resetEditableLayers($scope);
       }
->>>>>>> master
 
     $scope.addButton = function(type) {
         GridCompFactory.addButton($scope, GridFactory.incrementCounter(), type);
