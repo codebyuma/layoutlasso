@@ -12,9 +12,20 @@ app.factory("LayoutComponentFactory",  function($compile){
         </div>\
       </nav>';
     },
+
     addButton: function(type) {
       return '<button ng-click="click()" class="btn btn-'+ type +'"> Click Me </button>';
+    },
+
+    addImage: function(url) {
+      return '<img src="' + url + '"></img>'
+    },
+
+    addVideo: function (url) {
+      // may not actually need this function: just have user enter embed code
+      return '<iframe width="420" height="315" src="' + url + '" frameborder="0" allowfullscreen></iframe>'
     }
+
   }
 
 })

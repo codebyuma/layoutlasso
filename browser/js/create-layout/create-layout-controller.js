@@ -287,25 +287,34 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
 
-
-    $scope.addImage = function() {
-        GridCompFactory.addImage($scope, GridFactory.main_grid, GridFactory.incrementCounter());
-    }
-
     $scope.addComponents = function(id) {
       // launch modal so user can select components to add to a widget
       ModalFactory.launchAddComponentsModal($scope, id);
       ModalFactory.addComponentsModal.result.then(function(component){
           // append the selected component to the DOM
+          console.log(component + " - component inside addcomponents on CL controller")
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
+          } else if (component[1] == 'image'){
+            GridCompFactory.addImage($scope, component[0], component[2]);
+          } else if (component[1] == 'video'){
+            GridCompFactory.addVideo($scope, component[0], component[2]);
           }
 
       })
     }
 
     $scope.addButton = function(type) {
+        // why four params? (main_grid?)
         GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+    }
+
+    $scope.addVideo = function (url) {
+        GridCompFactory.addVideo($scope, GridFactory.main_grid, GridFactory.incrementCounter(), url)
+    }
+
+    $scope.addImage = function (url) {
+        GridCompFactory.addImage($scope, GridFactory.main_grid, GridFactory.incrementCounter(), url)
     }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/

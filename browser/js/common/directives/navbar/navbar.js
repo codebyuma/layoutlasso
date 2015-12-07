@@ -10,7 +10,7 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
             scope.user = null;
 
             scope.login = function () {
-                ModalFactory.launchLoginModal()
+                ModalFactory.launchUserLoginModal(scope);
             }
 
             scope.isLoggedIn = function () {
