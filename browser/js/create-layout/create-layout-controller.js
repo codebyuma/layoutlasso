@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory) {
 
 
 
@@ -23,10 +23,13 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.stylingModeActive = false;
 
 
+    // Toggle styling mode on or off. Thsi activates event listeners for style actions.
     $scope.toggleStyleMode = function(){
       StyleModeFactory.toggleStyleModeActions($scope);
       return;
     }
+
+    LassoButtonBoxFactory.initEvents();
 
     GridFactory.init();
     $scope.user = theUser;

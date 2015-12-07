@@ -69,7 +69,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
   <div class='lasso-user-content'>" + content + "</div><div class='lasso-end-user-content'></div>\
   </div></div>\
   <div class='row'>\
-  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
   <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" +
             id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" +
@@ -105,7 +105,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
             newGridID + "'></div>")(scope));
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+  <div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
   <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
   <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
   <button title='Add components' ng-click='addComponents(" + id + ")' class='lasso-addcomp-btn'><span class='glyphicon glyphicon-modal-window'></span></button>\
@@ -126,7 +126,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
     // Function to build the original button box
     GridFactory.buildButtonBox = function(id, scope){
 
-      return $compile("<div class='row'>\<div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+      return $compile("<div class='row'>\<div class='lasso-button-box lasso-button-box-hide' id='lasso-button-box-"+id+"''>\
       <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
       <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" + id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" + id + "'><span class='glyphicon glyphicon-th'></span></button>\
       <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
@@ -285,7 +285,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         $('#lasso-button-box-' + parentId).remove();
 
         thisWidget.append($compile(" <div class='row nested-buttons'>\
-  <div class='lasso-button-box'>\
+  <div class='lasso-button-box lasso-button-box-hide'>\
   <button ng-click='removeWidget(" + parentId + ")'><span class='glyphicon glyphicon-remove'></span></button>\
    <button ng-click='editHTML(" + parentId + ")'><span class='glyphicon glyphicon-edit'></span></button>\
    <button style-nested-grid-item data-element-selector=" + parentId + "></button>\
