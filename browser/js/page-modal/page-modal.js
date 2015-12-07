@@ -1,4 +1,4 @@
-app.controller('PageModalCtrl', function($scope, ProjectFactory, PageFactory, $uibModalInstance) {
+app.controller('PageModalCtrl', function($scope, ProjectFactory, PageFactory, $uibModalInstance, ModalFactory) {
 
     // moving this back in from the resolve as it was breaking on heroku
     ProjectFactory.getProject(ModalFactory.getProject()._id)
