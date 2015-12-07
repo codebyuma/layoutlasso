@@ -161,8 +161,7 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
       if(gridID === "main-grid") return;
       GridFactory.generateParentButtons(parent, scope);
       parent.remove();
-      // delete GridFactory.nestedGrids[gridID];
-
+      delete GridFactory.nestedGrids[gridID];
     }
 
 
