@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, $uibModal, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, $uibModal, GridCompFactory, TemplateFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory) {
 
 
 
@@ -59,9 +59,14 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     // open button - prompt user to open project and page
     $scope.open = function() {
         $uibModal.open({
-            animation: $scope.animationEnabled,
-            templateUrl: "/js/login-modal/login-modal.html",
-            controller: "LoginModalCtrl"
+            animation: scope.animationsEnabled,
+            templateUrl: 'js/template-modal/template-modal.html',
+            controller: 'templateModalCtrl',
+            resolve: {
+                allTemplates: function(TemplateFactory){
+                    return TemplateFactory.getAll();
+                }
+            }
         })
 
         // if (!$scope.user) {
