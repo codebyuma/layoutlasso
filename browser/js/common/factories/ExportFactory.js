@@ -78,6 +78,16 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
       subarr.sort(function(a, b){ // make sure nodesArr is sorted by x values
         return a.x - b.x;
       });
+      // create offsets at the beginning of the row
+      console.log("subarr is", subarr);
+      if (subarr[0].x != 0) {
+        console.log("it has a beginning offset");
+        newWidth = subarr[0].x;
+        newNode = { offset: true, x: 0, width:  newWidth };
+        subarr.splice(0, 0, newNode); // insert newNode into the array
+      }
+
+      // create offsets between nodes
       for(var i = 0; i < subarr.length - 1; i++) {
         curr = subarr[i].x;
         nextXShouldBe = curr + subarr[i].width;
