@@ -123,10 +123,64 @@ app.factory('GridFactory', function($http, $compile, PageFactory, ProjectFactory
         return newGrid;
     }
 
-    GridFactory.removeWidget = function(idNum, gridID) {
+    // Function to build the original button box
+    GridFactory.buildButtonBox = function(id, scope){
+
+      return $compile("<div class='row'>\<div class='lasso-button-box' id='lasso-button-box-"+id+"''>\
+      <button title='Remove widget' ng-click='removeWidget(" + id + ")'><span class='glyphicon glyphicon-remove'></span></button>\
+      <button class='lasso-x' id='lasso-x-btn-" + id + "' ng-click='addNestedGrid(" + id + ")' class='btn btn-default lasso-nest-btn' title='Add nested grid' id='lasso-nest-btn-" + id + "'><span class='glyphicon glyphicon-th'></span></button>\
+      <button title='Edit HTML' ng-click='editHTML(" +id + ")'><span class='glyphicon glyphicon-edit'></span></button>\
+      <button class='lasso-addcomp-btn' ng-click='addComponents(" + id + ")'><span class='glyphicon glyphicon-modal-window'></span></button> <button style-nested-grid-item data-element-selector=" + id + "></button></div></div></div>")(scope);
+
+    }
+
+    // Check number siblings that exist on grid when removed.
+
+    GridFactory.checkSiblingCount = function(element){
+      return element.siblings().length === 0;
+    }
+
+    // Find and return the parent grid
+    GridFactory.findParentGrid = function(element){
+      return element.parent();
+    }
+
+    // Regenerate the previous buttons on the parent.
+    GridFactory.generateParentButtons = function(el, scope){
+      var parentOfElementToMod = GridFactory.findParentGrid(el);
+      var elementId = parentOfElementToMod.attr("id");
+      var elementToAppendTo = parentOfElementToMod.children(".grid-stack-item-content");
+      $('#lasso-button-box-' + elementId).parent().remove()
+      $('#lasso-button-box-' + elementId);
+      $('#lasso-nest-btn-' + elementId).remove();
+      $('#lasso-x-btn-' + elementId).remove();
+      $('#lasso-addcomp-btn').remove();
+      elementToAppendTo.append(GridFactory.buildButtonBox(elementId, scope));
+    }
+
+    // Remove the empty nested grid and change buttons on parent.
+    GridFactory.removeEmptyGridElement = function(gridID, parent, scope){
+      if(gridID === "main-grid") return;
+      GridFactory.generateParentButtons(parent, scope);
+      parent.remove();
+      // delete GridFactory.nestedGrids[gridID];
+
+    }
+
+
+    GridFactory.removeWidget = function(idNum, gridID, scope) {
         var el = $('#' + idNum);
         var gridID = gridID || "main-grid";
+        var siblingCountZero = GridFactory.checkSiblingCount(el);
+        var parentGrid = GridFactory.findParentGrid(el);
+        var parentId = parentGrid.attr("id");
+
+        /*** Not sure if we need this, as we don't seem to pass in grid id? ***/
         GridFactory.nestedGrids[gridID].remove_widget(el);
+        /* If the element has no siblings on removal, remove the empty grid */
+        if(siblingCountZero){
+          GridFactory.removeEmptyGridElement(parentId, parentGrid, scope);
+        }
     }
 
     // ========================= Saving, clearing and loading grids to/from scope (so far) ================================ //
