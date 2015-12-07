@@ -1,6 +1,11 @@
-app.controller('templateModalCtrl', function ($scope, $uibModalInstance, TemplateFactory, allTemplates){
+app.controller('templateModalCtrl', function ($scope, $uibModalInstance, TemplateFactory){
 
-	$scope.templates = allTemplates;
+	
+	 // moving this back in from the resolve as it was breaking on heroku
+	TemplateFactory.getAll()
+	.then (function (allTemplates){
+		$scope.templates = allTemplates;
+	})
 
 	$scope.getTemplate = function( template ){
 		TemplateFactory.getTemplate( template._id )
