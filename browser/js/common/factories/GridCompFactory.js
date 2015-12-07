@@ -23,5 +23,28 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       grid.add_widget(el, 0, 0, 2, 2, true);
     }
 
+    GridCompFactory.addInputForm = function(scope, id) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, "grid" + id, LayoutComponentFactory.addInputForm())
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addInputForm())
+      }
+      grid.add_widget(el, 0, 0, 6, 1, true);
+    }
+
+// array is an array of items to iterate over in an ng-repeat
+    GridCompFactory.addList = function(scope, id) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, "grid" + id, LayoutComponentFactory.addList())
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addList())
+      }
+      grid.add_widget(el, 0, 0, 4, 3, true);
+    }
+
 	return GridCompFactory;
 })

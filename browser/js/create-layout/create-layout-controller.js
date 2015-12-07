@@ -285,13 +285,16 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           // append the selected component to the DOM
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
+          } else if (component[1] === "inputForm") {
+            GridCompFactory.addInputForm($scope, component[0]);
+          } else if (component[1] === "list") {
+            GridCompFactory.addList($scope, component[0], component[2]);
           }
-
       })
     }
 
-    $scope.addButton = function(type) {
-        GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+    $scope.addButtonToMain = function(type) {
+        GridCompFactory.addButton($scope, GridFactory.main_grid, type);
     }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
