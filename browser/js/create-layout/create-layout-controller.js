@@ -304,11 +304,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
       ModalFactory.launchAddComponentsModal($scope, id);
       ModalFactory.addComponentsModal.result.then(function(component){
           // append the selected component to the DOM
-          console.log(component + " - component inside addcomponents on CL controller")
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
           } else if (component[1] == 'image'){
-            console.log('component 2 - url: ', component[2]);
             GridCompFactory.addImage($scope, component[0], component[2]);
           } else if (component[1] == 'video'){
             GridCompFactory.addVideo($scope, component[0], component[2]);

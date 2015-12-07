@@ -18,7 +18,6 @@ app.factory("LayoutComponentFactory",  function($compile){
     },
 
     addImage: function(url) {
-      console.log('bananas pepes url: ', url)
       return ('<img src=' + url + '>')
     },
 

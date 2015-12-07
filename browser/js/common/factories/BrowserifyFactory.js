@@ -1,4 +1,4 @@
-var app = angular.module('FullstackGeneratedApp');
+var app = angular.module('LayoutLasso');
 app.factory('BrowserifyFactory', function() {
     var BrowserifyFactory = {};
 
