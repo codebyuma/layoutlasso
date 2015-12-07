@@ -1,4 +1,12 @@
-app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, content, GridFactory, BrowserifyFactory) {
+app.controller('EditHTMLModalCtrl', function ($scope, $uibModalInstance, GridFactory, BrowserifyFactory, ModalFactory) {
+
+  var content;
+  
+  GridFactory.getWidgetContentById(ModalFactory.getId())
+  .then (function (_content){
+    content = _content;
+  });
+
 
   $scope.aceLoaded = function(_editor){
     var html = BrowserifyFactory.beautifyHTML(content);

@@ -11,6 +11,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.createProjBool;
     ModalFactory.user;
     ModalFactory.project;
+    ModalFactory.id;
 
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
@@ -38,6 +39,10 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
 
     ModalFactory.getProject = function (){
         return ModalFactory.project;
+    }
+
+    ModalFactory.getId = function (){
+        return ModalFactory.id;
     }
 
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
@@ -68,15 +73,11 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     }
 
     ModalFactory.launchEditHtmlModal = function (scope, id){
+        ModalFactory.id = id;
         ModalFactory.editHtmlModal = $uibModal.open({
          animation: scope.animationsEnabled,
          templateUrl: '/js/create-layout/edit-html-modal.html',
-         controller: 'EditHTMLModalCtrl',
-         resolve: {
-           content: function () {
-             return GridFactory.getWidgetContentById(id);
-           }
-         }
+         controller: 'EditHTMLModalCtrl'
        });
     }
 
