@@ -7,6 +7,7 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.pageLoadModal;
     ModalFactory.templateModal;
     ModalFactory.editHtmlModal;
+    ModalFactory.addComponentsModal;
 
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
@@ -77,6 +78,19 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
          }
        });
     }
-   
+
+    ModalFactory.launchAddComponentsModal = function (scope, id) {
+      ModalFactory.addComponentsModal = $uibModal.open({
+        animation: scope.animationsEnabled,
+        templateUrl: '/js/add-components-modal/add-components.html',
+        controller: 'AddComponentsModalCtrl',
+        resolve: {
+          id: function () {
+            return id;
+          }
+        }
+      });
+    }
+
     return ModalFactory;
 });
