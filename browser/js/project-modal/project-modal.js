@@ -1,16 +1,21 @@
-app.controller('ProjectModalCtrl', function($scope, createProjBool, UserFactory, ProjectFactory, user, $uibModalInstance) {
+app.controller('ProjectModalCtrl', function($scope, createProjBool, UserFactory, ProjectFactory, ModalFactory, $uibModalInstance) {
 
-    $scope.user = user;
+     $scope.projects = null;
+     $scope.hasProjects = false;
 
-    if ($scope.user) {
-        $scope.projects = user.projects;
-        $scope.hasProjects = $scope.projects.length;
-    } else {
-        $scope.projects = null;
-        $scope.hasProjects = false;
+    if (ModalFactory.getUser()!==null){
+        UserFactory.getUser(ModalFactory.getUser()._id)
+        .then (function (user){
+            $scope.user = user;
+            if ($scope.user) {
+                $scope.projects = user.projects;
+                $scope.hasProjects = $scope.projects.length;
+            }
+        })
     }
 
-    $scope.createProj = createProjBool; // flag for determining if this is a 'new' or 'load' request. If undefined, then we're in the 'save' flow
+
+    $scope.createProj = ModalFactory.getCreateProjBool(); // flag for determining if this is a 'new' or 'load' request. If undefined, then we're in the 'save' flow
     $scope.inSave = false; // flag for determining if this was called by hitting the save button. 
 
     if ($scope.createProj === undefined) {

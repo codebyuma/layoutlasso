@@ -1,9 +1,15 @@
-app.controller('PageModalCtrl', function($scope, project, ProjectFactory, PageFactory, $uibModalInstance) {
+app.controller('PageModalCtrl', function($scope, ProjectFactory, PageFactory, $uibModalInstance) {
 
-    $scope.project = project;
-    $scope.pages = project.pages;
-    $scope.hasPages = $scope.pages.length;
-
+    // moving this back in from the resolve as it was breaking on heroku
+    ProjectFactory.getProject(scope.project._id)
+    .then (function (project){
+       $scope.project = project;
+       $scope.pages = project.pages;
+       $scope.hasPages = $scope.pages.length;
+ 
+    })
+    
+    
     $scope.cancel = function() {
         $uibModalInstance.dismiss('cancel')
     }

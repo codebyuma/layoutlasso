@@ -1,4 +1,4 @@
-app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
+app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, TemplateFactory, ProjectFactory){
     var ModalFactory = {};
 
     ModalFactory.closeModal;
@@ -8,6 +8,8 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserF
     ModalFactory.templateModal;
     ModalFactory.editHtmlModal;
     ModalFactory.addComponentsModal;
+    ModalFactory.createProjBool;
+    ModalFactory.user;
 
     ModalFactory.launchCloseModal = function (scope){
         ModalFactory.closeModal = $uibModal.open({
@@ -25,18 +27,21 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserF
         })
     }
 
+    ModalFactory.getCreateProjBool = function (){
+        return ModalFactory.createProjBool;
+    }
+
+    ModalFactory.getUser = function (){
+        return ModalFactory.user;
+    }
+
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
+        ModalFactory.createProjBool = _createProjBool;
+        ModalFactory.user = scope.user;
         ModalFactory.projectLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
-            controller: "ProjectModalCtrl",
-            resolve: {
-                createProjBool: _createProjBool, // boolean used to indicate what to ngshow in the modal
-                user: function(UserFactory) { // get user again to have projects populated
-                    if (scope.user)
-                        return UserFactory.getUser(scope.user._id);
-                }
-            }
+            controller: "ProjectModalCtrl"
         })
     }
 
@@ -44,12 +49,7 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserF
         ModalFactory.pageLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/page-modal/page-modal.html",
-            controller: "PageModalCtrl",
-            resolve: { // getting from factory so we can populate pages in the project
-                project: function(ProjectFactory) {
-                    return ProjectFactory.getProject(scope.project._id);
-                }
-            }
+            controller: "PageModalCtrl"
         })
     }
 
@@ -88,4 +88,4 @@ app.factory('ModalFactory', ['$uibModal', function($uibModal, GridFactory, UserF
     }
 
     return ModalFactory;
-}]);
+});
