@@ -48,7 +48,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.new = function() {
         if (!$scope.user) {
             $scope.promptUserLogin();
-            Factory.userLoginModal.result.then(function(user) {
+            ModalFactory.userLoginModal.result.then(function(user) {
                 $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
