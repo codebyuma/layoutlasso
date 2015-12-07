@@ -28,8 +28,6 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
       return;
     }
 
-
-
     GridFactory.init();
 
     // AuthService.getLoggedInUser()
@@ -55,7 +53,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
     $scope.new = function() {
         if (!$scope.user) {
             $scope.promptUserLogin();
-            ModalFactory.userLoginModal.result.then(function(user) {
+            Factory.userLoginModal.result.then(function(user) {
                 $scope.promptProjectLoad(true); // true is used in the modal to show 'create project' only
             })
         } else {
@@ -205,6 +203,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
         ModalFactory.templateModal.result.then(function(selectedItem){
             GridFactory.clearSavedGrid();
             GridFactory.loadGrid($scope, selectedItem);
+            $scope.nestedGrids = GridFactory.getNestedGrids();
         })
     }
 
@@ -288,8 +287,44 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, th
         GridCompFactory.addNavBar($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
 
+
     $scope.addImage = function() {
         GridCompFactory.addImage($scope, GridFactory.main_grid, GridFactory.incrementCounter());
     }
+
+    $scope.addComponents = function(id) {
+      // launch modal so user can select components to add to a widget
+      ModalFactory.launchAddComponentsModal($scope, id);
+      ModalFactory.addComponentsModal.result.then(function(component){
+          // append the selected component to the DOM
+          if(component[1] == "button"){
+            GridCompFactory.addButton($scope, component[0], component[2]);
+          }
+
+      })
+    }
+
+    $scope.addButton = function(type) {
+        GridCompFactory.addButton($scope, GridFactory.main_grid, GridFactory.incrementCounter(), type);
+    }
+
+    /* ===== GRID STYLING SCOPE OBJECTS  =====*/
+    // CSS Setting and Getting on elements
+
+    // This object has elements to be styled assigned to it, with id's as keys.
+    $scope.styleGroup = {};
+
+    /* Object to allow two-way binding of css form. Is populated by the directive css-applicator. */
+    $scope.newClass = {};
+
+    /* Requried for two-way binding of currently applied classes, retrieved from the StylingFactory stylsheet object, re-populated based on other actions applystyling and class-display directives. */
+    $scope.pageStyleSheet = [];
+
+    // boolean to define whether a style is being updated;
+    $scope.classEditMode = false;
+    // Boolean to indicate whether the css styling menu is open or not.
+    $scope.styleMenuOpen = false;
+    // Boolean to indicate if class menu is open or not.
+    $scope.classMenuOpen = false;
 
 })

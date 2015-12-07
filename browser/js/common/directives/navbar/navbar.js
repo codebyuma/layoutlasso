@@ -1,4 +1,4 @@
-app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) {
+app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, ModalFactory) {
 
     return {
         restrict: 'E',
@@ -8,6 +8,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state) 
         link: function (scope) {
 
             scope.user = null;
+
+            scope.login = function () {
+                ModalFactory.launchLoginModal()
+            }
 
             scope.isLoggedIn = function () {
                 return AuthService.isAuthenticated();

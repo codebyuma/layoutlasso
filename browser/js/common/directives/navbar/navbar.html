@@ -6,8 +6,9 @@
         </div>
         <div ng-show="page">Page: {{ page.name }}</div> -->
         
-        <button ng-show="!user" ui-sref="login" class="btn login-button">Login</button>
+        <button ng-show="!user" ng-click="login()" class="btn login-button">Login</button>
         <button ng-show="!user" ui-sref="signup" class="btn login-button">Sign Up</button>
+        <!-- ui-sref="login" -->
         <div ng-show="user" class="welcome">
             <span> Signed is as: </span>
             <span id="user-email"> {{ user.email }} | </span>
