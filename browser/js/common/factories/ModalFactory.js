@@ -9,7 +9,6 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
     ModalFactory.editHtmlModal;
     ModalFactory.addComponentsModal;
     ModalFactory.createProjBool;
-    ModalFactory.user;
     ModalFactory.project;
 
     ModalFactory.launchCloseModal = function (scope){
@@ -32,10 +31,6 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
         return ModalFactory.createProjBool;
     }
 
-    ModalFactory.getUser = function (){
-        return ModalFactory.user;
-    }
-
     ModalFactory.getProject = function (){
         return ModalFactory.project;
     }
@@ -43,7 +38,6 @@ app.factory('ModalFactory', function($uibModal, GridFactory, UserFactory, Templa
 
     ModalFactory.launchProjectLoadModal = function (scope, _createProjBool){
         ModalFactory.createProjBool = _createProjBool;
-        ModalFactory.user = scope.user;
         ModalFactory.projectLoadModal = $uibModal.open({
             animation: scope.animationEnabled,
             templateUrl: "/js/project-modal/project-modal.html",
