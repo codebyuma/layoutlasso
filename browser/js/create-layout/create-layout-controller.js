@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory) {
 
 
     $scope.user = theUser;
@@ -34,6 +34,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     GridFactory.init();
 
     $scope.project, $scope.page = null;
+    $rootScope.project, $rootScope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
@@ -43,6 +44,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function(event, data) {
         $scope.user = null;
         $scope.closeAll();
+    })
+
+    $rootScope.$on(AUTH_EVENTS.loginSuccess, function(event, data){
+         AuthService.getLoggedInUser().then(function (user) {
+              $scope.user = user;
+         });
     })
 
     // ==== Loading, Creating and Saving Projects and Pages ===== //
@@ -100,6 +107,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.closeAll = function() {
         $scope.project = null;
         $scope.page = null;
+        $rootScope.project = null;
+        $rootScope.page = null;
         StyleModeFactory.deactivateStyleMode($scope);
         StyleSaveLoadFactory.resetStylesOnClose($scope);
         GridFactory.clearSavedGrid();
@@ -120,7 +129,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         ModalFactory.projectLoadModal.result.then(function(data) {
             $scope.user = data.user;
             $scope.project = data.project;
+            $rootScope.project = $scope.project;
             $scope.page = null; // if they load a project, they then need to select a page next. So set the page on scope to null
+            $rootScope.page = null;
             $scope.promptPageLoad(); // now that a project has loaded, prompt the user to create or load a page
         })
 
@@ -131,7 +142,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         ModalFactory.launchPageLoadModal($scope)
         ModalFactory.pageLoadModal.result.then(function(data) {
             $scope.page = data.page;
+            $rootScope.page = $scope.page;
             $scope.project = data.project;
+            $rootScope.project = $scope.project
             if ($scope.save) { // only save if the user has clicked save (vs. when loading a page)
                 GridFactory.saveGridBackend($scope.page);
                 $scope.save = false;

@@ -2,14 +2,10 @@ app.directive('navbar', function ($rootScope, AuthService, AUTH_EVENTS, $state, 
 
     return {
         restrict: 'E',
-        scope: {},
         templateUrl: 'js/common/directives/navbar/navbar.html',
-        // controller: 'CreateLayoutCtrl',
         link: function (scope) {
 
-            scope.user = null;
-
-            scope.login = function () {
+            scope.launchLogin = function () {
                 ModalFactory.launchUserLoginModal(scope);
             }
 

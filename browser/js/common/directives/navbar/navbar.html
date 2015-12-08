@@ -1,18 +1,12 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
-
-<!--         <div ng-show="project">Currently viewing: <br>
-            <div>Project - {{ project.name }}</div>
-        </div>
-        <div ng-show="page">Page: {{ page.name }}</div> -->
-        
-        <button ng-show="!user" ng-click="login()" class="btn login-button">Login</button>
-        <button ng-show="!user" ng-click="login()" class="btn login-button">Sign Up</button>
+        <div ng-show="project">Project: {{ project.name }} <span ng-show="page"> - Page: {{ page.name }}</span></div>
+        <button ng-show="!user" ng-click="launchLogin()" class="btn login-button">Login</button>
         <!-- ui-sref="login" -->
-        <div ng-show="user" class="welcome">
+        <span ng-show="user" class="welcome">
             <span> Signed is as: </span>
             <span id="user-email"> {{ user.email }} | </span>
             <a ng-click="logout()">Logout</a>
-        </div>
+        </span>
     </div>
 </nav>  
