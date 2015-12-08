@@ -69,6 +69,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         $rootScope.$digest(); // Requried as the change of scope value does not trigger any $scope digest.
       }
+      /* If the element is the element holder and a user has no content in it, add some content to avoid throwing errors */
       if(self.hasClass("lasso-user-content")){
         if(self.children().length === 0){
           self.html(defaultHtml);
@@ -76,7 +77,13 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         } else {
           return;
         }
+        /* Check if item is currently part of the elements to be styled */
       } else if(self.hasClass("lasso-styling-in-progress")){
+        /* Check if editing in class mode (updating a class), if so clicking a selected item will remove it from the group and also remove inline styling for a better user experience */
+        if(scope.classEditMode){
+          StylingFactory.revertClassOnSelectedElement(self, scope.newClass.name, scope);
+          removeSelectedElementFromStyleGroup(scope, self);
+        }
         removeSelectedElementFromStyleGroup(scope, self);
         return;
       } else {
