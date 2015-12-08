@@ -1,4 +1,4 @@
-app.directive("classDisplay", function(StylingFactory, $rootScope){
+app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFactory){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
@@ -18,6 +18,7 @@ app.directive("classDisplay", function(StylingFactory, $rootScope){
         scope.newClass.name = className;
         scope.newClass.styles = StylingFactory.convertToEditableObj(className);
         scope.styleMenuOpen = true;
+        StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
       }
 
       scope.removeClassStyling = function(className){

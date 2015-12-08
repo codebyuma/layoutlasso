@@ -7,7 +7,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     return $(targetElement).closest(".grid-stack-item").attr("id");
   }
 
-  var addToSelectedElementToStyleGroup = function(scope, element){
+  var addSelectedElementToStyleGroup = function(scope, element){
     element.addClass("lasso-styling-in-progress");
     element.data("styling-ref", styleRefCounter);
     var elementToStyleObj = { widgetRef: getParentWidgetId(element), element: element }
@@ -18,6 +18,14 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   var removeSelectedElementFromStyleGroup = function(scope, element){
     element.removeClass("lasso-styling-in-progress");
     delete scope.styleGroup[element.data("styling-ref")];
+  }
+
+  /* Display elements in the class to be edited and add to currently being styled object */
+  StyleModeFactory.displayElementsInStyledClass = function(scope, className){
+    var elementsInClass = $("." + className);
+    elementsInClass.each(function(idx, el){
+      addSelectedElementToStyleGroup(scope, $(el)); /* Need to convert element back into jQuery object to allow application of styling */
+    })
   }
 
 
@@ -64,14 +72,16 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
       if(self.hasClass("lasso-user-content")){
         if(self.children().length === 0){
           self.html(defaultHtml);
-          addToSelectedElementToStyleGroup(scope, $(self.children()[0]));
+          addSelectedElementToStyleGroup(scope, $(self.children()[0]));
         } else {
           return;
         }
       } else if(self.hasClass("lasso-styling-in-progress")){
         removeSelectedElementFromStyleGroup(scope, self);
+        return;
       } else {
-        addToSelectedElementToStyleGroup(scope, self);
+        addSelectedElementToStyleGroup(scope, self);
+        return;
       }
     })
   }
