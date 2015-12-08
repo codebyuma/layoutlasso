@@ -65,7 +65,6 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       StyleModeFactory.resetEditableLayers(scope);
     }
 
-// array is an array of items to iterate over in an ng-repeat
     GridCompFactory.addList = function(scope, id) {
       if (GridFactory.isGrid("grid" + id)) {
         var grid = GridFactory.getGridById("grid" + id);
@@ -76,7 +75,18 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       }
       grid.add_widget(el, 0, 0, 4, 3, true);
       StyleModeFactory.resetEditableLayers(scope);
+    }
 
+    GridCompFactory.addJumbotron = function(scope, id) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addJumbotron())
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addJumbotron())
+      }
+      grid.add_widget(el, 0, 0, 12, 4, true);
+      StyleModeFactory.resetEditableLayers(scope);
     }
 
 	return GridCompFactory;

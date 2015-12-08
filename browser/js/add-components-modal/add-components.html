@@ -32,6 +32,16 @@
         <a href="#" class="list-group-item">Items</a>
       </div>
     </li>
+    <br>
+    <li>
+      <div ng-click="save(['jumbotron'])">
+        <div class="jumbotron">
+          <h1>Jumbotron</h1>
+          <p>Put your text here. So cool.</p>
+          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        </div>
+    </div>
+    </li>
   </ul>
  </div>
 
@@ -45,7 +55,7 @@
                     <input type="text" ng-model="url" class="form-control" id="email" placeholder="Enter url" required>
     				<button type="submit" ng-class="'btn btn-' + mediaItem" ng-click="save([mediaItem, url])">Add</button>
                 </div>
-    		<!-- form to enter url--> 
+    		<!-- form to enter url-->
     	</li>
 	</ul>
 	<p> note: use embed code link for video </p>

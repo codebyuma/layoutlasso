@@ -313,7 +313,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           } else if (component[1] === "inputForm") {
             GridCompFactory.addInputForm($scope, component[0]);
           } else if (component[1] === "list") {
-            GridCompFactory.addList($scope, component[0], component[2]);
+            GridCompFactory.addList($scope, component[0]);
+          } else if (component[1] === "jumbotron") {
+            GridCompFactory.addJumbotron($scope, component[0]);
           }
       })
     }
