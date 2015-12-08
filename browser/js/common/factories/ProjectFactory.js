@@ -7,7 +7,7 @@ app.factory('ProjectFactory', function($http, UserFactory){
         return $http.post('/api/projects/', {name: _name})
         .then(function(savedProject){
             objectToReturn.project = savedProject.data; 
-            return UserFactory.updateUserProjects(user._id, savedProject.data._id)
+            return UserFactory.updateUserProjects(user._id, savedProject.data)
         })
         .then(function(savedUser){
             objectToReturn.user = savedUser;

@@ -33,7 +33,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     GridFactory.init();
 
-    $scope.project, $scope.page = null;
+    $rootScope.project, $rootScope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
 
@@ -43,6 +43,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function(event, data) {
         $scope.user = null;
         $scope.closeAll();
+    })
+
+    $rootScope.$on(AUTH_EVENTS.loginSuccess, function(event, data){
+         AuthService.getLoggedInUser().then(function (user) {
+              $scope.user = user;
+         });
     })
 
     // ==== Loading, Creating and Saving Projects and Pages ===== //
@@ -86,7 +92,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // this broadcast comes from GridFactory.saveGridBackend
     $rootScope.$on('saved', function(event, data, $timeout) {
-        $scope.page = data;
+        $rootScope.page = data;
         $scope.save = false; // once GridFactory.saveGridBackend completes, update save flag on scope
         growl.success("Page saved!");
 
@@ -98,8 +104,8 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     // clear and close all items on scope
     $scope.closeAll = function() {
-        $scope.project = null;
-        $scope.page = null;
+        $rootScope.project = null;
+        $rootScope.page = null;
         StyleModeFactory.deactivateStyleMode($scope);
         StyleSaveLoadFactory.resetStylesOnClose($scope);
         GridFactory.clearSavedGrid();
@@ -119,8 +125,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         ModalFactory.launchProjectLoadModal($scope, _createProjBool)
         ModalFactory.projectLoadModal.result.then(function(data) {
             $scope.user = data.user;
-            $scope.project = data.project;
-            $scope.page = null; // if they load a project, they then need to select a page next. So set the page on scope to null
+            $rootScope.project = data.project;
+            // if they load a project, they then need to select a page next. So set the page on scope to null
+            $rootScope.page = null;
             $scope.promptPageLoad(); // now that a project has loaded, prompt the user to create or load a page
         })
 
@@ -130,18 +137,18 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.promptPageLoad = function() {
         ModalFactory.launchPageLoadModal($scope)
         ModalFactory.pageLoadModal.result.then(function(data) {
-            $scope.page = data.page;
-            $scope.project = data.project;
+            $rootScope.page = data.page;
+            $rootScope.project = data.project;
             if ($scope.save) { // only save if the user has clicked save (vs. when loading a page)
-                GridFactory.saveGridBackend($scope.page);
+                GridFactory.saveGridBackend($rootScope.page);
                 $scope.save = false;
             } else { // if we're not in a save flow, then reset the items on scope and then load the grid for the loaded page
                 StyleModeFactory.deactivateStyleMode($scope);
                 StylingFactory.resetCurrentStyleSheetObjs();
                 GridFactory.savedGrid = [];
                 $scope.clearGrid();
-                $scope.loadGrid($scope, $scope.page);
-                StyleSaveLoadFactory.stylingToLoadFromBackend($scope.page.css)
+                $scope.loadGrid($scope, $rootScope.page);
+                StyleSaveLoadFactory.stylingToLoadFromBackend($rootScope.page.css)
                 $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
             }
         })
@@ -169,14 +176,14 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
         StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
         GridFactory.saveGridLocal(); // save the grid to scope
-        if ($scope.user && $scope.project && $scope.page) {
-            GridFactory.saveGridBackend($scope.page)
+        if ($scope.user && $rootScope.project && $rootScope.page) {
+            GridFactory.saveGridBackend($rootScope.page)
         } else {
             if (!$scope.user) {
                 $scope.promptUserLogin();
                 ModalFactory.userLoginModal.result.then(function(user) {
                     $scope.user = user;
-                    if (!$scope.project) {
+                    if (!$rootScope.project) {
                         $scope.promptProjectLoad();
                     }
                 })
@@ -197,7 +204,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     }
 
     $scope.loadGrid = function() {
-        GridFactory.loadGrid($scope, $scope.page);
+        GridFactory.loadGrid($scope, $rootScope.page);
         $scope.nestedGrids = GridFactory.getNestedGrids();
         $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
         if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
@@ -226,9 +233,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
         StyleSaveLoadFactory.removeInlineStylingForHtmlExport();
         GridFactory.saveGridLocal();
 
-        if ($scope.page && $scope.project){
-            pageName = $scope.page.name.replace(/\s/g, '');
-            projectName = $scope.project.name.replace(/\s/g, '');
+        if ($rootScope.page && $rootScope.project){
+            pageName = $rootScope.page.name.replace(/\s/g, '');
+            projectName = $rootScope.project.name.replace(/\s/g, '');
             filename = projectName + "-" + pageName;
         } else {
             filename="layoutlasso"
