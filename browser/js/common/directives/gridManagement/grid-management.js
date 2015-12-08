@@ -1,4 +1,4 @@
-app.directive('gridManagement', function (StyleModeFactory, GridFactory, NestedStylingFactory, ModalFactory, StylingFactory, StyleSaveLoadFactory) {
+app.directive('gridManagement', function ($rootScope, StyleModeFactory, GridFactory, NestedStylingFactory, ModalFactory, StylingFactory, StyleSaveLoadFactory) {
 	return {
 		restrict: "E",
 		templateUrl: "js/common/directives/gridManagement/grid-management.html",
@@ -18,14 +18,14 @@ app.directive('gridManagement', function (StyleModeFactory, GridFactory, NestedS
 		        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
 		        StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
 		        GridFactory.saveGridLocal(); // save the grid to scope
-		        if (scope.user && scope.project && scope.page) {
-		            GridFactory.saveGridBackend(scope.page)
+		        if (scope.user && $rootScope.project && $rootScope.page) {
+		            GridFactory.saveGridBackend($rootScope.page)
 		        } else {
 		            if (!scope.user) {
 		                scope.promptUserLogin();
 		                ModalFactory.userLoginModal.result.then(function(user) {
 		                    scope.user = user;
-		                    if (!scope.project) {
+		                    if (!rootScope.project) {
 		                        scope.promptProjectLoad();
 		                    }
 		                })
