@@ -21,7 +21,7 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
   }
 
   function offsetMaker(sz, span) {
-    return '<div class="col-' + sz + '-offset-' + span + '">';
+    return '<div class="col-' + sz + '-' + span + '">';
   }
 
   // is this node a child of the same parent
@@ -83,7 +83,8 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
       if (subarr[0].x != 0) {
         console.log("it has a beginning offset");
         newWidth = subarr[0].x;
-        newNode = { offset: true, x: 0, width:  newWidth };
+        newNode = { offset: true, x: 0, width:  newWidth, content: "" };
+        console.log("newNode", newNode);
         subarr.splice(0, 0, newNode); // insert newNode into the array
       }
 
@@ -116,7 +117,7 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
       html += bits.row;
       for (var j = 0; j < subarr.length; j++){
           // check if node is an offset node (empty node)
-          if (subarr[j].offset) {
+           if (subarr[j].offset) {
             html += offsetMaker(sz, subarr[j].width);
           } else if (subarr[j].grid) {
             // find the grid in parent grid and build it
