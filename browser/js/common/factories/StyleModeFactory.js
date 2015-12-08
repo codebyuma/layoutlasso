@@ -3,10 +3,12 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
 
+  /* helper function to try and find parent widget of a given target element */
   var getParentWidgetId = function(targetElement){
     return $(targetElement).closest(".grid-stack-item").attr("id");
   }
 
+  /* Helper functon to perform actions to assign border to selected element and add it to the styleGroup */
   var addSelectedElementToStyleGroup = function(scope, element){
     element.addClass("lasso-styling-in-progress");
     element.data("styling-ref", styleRefCounter);
@@ -38,9 +40,10 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   StyleModeFactory.initiateStylingHoverEvents = function(){
     $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
       event.stopPropagation();
-      $(event.target).addClass("lasso-highlight-on-hover");
+      var target = event.target;
+      $(target).addClass("lasso-highlight-on-hover");
 
-      $(event.target).on("mouseleave", function(event){
+      $(target).on("mouseleave", function(event){
         $(this).removeClass("lasso-highlight-on-hover");
       })
 
@@ -102,15 +105,17 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     })
   }
 
-  /* Reset all styling mode objects on scope when exiting style mode */
+  /* Reset all styling mode objects on scope when exiting style mode. closeStyleMenuBool is an optional argument that designates whether  the styleMenu for classes should be closed. */
 
-    StyleModeFactory.resetScopeStyleObjs = function(scope){
+    StyleModeFactory.resetScopeStyleObjs = function(scope, closeStyleMenuBool){
       StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
       scope.newClass.name = "";
       scope.newClass.styles = [{key: "", value: ""}];
       scope.styleGroup = {};
       scope.classEditMode = false;
-      scope.styleMenuOpen = false;
+      if(!closeStyleMenuBool){
+        scope.styleMenuOpen = false;
+      }
       return;
     }
 

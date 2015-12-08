@@ -7,7 +7,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
 
       /* Resets form and style group. Removes 'selection styling.'
       */
-      var resetScopeStyleObjs = function(){ 
+      var resetScopeStyleObjs = function(){
         StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
         scope.newClass.name = "";
         scope.newClass.styles = [{key: "", value: ""}];
@@ -77,6 +77,8 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         var updateToApply = StylingFactory.updateSpecificClass(updatedCssObj, stylingObj.name);
         scope.styleGroup = StylingFactory.findClassElements(stylingObj.name)
         StylingFactory.applyUpdatedStyling(scope.styleGroup, updateToApply)
+        // Remove the stylign on the current edited class.
+        $(".lasso-editing-class").removeClass("lasso-editing-class");
         scope.classEditMode = false;
         resetScopeStyleObjs();
       }

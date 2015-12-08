@@ -1,7 +1,13 @@
+@mixin class-selector-hover-selected {
+  color: purple;
+  background-color: yellow;
+}
+
 class-display {
   top: 300px;
   right: 0px;
   z-index: 51;
+  @include button-transition;
 
   .cls-field {
     position: relative;
@@ -13,15 +19,18 @@ class-display {
     .class-selector {
       color: purple;
       cursor: pointer;
-    }
-    .class-selector:hover {
-      color: orange;
-      background-color: purple;
+      &:hover {
+        background-color: purple;
+        color: orange;
+      }
+      &:active {
+        background-color: purple;
+        color: white;
+      }
     }
 
-    .class-selector:active {
-      background-color: purple;
-      color: white;
+    .lasso-editing-class {
+      @include class-selector-hover-selected;
     }
   }
 

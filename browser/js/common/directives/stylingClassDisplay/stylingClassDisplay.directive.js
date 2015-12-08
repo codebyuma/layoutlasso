@@ -4,14 +4,28 @@ app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFact
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
     link: function(scope, element, attrs){
 
-      $("class-display").on("mouseenter", ".class-selector", function(event){
-        console.log(event.target.innerHTML);
-        $("." + event.target.innerHTML).addClass("lasso-highlight-class");
-      })
-
-      $("class-display").on("mouseleave", ".class-selector", function(event){
-        $("." + event.target.innerHTML).removeClass("lasso-highlight-class");
-      })
+      // $("class-display").on("mouseenter", ".class-selector", function(event){
+      //   console.log(event.target.innerHTML);
+      //   $("." + event.target.innerHTML).addClass("lasso-highlight-class");
+      // })
+      //
+      // $("class-display").on("mouseleave", ".class-selector", function(event){
+      //   $("." + event.target.innerHTML).removeClass("lasso-highlight-class");
+      // })
+      //
+      // $("class-display").on("click", ".class-selector", function(event){
+      //   var self  = $(this);
+      //   var targetSelector = "lasso-editing-class";
+      //   if(self.hasClass(targetSelector)){
+      //     self.removeClass(targetSelector);
+      //     StyleModeFactory.resetScopeStyleObjs(scope, true);
+      //     $rootScope.$digest();
+      //   } else {
+      //     // Remove styling from any other selected items first.
+      //     $(targetSelector).removeClass(targetSelector);
+      //     self.addClass(targetSelector);
+      //   }
+      // })
 
       scope.loadClassForEditing = function(className){
         scope.classEditMode = true;
