@@ -3,11 +3,13 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
 
+  /* helper function to try and find parent widget of a given target element */
   var getParentWidgetId = function(targetElement){
     return $(targetElement).closest(".grid-stack-item").attr("id");
   }
 
-  var addToSelectedElementToStyleGroup = function(scope, element){
+  /* Helper functon to perform actions to assign border to selected element and add it to the styleGroup */
+  var addSelectedElementToStyleGroup = function(scope, element){
     element.addClass("lasso-styling-in-progress");
     element.data("styling-ref", styleRefCounter);
     var elementToStyleObj = { widgetRef: getParentWidgetId(element), element: element }
@@ -20,6 +22,14 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     delete scope.styleGroup[element.data("styling-ref")];
   }
 
+  /* Display elements in the class to be edited and add to currently being styled object */
+  StyleModeFactory.displayElementsInStyledClass = function(scope, className){
+    var elementsInClass = $("." + className);
+    elementsInClass.each(function(idx, el){
+      addSelectedElementToStyleGroup(scope, $(el)); /* Need to convert element back into jQuery object to allow application of styling */
+    })
+  }
+
 
   StyleModeFactory.removeIdentityClass = function(classDesignator){
     $("." + classDesignator).each(function(idx, el){
@@ -30,9 +40,10 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
   StyleModeFactory.initiateStylingHoverEvents = function(){
     $("#main-grid").on("mouseenter", ".lasso-user-content", function(event){
       event.stopPropagation();
-      $(event.target).addClass("lasso-highlight-on-hover");
+      var target = event.target;
+      $(target).addClass("lasso-highlight-on-hover");
 
-      $(event.target).on("mouseleave", function(event){
+      $(target).on("mouseleave", function(event){
         $(this).removeClass("lasso-highlight-on-hover");
       })
 
@@ -61,20 +72,52 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         $rootScope.$digest(); // Requried as the change of scope value does not trigger any $scope digest.
       }
+      /* If the element is the element holder and a user has no content in it, add some content to avoid throwing errors */
       if(self.hasClass("lasso-user-content")){
         if(self.children().length === 0){
           self.html(defaultHtml);
-          addToSelectedElementToStyleGroup(scope, $(self.children()[0]));
+          addSelectedElementToStyleGroup(scope, $(self.children()[0]));
         } else {
           return;
         }
+        /* Check if item is currently part of the elements to be styled */
       } else if(self.hasClass("lasso-styling-in-progress")){
-        removeSelectedElementFromStyleGroup(scope, self);
+        /* Check if editing in class mode (updating a class), if so clicking a selected item will remove it from the group and also remove inline styling for a better user experience */
+        if(scope.classEditMode){
+          StylingFactory.revertClassOnSelectedElement(self, scope.newClass.name, scope);
+          removeSelectedElementFromStyleGroup(scope, self);
+        } else {
+          removeSelectedElementFromStyleGroup(scope, self);
+        }
+        return;
       } else {
-        addToSelectedElementToStyleGroup(scope, self);
+        if(scope.classEditMode){
+          addSelectedElementToStyleGroup(scope, self);
+          /* Add the class currently selected for editing */
+          self.addClass(scope.newClass.name)
+          /* Add inline styling to element if in class edit mode. */
+          self.css(StylingFactory.getCurrentStyleSheet()[scope.newClass.name])
+        } else {
+          addSelectedElementToStyleGroup(scope, self);
+          return;
+        }
       }
     })
   }
+
+  /* Reset all styling mode objects on scope when exiting style mode. closeStyleMenuBool is an optional argument that designates whether  the styleMenu for classes should be closed. */
+
+    StyleModeFactory.resetScopeStyleObjs = function(scope, closeStyleMenuBool){
+      StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
+      scope.newClass.name = "";
+      scope.newClass.styles = [{key: "", value: ""}];
+      scope.styleGroup = {};
+      scope.classEditMode = false;
+      if(!closeStyleMenuBool){
+        scope.styleMenuOpen = false;
+      }
+      return;
+    }
 
   /* Remove event handlers for lasso-user-content elements when exiting out of styling mode */
   StyleModeFactory.removeEventHandlers = function(){
@@ -100,9 +143,6 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
 
 
 
-  /* Remove an individual element from a class */
-
-
   /* find and apply display-none to nested grid element to allow editing of native html */
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
@@ -122,14 +162,18 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
-        /* */
 
       } else if(scope.stylingModeActive){
-        $("styling-mode-selector").removeClass("style-mode-active");
-        NestedStylingFactory.clearNestedStyling();
         scope.stylingModeActive = false;
+        $("styling-mode-selector")
+        .removeClass("style-mode-active")
+        .text("Styling Mode");
+        NestedStylingFactory.clearNestedStyling();
+        StyleModeFactory.resetScopeStyleObjs(scope);
         StyleModeFactory.removeEventHandlers();
+        scope.classMenuOpen = false;
         scope.styleMenuOpen = false;
+
       }
     }
   }

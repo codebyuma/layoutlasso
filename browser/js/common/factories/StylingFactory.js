@@ -20,7 +20,13 @@ app.factory("StylingFactory", function(){
     return $("." + className);
   }
 
-  /* Function to traverse widgets and populate styling on reload (via class name) TO BE WRITTEN */
+
+  /* Looping functon to remove inline styling properties from an element  stylesToRemove is an object representing all styles related to that class in javascript object form with properties as keys, and el is NOT a jquery object but a DOM element not converted to jQuery. */
+  var stripElementInlineStyles = function(stylesToRemove, el){
+    for(var style in stylesToRemove){
+      el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
+    }
+  }
 
 
   /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline. Second argument updateOrExport is a boolean, if it is not defined or false, the class name will be removed from the element. Otherwise it is retained for update and export to HTML purposes.*/
@@ -32,9 +38,7 @@ app.factory("StylingFactory", function(){
     matchingElements.each(function(idx, el){
       /* To use removeClass jQuery method, have to convert to jQuery obj. Will not remove class if applying updated class stylings*/
       if(!updateOrExport) $(el).removeClass(className);
-      for(var style in stylesToRemove){
-        el.style.removeProperty("" + style + ""); /* Removing styles, as they are object properties on an element 'style' object (plain old js)*/
-      }
+      stripElementInlineStyles(stylesToRemove, el);
     })
   }
 
@@ -66,16 +70,18 @@ app.factory("StylingFactory", function(){
     return styleArray;
   }
 
+  /* Run when clicking the update button when updating styles on a class.*/
   var updateStyleClass = function(updatedObj, name){
     var original = getSingleClassForEditing(name);
-    // Remove any styles that have been removed during edit
+    // Remove any css properties that have been removed during edit
     for(var property in original){
       if(!updatedObj.hasOwnProperty(property)){
         delete original[property];
       }
     }
-    // For remaining styles, replace old values with any new ones.
+    // For remaining css properties, replace old values with any new ones.
     _.extend(original, updatedObj);
+    /* Return the source of 'truth', from the pageStyleSheet object in this factory. Ensures the value is consistent */
     return getSingleClassForEditing(name);
   }
 
@@ -141,7 +147,25 @@ app.factory("StylingFactory", function(){
     getCurrentStyleSheet: function(){
       return pageStyleSheet;
     },
+    /* Remove class and active inline styling on a single element when in class edit mode (when updating class)*/
+    revertClassOnSelectedElement: function(element, className, scope){
+      var stylesToRemove = pageStyleSheet[className];
+      /* Need to add element[0] as element is a jQuery array like object. Even for a single element. */
+      stripElementInlineStyles(stylesToRemove, element[0])
+      element.removeClass(className);
+      delete scope.styleGroup[element.data("styling-ref")];
+      return;
+    },
 
+    /* Add class on a single element when in class editing mode */
+
+    addClassOnSelectedElement: function(element, className, scope){
+      var stylesToAdd = pageStyleSheet[className];
+
+    },
+
+
+    /* reset objects that hold styling objects when in Styling Mode */
     resetCurrentStyleSheetObjs: function(){
       pageStyleSheet = {};
       removedStyles = {};

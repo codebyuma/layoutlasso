@@ -1,23 +1,15 @@
-app.directive("classDisplay", function(StylingFactory, $rootScope){
+app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFactory, ClassEditModeFactory){
   return {
     restrict: "E",
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
     link: function(scope, element, attrs){
-
-      $("class-display").on("mouseenter", ".class-selector", function(event){
-        console.log(event.target.innerHTML);
-        $("." + event.target.innerHTML).addClass("lasso-highlight-class");
-      })
-
-      $("class-display").on("mouseleave", ".class-selector", function(event){
-        $("." + event.target.innerHTML).removeClass("lasso-highlight-class");
-      })
 
       scope.loadClassForEditing = function(className){
         scope.classEditMode = true;
         scope.newClass.name = className;
         scope.newClass.styles = StylingFactory.convertToEditableObj(className);
         scope.styleMenuOpen = true;
+        StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
       }
 
       scope.removeClassStyling = function(className){
@@ -29,6 +21,11 @@ app.directive("classDisplay", function(StylingFactory, $rootScope){
 
       scope.closeMenu = function(){
         scope.classMenuOpen = false;
+        scope.classEditMode = false;
+        $(".lasso-styling-in-progress").removeClass("lasso-styling-in-progress");
+        $(".lasso-editing-class").removeClass("lasso-editing-class");
+        ClassEditModeFactory.removeClassEditEventListeners();
+        StyleModeFactory.resetScopeStyleObjs(scope);
       }
     }
   }
