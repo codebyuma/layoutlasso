@@ -13,7 +13,6 @@ class-display {
     .class-selector {
       color: purple;
       cursor: pointer;
-      @include button-transition;
     }
     .class-selector:hover {
       color: orange;
