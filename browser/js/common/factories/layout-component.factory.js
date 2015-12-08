@@ -39,7 +39,21 @@ app.factory("LayoutComponentFactory",  function($compile){
         <a href="#" class="list-group-item">Item Two</a>\
         <a href="#" class="list-group-item">Item Three</a>\
       </div>'
-
+    },
+    addJumbotron: function() {
+      return '<div class="jumbotron">\
+        <h1>Hello, world!</h1>\
+        <p>Your text here. Put anything you want here. So cool.</p>\
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>\
+      </div>'
+    },
+    addPanel: function(type) {
+      return '<div class="panel panel-'+ type +'">\
+              <div class="panel-heading">Panel heading</div>\
+               <div class="panel-body">\
+                 <p>Panel body.</p>\
+               </div>\
+            </div>'
     }
 
   }
