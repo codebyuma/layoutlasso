@@ -171,44 +171,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
       StyleModeFactory.resetEditableLayers($scope);
     }
 
-    $scope.saveGrid = function() {
-        $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
-        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
-        StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
-        GridFactory.saveGridLocal(); // save the grid to scope
-        if ($scope.user && $rootScope.project && $rootScope.page) {
-            GridFactory.saveGridBackend($rootScope.page)
-        } else {
-            if (!$scope.user) {
-                $scope.promptUserLogin();
-                ModalFactory.userLoginModal.result.then(function(user) {
-                    $scope.user = user;
-                    if (!$rootScope.project) {
-                        $scope.promptProjectLoad();
-                    }
-                })
-            } else {
-                $scope.promptProjectLoad();
-            }
-        }
-        if($scope.stylingModeActive){
-          NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
-        }
+    $scope.showGridManagement = false;
+    $scope.toggleGridManagement = function () {
+        $scope.showGridManagement = !$scope.showGridManagement;
+        return;
     }
 
-    $scope.clearGrid = function(){
-      StyleModeFactory.deactivateStyleMode($scope);
-      GridFactory.clearGrid();
-      $scope.nestedGrids = GridFactory.getNestedGrids();
-      $scope.pageStyleSheet = [];
-    }
-
-    $scope.loadGrid = function() {
-        GridFactory.loadGrid($scope, $rootScope.page);
-        $scope.nestedGrids = GridFactory.getNestedGrids();
-        $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
-        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
-    }
 
     //===== Templates ===== //
 
@@ -328,7 +296,11 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           } else if (component[1] === "inputForm") {
             GridCompFactory.addInputForm($scope, component[0]);
           } else if (component[1] === "list") {
-            GridCompFactory.addList($scope, component[0], component[2]);
+            GridCompFactory.addList($scope, component[0]);
+          } else if (component[1] === "jumbotron") {
+            GridCompFactory.addJumbotron($scope, component[0]);
+          } else if (component[1] === "panel") {
+            GridCompFactory.addPanel($scope, component[0], component[2]);
           }
       })
     }
