@@ -46,6 +46,14 @@ app.factory("LayoutComponentFactory",  function($compile){
         <p>Your text here. Put anything you want here. So cool.</p>\
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>\
       </div>'
+    },
+    addPanel: function(type) {
+      return '<div class="panel panel-'+ type +'">\
+              <div class="panel-heading">Panel heading</div>\
+               <div class="panel-body">\
+                 <p>Panel body.</p>\
+               </div>\
+            </div>'
     }
 
   }

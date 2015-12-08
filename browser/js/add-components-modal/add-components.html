@@ -43,6 +43,17 @@
     </div>
     </li>
   </ul>
+
+<!-- ADD PANELS -->
+ <div> Panels:
+     <span ng-repeat="panel in panels">
+     	<div ng-class="'panel panel-' + panel" ng-click="save(['panel', panel])">
+        <div class="panel-heading">Panel heading</div>
+         <div class="panel-body">
+           <p>Panel body.</p>
+         </div>
+      </div>
+     </span>
  </div>
 
 <!-- ADD IMAGE OR VIDEO -->

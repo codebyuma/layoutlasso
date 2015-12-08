@@ -89,5 +89,17 @@ app.factory('GridCompFactory', function($http, LayoutComponentFactory, GridFacto
       StyleModeFactory.resetEditableLayers(scope);
     }
 
+    GridCompFactory.addPanel = function(scope, id, type) {
+      if (GridFactory.isGrid("grid" + id)) {
+        var grid = GridFactory.getGridById("grid" + id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addPanel(type))
+      } else { // if widget is NOT already a grid, make it a grid and nest the button element inside
+        var grid = GridFactory.addNestedGrid(scope, id);
+        var el = GridFactory.createElement(scope, GridFactory.incrementCounter(), LayoutComponentFactory.addPanel(type))
+      }
+      grid.add_widget(el, 0, 0, 10, 3, true);
+      StyleModeFactory.resetEditableLayers(scope);
+    }
+
 	return GridCompFactory;
 })
