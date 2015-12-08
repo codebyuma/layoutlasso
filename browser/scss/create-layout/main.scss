@@ -3,6 +3,11 @@
   -webkit-transition: 0.2s all;
 }
 
+@mixin menu-transition {
+  transition: 0.25s all ease-in-out;
+  -webkit-transition: 0.25s all ease-in-out;
+}
+
 $main-grid-background-color: #E9F7FF; // blues: very light #F5FAFF  light #CFEDFF
 
 h3    {
@@ -152,13 +157,31 @@ button:active {
   background-color: #4d4d4d;
   width: 400px;
   height: auto;
+  transform: translateX(420px);
   padding: 10px;
   box-shadow: 0px 5px 10px #666;
+  @include menu-transition;
 }
 
-.slide-menu-right.ng-enter {
-
+css-applicator {
+  @include menu-transition;
 }
+
+.lasso-slide.ng-hide-add, .lasso-slide.ng-hide-remove {
+  @include menu-transition;
+}
+
+.lasso-slide.ng-hide {
+  transform: translateX(400px)
+}
+
+.lasso-slide {
+  transform: translateX(0px);
+}
+
+
+
+
 
 #lasso-logo {
   // float: left;
