@@ -79,12 +79,9 @@ app.factory('ExportFactory', function(GridFactory, StyleSaveLoadFactory) {
         return a.x - b.x;
       });
       // create offsets at the beginning of the row
-      console.log("subarr is", subarr);
       if (subarr[0].x != 0) {
-        console.log("it has a beginning offset");
         newWidth = subarr[0].x;
         newNode = { offset: true, x: 0, width:  newWidth, content: "" };
-        console.log("newNode", newNode);
         subarr.splice(0, 0, newNode); // insert newNode into the array
       }
 
