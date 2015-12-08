@@ -13,20 +13,11 @@
     <hr>
 
 <section>
-<!--   <div class="grid-management-panel"> -->
-  <button ng-click="toggleGridManagement()" class="btn lasso-toolbar-btn grid-mgmt"> Grid </button>
+  <button ng-click="toggleGridManagement()" class="btn lasso-toolbar-btn grid-mgmt"> Grid <span class="glyphicon glyphicon-chevron-right"></span> </button>
     <grid-management ng-show="showGridManagement"></grid-management>
-    <!-- <button ng-click="clearGrid()" class="btn lasso-toolbar-btn grid-mgmt">Clear Grid</button> -->
-      <!-- <button ng-click="saveGrid()" class="btn lasso-toolbar-btn grid-mgmt">Save Grid</button> -->
-      <!-- <button ng-click="loadGrid()" class="btn lasso-toolbar-btn grid-mgmt">Load Grid</button> -->
-      <!-- <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn grid-mgmt">Templates</button> -->
-<!--   </div> -->
+
 </section>
-<!--
-    <button ng-click="clearGrid()" class="btn lasso-toolbar-btn grid-mgmt">Clear Grid</button>
-    <button ng-click="saveGrid()" class="btn lasso-toolbar-btn grid-mgmt">Save Grid</button>
-    <button ng-click="loadGrid()" class="btn lasso-toolbar-btn grid-mgmt">Load Grid</button>
- -->
+
     <button ng-click="loadTemplates()" class="btn lasso-toolbar-btn grid-mgmt">Templates</button>
 
     <hr>
@@ -34,27 +25,18 @@
     <button ng-click="addNewGridElement()" class="btn lasso-toolbar-btn elements">
       <span class='glyphicon glyphicon-plus'></span> element</button>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn elements">
-      <span class='glyphicon glyphicon-plus'></span> nav bar</button>
-    <button ng-click="addButton()" class="btn lasso-toolbar-btn elements">
-      <span class='glyphicon glyphicon-plus'></span> button</button>
+      <span class='glyphicon glyphicon-plus'></span> navbar</button>
 
-    <styling-mode-selector class="btn lasso-toolbar-btn btn-left">Styling Mode</styling-mode-selector>
+    <styling-mode-selector></styling-mode-selector>
     <button class="lasso-toolbar-btn" ng-show="stylingModeActive" ng-click="showClassPanel()">Show Classes</button>
 
     <hr>
-    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
+    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export</button>
 
   </div>
 </aside>
 
-
 <section class="create-layout">
-
-  <div class="project-info" >
-    <!-- style="margin: left; ">  -->
-      <span ng-show="project"> Project: {{ project.name }} </span>
-      <span ng-show="page"> Page: {{ page.name }} </span>
-  </div>
 
   <div class="page-layout">
     <div growl></div>

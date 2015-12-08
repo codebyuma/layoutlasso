@@ -1,6 +1,14 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
-        <div ng-show="project">Project: {{ project.name }} <span ng-show="page"> - Page: {{ page.name }}</span></div>
+        <!-- <div ng-show="project"> -->
+       	<span class="project-display">
+       		<span ng-hide="project" class="proj-titles"> No project currently loaded </span>
+        	<span ng-show="project" class="proj-titles"> Project: </span>
+        	<span ng-show="project" class="current-project"> {{ project.name }} </span>
+        	<span ng-show="page" class="proj-titles"> Page: </span>
+        	<span ng-show="page" class="current-page"> {{ page.name }} </span>
+       	</span>
+        <!-- </div> -->
         
         <button ng-show="!user" ng-click="launchLogin()" class="btn login-button">Login</button>
         <span ng-show="user" class="welcome">
