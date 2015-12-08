@@ -1,6 +1,6 @@
 app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory, ModalFactory, $uibModalInstance, AuthService) {
 
-    
+
      AuthService.getLoggedInUser()
      .then (function (user){
         $scope.user = user;
@@ -12,9 +12,9 @@ app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory,
             $scope.hasProjects = false;
         }
      })
-     
+
     $scope.createProj = ModalFactory.getCreateProjBool(); // flag for determining if this is a 'new' or 'load' request. If undefined, then we're in the 'save' flow
-    $scope.inSave = false; // flag for determining if this was called by hitting the save button. 
+    $scope.inSave = false; // flag for determining if this was called by hitting the save button.
 
     if ($scope.createProj === undefined) {
         $scope.inSave = true; // Modal will show both load and create options as we're in the 'save' flow
@@ -45,7 +45,6 @@ app.controller('ProjectModalCtrl', function($scope, UserFactory, ProjectFactory,
         ProjectFactory.getProject(project._id)
             .then(function(theProject) {
                 $scope.project = theProject;
-                $scope.projects.push($scope.project);
                 $scope.inSave = false;
                 $uibModalInstance.close({
                     project: $scope.project,
