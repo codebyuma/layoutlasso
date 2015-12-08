@@ -166,7 +166,9 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         StyleModeFactory.resetScopeStyleObjs(scope);
         scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
+        scope.classMenuOpen = false;
         scope.styleMenuOpen = false;
+
       }
     }
   }
