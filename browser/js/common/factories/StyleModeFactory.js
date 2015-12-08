@@ -83,12 +83,21 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         if(scope.classEditMode){
           StylingFactory.revertClassOnSelectedElement(self, scope.newClass.name, scope);
           removeSelectedElementFromStyleGroup(scope, self);
+        } else {
+          removeSelectedElementFromStyleGroup(scope, self);
         }
-        removeSelectedElementFromStyleGroup(scope, self);
         return;
       } else {
-        addSelectedElementToStyleGroup(scope, self);
-        return;
+        if(scope.classEditMode){
+          addSelectedElementToStyleGroup(scope, self);
+          /* Add the class currently selected for editing */
+          self.addClass(scope.newClass.name)
+          /* Add inline styling to element if in class edit mode. */
+          self.css(StylingFactory.getCurrentStyleSheet()[scope.newClass.name])
+        } else {
+          addSelectedElementToStyleGroup(scope, self);
+          return;
+        }
       }
     })
   }
@@ -129,9 +138,6 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
 
 
 
-  /* Remove an individual element from a class */
-
-
   /* find and apply display-none to nested grid element to allow editing of native html */
 
   StyleModeFactory.findNestedGrid = function(parentId, callback){
@@ -151,7 +157,6 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
-        /* */
 
       } else if(scope.stylingModeActive){
         $("styling-mode-selector")

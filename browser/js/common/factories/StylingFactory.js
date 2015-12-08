@@ -28,6 +28,7 @@ app.factory("StylingFactory", function(){
     }
   }
 
+
   /* Load matching elements and remove inline styles that apply to that specific class. Required as all styles in editor are applied inline. Second argument updateOrExport is a boolean, if it is not defined or false, the class name will be removed from the element. Otherwise it is retained for update and export to HTML purposes.*/
 
   var removeClassInlineStyles = function(className, updateOrExport){
@@ -146,7 +147,7 @@ app.factory("StylingFactory", function(){
     getCurrentStyleSheet: function(){
       return pageStyleSheet;
     },
-
+    /* Remove class and active inline styling on a single element when in class edit mode (when updating class)*/
     revertClassOnSelectedElement: function(element, className, scope){
       var stylesToRemove = pageStyleSheet[className];
       /* Need to add element[0] as element is a jQuery array like object. Even for a single element. */
@@ -156,6 +157,15 @@ app.factory("StylingFactory", function(){
       return;
     },
 
+    /* Add class on a single element when in class editing mode */
+
+    addClassOnSelectedElement: function(element, className, scope){
+      var stylesToAdd = pageStyleSheet[className];
+
+    },
+
+
+    /* reset objects that hold styling objects when in Styling Mode */
     resetCurrentStyleSheetObjs: function(){
       pageStyleSheet = {};
       removedStyles = {};
