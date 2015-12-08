@@ -328,7 +328,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
     $scope.addButtonToMain = function(type) {
         GridCompFactory.addButton($scope, GridFactory.main_grid, type);
         // Re-render editable layer on componenet addition.
-        // StyleModeFactory.resetEditableLayers($scope);
+        // StyleModeFactory.resetEditableLayers($scope); 
       }
 
     $scope.addButton = function(type) {
