@@ -164,44 +164,51 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
       StyleModeFactory.resetEditableLayers($scope);
     }
 
-    $scope.saveGrid = function() {
-        $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
-        NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
-        StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
-        GridFactory.saveGridLocal(); // save the grid to scope
-        if ($scope.user && $scope.project && $scope.page) {
-            GridFactory.saveGridBackend($scope.page)
-        } else {
-            if (!$scope.user) {
-                $scope.promptUserLogin();
-                ModalFactory.userLoginModal.result.then(function(user) {
-                    $scope.user = user;
-                    if (!$scope.project) {
-                        $scope.promptProjectLoad();
-                    }
-                })
-            } else {
-                $scope.promptProjectLoad();
-            }
-        }
-        if($scope.stylingModeActive){
-          NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
-        }
+    $scope.showGridManagement = false;
+    $scope.toggleGridManagement = function () {
+        $scope.showGridManagement = !$scope.showGridManagement;
+        console.log("show grid mgmt: ", $scope.showGridManagement)
+        return;
     }
 
-    $scope.clearGrid = function(){
-      StyleModeFactory.deactivateStyleMode($scope);
-      GridFactory.clearGrid();
-      $scope.nestedGrids = GridFactory.getNestedGrids();
-      $scope.pageStyleSheet = [];
-    }
+    // $scope.saveGrid = function() {
+    //     $scope.save = true; // flag indicates user has hit save button (used in promptProjectPage to determine if to save the page after loading it)
+    //     NestedStylingFactory.clearNestedStyling(); // Clear any nested styling classes from DOM.
+    //     StyleSaveLoadFactory.removeElementSelectedClassOnSave("lasso-styling-in-progress");
+    //     GridFactory.saveGridLocal(); // save the grid to scope
+    //     if ($scope.user && $scope.project && $scope.page) {
+    //         GridFactory.saveGridBackend($scope.page)
+    //     } else {
+    //         if (!$scope.user) {
+    //             $scope.promptUserLogin();
+    //             ModalFactory.userLoginModal.result.then(function(user) {
+    //                 $scope.user = user;
+    //                 if (!$scope.project) {
+    //                     $scope.promptProjectLoad();
+    //                 }
+    //             })
+    //         } else {
+    //             $scope.promptProjectLoad();
+    //         }
+    //     }
+    //     if($scope.stylingModeActive){
+    //       NestedStylingFactory.findEditableLayer($("#main-grid"), ".grid-stack-item");
+    //     }
+    // }
 
-    $scope.loadGrid = function() {
-        GridFactory.loadGrid($scope, $scope.page);
-        $scope.nestedGrids = GridFactory.getNestedGrids();
-        $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
-        if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
-    }
+    // $scope.clearGrid = function(){
+    //   StyleModeFactory.deactivateStyleMode($scope);
+    //   GridFactory.clearGrid();
+    //   $scope.nestedGrids = GridFactory.getNestedGrids();
+    //   $scope.pageStyleSheet = [];
+    // }
+
+    // $scope.loadGrid = function() {
+    //     GridFactory.loadGrid($scope, $scope.page);
+    //     $scope.nestedGrids = GridFactory.getNestedGrids();
+    //     $scope.pageStyleSheet = StylingFactory.getStyleSheetClassNames();
+    //     if($scope.styleModeActive) NestedStylingFactory.findEditableLayer();
+    // }
 
     //===== Templates ===== //
 
