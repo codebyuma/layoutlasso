@@ -7,10 +7,10 @@ app.directive("stylingModeSelector", function($rootScope){
         scope.toggleStyleMode();
         if(scope.stylingModeActive){
           $(element).addClass("style-mode-active");
-          $(element).html("Exit Styling");
+          $(element).text("Exit Styling");
         } else {
           $(element).removeClass("style-mode-active");
-          $(element).html("Styling Mode");
+          $(element).text("Styling Mode");
         }
         $rootScope.$digest();
       })
