@@ -14,6 +14,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         scope.styleGroup = {};
         scope.classEditMode = false;
         scope.styleMenuOpen = false;
+        $rootScope.$digest();
         return;
       }
 
