@@ -1,6 +1,7 @@
 <nav class="navbar navbar-static-top">
     <div class="container">
         <div ng-show="project">Project: {{ project.name }} <span ng-show="page"> - Page: {{ page.name }}</span></div>
+        
         <button ng-show="!user" ng-click="launchLogin()" class="btn login-button">Login</button>
         <span ng-show="user" class="welcome">
             <span> Signed is as: </span>
