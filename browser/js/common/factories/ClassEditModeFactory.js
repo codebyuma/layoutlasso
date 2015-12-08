@@ -4,7 +4,6 @@ app.factory("ClassEditModeFactory", function(StyleModeFactory, $rootScope){
 
   ClassEditModeFactory.initClassEditEventListeners = function(scope){
     $("class-display").on("mouseenter", ".class-selector", function(event){
-      console.log(event.target.innerHTML);
       $("." + event.target.innerHTML).addClass("lasso-highlight-class");
     })
 

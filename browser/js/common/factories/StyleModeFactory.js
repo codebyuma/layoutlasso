@@ -164,12 +164,12 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         StyleModeFactory.elementSelectEventListenerInit(scope);
 
       } else if(scope.stylingModeActive){
+        scope.stylingModeActive = false;
         $("styling-mode-selector")
         .removeClass("style-mode-active")
         .text("Styling Mode");
         NestedStylingFactory.clearNestedStyling();
         StyleModeFactory.resetScopeStyleObjs(scope);
-        scope.stylingModeActive = false;
         StyleModeFactory.removeEventHandlers();
         scope.classMenuOpen = false;
         scope.styleMenuOpen = false;
