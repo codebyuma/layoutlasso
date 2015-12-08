@@ -1,4 +1,4 @@
-app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory, ClassEditModeFactory) {
+app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory, ClassEditModeFactory) {
 
 
     $scope.user = theUser;
