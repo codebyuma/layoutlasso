@@ -12,9 +12,20 @@ app.factory("LayoutComponentFactory",  function($compile){
         </div>\
       </nav>'
     },
+
     addButton: function(type) {
       return '<button ng-click="click()" class="btn btn-'+ type +'"> Click Me </button>';
     },
+
+    addImage: function(url) {
+      return ('<img src=' + url + '>')
+    },
+
+    addVideo: function (url) {
+      // may not actually need this function: just have user enter embed code
+      return '<iframe width="420" height="315" src="' + url + '" frameborder="0" allowfullscreen></iframe>'
+    },
+
     addInputForm: function() {
       return '<form><div class="input-group">\
         <span class="input-group-addon" id="basic-addon1">Input:</span>\
@@ -28,7 +39,9 @@ app.factory("LayoutComponentFactory",  function($compile){
         <a href="#" class="list-group-item">Item Two</a>\
         <a href="#" class="list-group-item">Item Three</a>\
       </div>'
+
     }
+
   }
 
 })

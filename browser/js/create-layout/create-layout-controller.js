@@ -1,7 +1,7 @@
 app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, theUser, growl, GridCompFactory, GridFactory, ExportFactory, BrowserifyFactory, StyleSaveLoadFactory, StylingFactory, ModalFactory, StyleModeFactory, NestedStylingFactory, LassoButtonBoxFactory) {
 
 
-
+    $scope.user = theUser;
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
     // CSS Setting and Getting on elements
     // This object has elements to be styled assigned to it, with id's as keys.
@@ -32,7 +32,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     LassoButtonBoxFactory.initEvents();
 
     GridFactory.init();
-    $scope.user = theUser;
+
     $scope.project, $scope.page = null;
     $scope.main_grid = GridFactory.getMainGrid();
     $scope.nestedGrids = GridFactory.getNestedGrids();
@@ -219,6 +219,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     //===== Exporting ===== //
     $scope.exportHTML = function() {
+
         var pageName, projectName, filename;
         // Clear styling if trying to export in styling mode.
         if($scope.stylingModeActive) NestedStylingFactory.clearNestedStyling();
@@ -235,6 +236,7 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
         var html = ExportFactory.convertToHTML();
         var css = ExportFactory.produceStyleSheet();
+
         if (css){
             html = ExportFactory.convertToHTML('<link rel="stylesheet" href="' + filename + ".css" + '">');
         }
@@ -262,7 +264,9 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           var cssUrl = window.URL.createObjectURL(cssBlob);
           var b = document.createElement("a");
           b.href = cssUrl;
+
           b.download = filename + ".css";
+
           b.click();
           window.URL.revokeObjectURL(cssUrl);
         }
@@ -302,6 +306,10 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
           // append the selected component to the DOM
           if(component[1] == "button"){
             GridCompFactory.addButton($scope, component[0], component[2]);
+          } else if (component[1] == 'image'){
+            GridCompFactory.addImage($scope, component[0], component[2]);
+          } else if (component[1] == 'video'){
+            GridCompFactory.addVideo($scope, component[0], component[2]);
           } else if (component[1] === "inputForm") {
             GridCompFactory.addInputForm($scope, component[0]);
           } else if (component[1] === "list") {
@@ -318,6 +326,14 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
 
     $scope.addButton = function(type) {
         GridCompFactory.addButton($scope, GridFactory.incrementCounter(), type);
+    }
+
+    $scope.addVideo = function (url) {
+        GridCompFactory.addVideo($scope, GridFactory.main_grid, GridFactory.incrementCounter(), url)
+    }
+
+    $scope.addImage = function (url) {
+        GridCompFactory.addImage($scope, GridFactory.main_grid, GridFactory.incrementCounter(), url)
     }
 
     /* ===== GRID STYLING SCOPE OBJECTS  =====*/
@@ -338,4 +354,5 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, $rootScope, the
     $scope.styleMenuOpen = false;
     // Boolean to indicate if class menu is open or not.
     $scope.classMenuOpen = false;
+
 })
