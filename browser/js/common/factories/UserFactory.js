@@ -24,8 +24,8 @@ app.factory('UserFactory', function($rootScope, $http){
         })
     }
 
-    UserFactory.updateUserProjects = function (id, projectId){
-        return $http.put('/api/users/' + id + "/projects", {project: projectId})
+    UserFactory.updateUserProjects = function (id, _project){
+        return $http.put('/api/users/' + id + "/projects", {project: _project})
         .then(function(user){
             return user.data
         })
