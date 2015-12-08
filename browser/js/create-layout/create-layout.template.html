@@ -13,7 +13,7 @@
     <hr>
 
 <section>
-  <button ng-click="toggleGridManagement()" class="btn lasso-toolbar-btn grid-mgmt"> Grid </button>
+  <button ng-click="toggleGridManagement()" class="btn lasso-toolbar-btn grid-mgmt"> Grid <span class="glyphicon glyphicon-chevron-right"></span> </button>
     <grid-management ng-show="showGridManagement"></grid-management>
 
 </section>
@@ -25,13 +25,13 @@
     <button ng-click="addNewGridElement()" class="btn lasso-toolbar-btn elements">
       <span class='glyphicon glyphicon-plus'></span> element</button>
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn elements">
-      <span class='glyphicon glyphicon-plus'></span> nav bar</button>
+      <span class='glyphicon glyphicon-plus'></span> navbar</button>
 
-    <styling-mode-selector class="btn lasso-toolbar-btn btn-left">Styling Mode</styling-mode-selector>
+    <styling-mode-selector></styling-mode-selector>
     <button class="lasso-toolbar-btn" ng-show="stylingModeActive" ng-click="showClassPanel()">Show Classes</button>
 
     <hr>
-    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export HTML</button>
+    <button ng-hide="gridEmpty()" ng-click="exportHTML()" class="btn lasso-toolbar-btn">Export</button>
 
   </div>
 </aside>
