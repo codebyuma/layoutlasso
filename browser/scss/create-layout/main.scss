@@ -80,7 +80,7 @@ button:active {
 
 .toolbar {
   position: fixed;
-  padding: 20px 0px 0px 0px;
+  // padding: 20px 0px 0px 0px;
   top: 0px;
   width: 120px;
   height: calc(100% + 100px);
@@ -159,8 +159,8 @@ button:active {
 #lasso-logo {
   // float: left;
   height: 70px;
-  padding: 10px;
-  margin-left: 30px;
+  padding: 10px 10px 0px 10px;
+  margin-left: 22px;
   z-index: 2000;
 
 }
