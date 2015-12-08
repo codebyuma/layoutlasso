@@ -56,6 +56,11 @@ body {
 }
 
 
+.glyphicon.glyphicon-chevron-right{
+  font-size: 0.75em;
+  vertical-align:0.1em;
+}
+
 
 @import 'directives/main';
 @import 'login/main';

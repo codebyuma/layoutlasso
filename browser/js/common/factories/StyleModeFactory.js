@@ -165,7 +165,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
 
       } else if(scope.stylingModeActive){
         scope.stylingModeActive = false;
-        $("styling-mode-selector")
+        $("styling-mode-selector").children("button")
         .removeClass("style-mode-active")
         .text("Styling Mode");
         NestedStylingFactory.clearNestedStyling();

@@ -31,6 +31,9 @@ styling-mode-selector {
   outline: none;
   border: none;
   transition: all 0.25s;
+  &:focus{
+    color: white;
+  }
 }
 
 .style-mode-active {
