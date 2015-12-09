@@ -17,7 +17,6 @@ app.factory("ClassEditModeFactory", function(StyleModeFactory, $rootScope){
       if(self.hasClass(targetSelector)){
         self.removeClass(targetSelector);
         StyleModeFactory.resetScopeStyleObjs(scope, true);
-        $rootScope.$digest();
       } else {
         // Remove styling from any other selected items first.
         $(targetSelector).removeClass(targetSelector);

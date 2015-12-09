@@ -1,20 +1,20 @@
 .lasso-styling-in-progress {
   box-sizing: border-box !important; /* Required */
-  border: 2px dotted red !important;
+  outline: 2px double red !important;
 }
 
 .lasso-highlight-class {
-  border: 2px solid red;
+  outline: 2px solid red;
   box-sizing: border-box;
 }
 
 .lasso-highlight-on-hover {
-  border: 2px dashed red !important;
+  outline: 2px dashed red !important;
   box-sizing: border-box;
 }
 
 .lasso-editable-widget {
-  border: 2px solid purple !important;
+  outline: 2px solid purple !important;
   box-shadow: 0px 5px 10px #666;
 }
 
