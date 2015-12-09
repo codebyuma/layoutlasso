@@ -11,18 +11,18 @@ app.factory("ClassEditModeFactory", function(StyleModeFactory, $rootScope){
       $("." + event.target.innerHTML).removeClass("lasso-highlight-class");
     })
 
-    $("class-display").on("click", ".class-selector", function(event){
-      var self  = $(this);
-      var targetSelector = "lasso-editing-class";
-      if(self.hasClass(targetSelector)){
-        self.removeClass(targetSelector);
-        StyleModeFactory.resetScopeStyleObjs(scope, true);
-      } else {
-        // Remove styling from any other selected items first.
-        $(targetSelector).removeClass(targetSelector);
-        self.addClass(targetSelector);
-      }
-    })
+    // $("class-display").on("click", ".class-selector", function(event){
+    //   var self  = $(this);
+    //   var targetSelector = "lasso-editing-class";
+    //   if(self.hasClass(targetSelector)){
+    //     self.removeClass(targetSelector);
+    //     StyleModeFactory.resetScopeStyleObjs(scope, true);
+    //   } else {
+    //     // Remove styling from any other selected items first.
+    //     $(targetSelector).removeClass(targetSelector);
+    //     self.addClass(targetSelector);
+    //   }
+    // })
   }
 
   ClassEditModeFactory.removeClassEditEventListeners = function(){

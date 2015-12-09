@@ -160,11 +160,11 @@ button:active {
   transform: translateX(420px);
   padding: 10px;
   box-shadow: 0px 5px 10px #666;
-  @include menu-transition;
+  /*@include menu-transition;*/
 }
 
 css-applicator {
-  @include menu-transition;
+  /*@include menu-transition;*/
 }
 
 .lasso-slide.ng-hide-add, .lasso-slide.ng-hide-remove {
