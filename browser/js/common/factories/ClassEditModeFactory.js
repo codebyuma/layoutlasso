@@ -9,9 +9,7 @@ app.factory("ClassEditModeFactory", function(){
   }
 
   ClassEditModeFactory.initClassEditEventListeners = function(scope){
-    console.log("RUNNING CLASS EVENT LISTENERS.")
     $("class-display").on("mouseenter", ".class-selector", function(event){
-      console.log(ClassEditModeFactory.findTargetClass(event));
       ClassEditModeFactory.findTargetClass(event).addClass("lasso-highlight-class");
     })
 
