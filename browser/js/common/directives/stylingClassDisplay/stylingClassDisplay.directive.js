@@ -4,16 +4,37 @@ app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFact
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
     link: function(scope, element, attrs){
 
+
       scope.toggleClassForEditing = function(className){
-        console.log("THIS EVENT: ", event);
+        var self = $(event.target); /* event is passed into scope of directive implicitly from ng-click directive on element. Use this to get current element clicked on and then convert to jQuery object to add styling. */
         if(!scope.classEditMode){
           scope.classEditMode = true;
+          scope.currentClassInEdit = self.data("class-name");
           scope.newClass.name = className;
           scope.newClass.styles = StylingFactory.convertToEditableObj(className);
           scope.styleMenuOpen = true;
           StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
+          self.addClass("lasso-editing-class");
+
         } else {
-          StyleModeFactory.resetScopeStyleObjs(scope, true);
+          /* If element hit by ng-click event*/
+          if(self.hasClass("lasso-editing-class")){
+            $(".lasso-editing-class").removeClass("lasso-editing-class");
+            // self.addClass("lasso-editing-class");
+            StyleModeFactory.resetScopeStyleObjs(scope, true);
+            scope.classEditMode = false;
+            // scope.newClass.name = className;
+            // scope.newClass.styles = StylingFactory.convertToEditableObj(className);
+            // StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
+          } else {
+            $(".lasso-editing-class").removeClass("lasso-editing-class");
+            self.addClass("lasso-editing-class");
+            StyleModeFactory.resetScopeStyleObjs(scope, true);
+            scope.classEditMode = true;
+            scope.newClass.name = className;
+            scope.newClass.styles = StylingFactory.convertToEditableObj(className);
+            StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
+          }
         }
       }
 
@@ -29,7 +50,6 @@ app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFact
         scope.classEditMode = false;
         $(".lasso-styling-in-progress").removeClass("lasso-styling-in-progress");
         $(".lasso-editing-class").removeClass("lasso-editing-class");
-        ClassEditModeFactory.removeClassEditEventListeners();
         StyleModeFactory.resetScopeStyleObjs(scope);
       }
     }

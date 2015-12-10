@@ -1,4 +1,4 @@
-app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, NestedStylingFactory){
+app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, NestedStylingFactory, ClassEditModeFactory){
   var StyleModeFactory = {};
   /* Counter to assign key value to each element to be styled in the group*/
   var styleRefCounter = 0;
@@ -46,6 +46,8 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
       $(target).on("mouseleave", function(event){
         $(this).removeClass("lasso-highlight-on-hover");
       })
+
+
 
     });
   }
@@ -173,6 +175,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         scope.styleMenuOpen = true;
         NestedStylingFactory.findEditableLayer(mainGrid, ".grid-stack-item");
         StyleModeFactory.elementSelectEventListenerInit(scope);
+        ClassEditModeFactory.initClassEditEventListeners(scope);
         StyleModeFactory.enableDraggableMenus();
 
       } else if(scope.stylingModeActive){
@@ -181,6 +184,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         .removeClass("style-mode-active")
         .text("Styling Mode");
         NestedStylingFactory.clearNestedStyling();
+        ClassEditModeFactory.removeClassEditEventListeners();
         StyleModeFactory.resetScopeStyleObjs(scope);
         StyleModeFactory.removeEventHandlers();
         scope.classMenuOpen = false;

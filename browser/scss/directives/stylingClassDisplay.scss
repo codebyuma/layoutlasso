@@ -3,30 +3,41 @@
   background-color: yellow;
 }
 
+.clearfix {
+  width: 100%;
+  height: 1px;
+  clear: both;
+}
+
 class-display {
   top: 300px;
   right: 0px;
+  padding: 10px;
   z-index: 51;
-  @include button-transition;
+  box-sizing: border-box;
 
   .cls-field {
     position: relative;
+    margin-bottom: 10px;
+    &:hover {
+      background-color: purple;
+      color: orange;
+    }
+    &:active {
+      background-color: purple;
+      color: white;
+    }
     .right-align-btn {
-      position: absolute;
-      right: 0px;
-      top: 0px;
+      float: right;
+      height: 40px;
+      width: 40px;
     }
     .class-selector {
-      color: purple;
+      float: left;
+      color: white;
       cursor: pointer;
-      &:hover {
-        background-color: purple;
-        color: orange;
-      }
-      &:active {
-        background-color: purple;
-        color: white;
-      }
+      margin: 0px;
+      padding: 10px;
     }
 
     .lasso-editing-class {

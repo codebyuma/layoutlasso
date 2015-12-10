@@ -1,28 +1,23 @@
-app.factory("ClassEditModeFactory", function(StyleModeFactory, $rootScope){
+app.factory("ClassEditModeFactory", function(){
 
   var ClassEditModeFactory = {};
 
+  /* Function to retrieve data element and return jquery array like object of matching elements */
+  ClassEditModeFactory.findTargetClass = function(event){
+    var targetClass = $(event.target).data("class-name");
+    return $("." + targetClass);
+  }
+
   ClassEditModeFactory.initClassEditEventListeners = function(scope){
+    console.log("RUNNING CLASS EVENT LISTENERS.")
     $("class-display").on("mouseenter", ".class-selector", function(event){
-      $("." + event.target.innerHTML).addClass("lasso-highlight-class");
+      console.log(ClassEditModeFactory.findTargetClass(event));
+      ClassEditModeFactory.findTargetClass(event).addClass("lasso-highlight-class");
     })
 
     $("class-display").on("mouseleave", ".class-selector", function(event){
-      $("." + event.target.innerHTML).removeClass("lasso-highlight-class");
+      ClassEditModeFactory.findTargetClass(event).removeClass("lasso-highlight-class");
     })
-
-    // $("class-display").on("click", ".class-selector", function(event){
-    //   var self  = $(this);
-    //   var targetSelector = "lasso-editing-class";
-    //   if(self.hasClass(targetSelector)){
-    //     self.removeClass(targetSelector);
-    //     StyleModeFactory.resetScopeStyleObjs(scope, true);
-    //   } else {
-    //     // Remove styling from any other selected items first.
-    //     $(targetSelector).removeClass(targetSelector);
-    //     self.addClass(targetSelector);
-    //   }
-    // })
   }
 
   ClassEditModeFactory.removeClassEditEventListeners = function(){
@@ -31,5 +26,5 @@ app.factory("ClassEditModeFactory", function(StyleModeFactory, $rootScope){
     $("class-display").off("click", ".class-selector");
   }
 
-    return ClassEditModeFactory;
+  return ClassEditModeFactory;
 })

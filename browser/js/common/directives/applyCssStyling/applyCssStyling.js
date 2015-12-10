@@ -14,7 +14,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         scope.styleGroup = {};
         scope.classEditMode = false;
         scope.styleMenuOpen = false;
-        console.log("STYLE MENU OPEN: ", scope.styleMenuOpen);
+        $(".lasso-editing-class").removeClass("lasso-editing-class");
         return;
       }
 
@@ -70,7 +70,10 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         return;
       },
 
-      scope.cancelStyling = resetScopeStyleObjs;
+      scope.cancelStyling = function(){
+        resetScopeStyleObjs();
+
+      }
 
       scope.updateClass = function(stylingObj){
         StylingFactory.resetInlineStyles(stylingObj.name, true);
