@@ -3,22 +3,24 @@
   background-color: yellow;
 }
 
+.clearfix {
+  width: 100%;
+  height: 1px;
+  clear: both;
+}
+
 class-display {
-  top: 300px;
+  top: 500px;
   right: 0px;
   z-index: 51;
-  @include button-transition;
+  box-sizing: border-box;
 
-  .cls-field {
-    position: relative;
-    .right-align-btn {
-      position: absolute;
-      right: 0px;
-      top: 0px;
-    }
-    .class-selector {
-      color: purple;
-      cursor: pointer;
+
+  .pageClassMenu {
+    padding: 10px;
+    .cls-field {
+      position: relative;
+      margin-bottom: 10px;
       &:hover {
         background-color: purple;
         color: orange;
@@ -27,10 +29,22 @@ class-display {
         background-color: purple;
         color: white;
       }
-    }
+      .right-align-btn {
+        float: right;
+        height: 40px;
+        width: 40px;
+      }
+      .class-selector {
+        float: left;
+        color: white;
+        cursor: pointer;
+        margin: 0px;
+        padding: 10px;
+      }
 
-    .lasso-editing-class {
-      @include class-selector-hover-selected;
+      .lasso-editing-class {
+        @include class-selector-hover-selected;
+      }
     }
   }
 

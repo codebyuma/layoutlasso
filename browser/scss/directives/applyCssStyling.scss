@@ -2,8 +2,16 @@ css-applicator {
   right: 0px;
   top: 100px;
   z-index: 50;
+  label {
+    color: white;
+  }
   .css-field {
     display: block;
     margin: 10px 0px 10px 0px;
+
+    input {
+      padding: 3px;
+      border: none;
+    }
   }
 }
