@@ -1,4 +1,8 @@
-<h2 class="lasso-menu-heading">Current Classes</h2>
+<div class="lasso-menu-heading">
+  <h4>Current Classes</h4>
+  <div ng-click="closeMenu()" class="btn lasso-floating-menu-close"><span class="glyphicon glyphicon-remove"></span></div>
+  <div class="clearfix"></div>
+</div>
 <section class="pageClassMenu">
   <div class="cls-field" ng-repeat="className in pageStyleSheet" >
     <p class-edit-selector ng-click="toggleClassForEditing(className)"  class="class-selector" data-class-name="{{ className }}">{{ className }}</p>
@@ -7,5 +11,4 @@
     </button>
     <div class="clearfix"></div>
   </div>
-  <button ng-click="closeMenu()">Close</button>
 </section>

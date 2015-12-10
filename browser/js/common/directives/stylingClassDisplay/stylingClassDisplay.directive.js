@@ -4,7 +4,7 @@ app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFact
     templateUrl: "/js/common/directives/stylingClassDisplay/stylingClassDisplay.template.html",
     link: function(scope, element, attrs){
 
-
+      /* INTENT IS TO REFACTOR ALL THIS JQUERY MESS INTO A PROPER DIRECTIVE FOR EACH CLASS ON THE MENU */
       scope.toggleClassForEditing = function(className){
         var self = $(event.target); /* event is passed into scope of directive implicitly from ng-click directive on element. Use this to get current element clicked on and then convert to jQuery object to add styling. */
         if(!scope.classEditMode){
@@ -20,12 +20,9 @@ app.directive("classDisplay", function(StylingFactory, $rootScope, StyleModeFact
           /* If element hit by ng-click event*/
           if(self.hasClass("lasso-editing-class")){
             $(".lasso-editing-class").removeClass("lasso-editing-class");
-            // self.addClass("lasso-editing-class");
+            // Deactivate edit mode and remove styling from staging menu.
             StyleModeFactory.resetScopeStyleObjs(scope, true);
             scope.classEditMode = false;
-            // scope.newClass.name = className;
-            // scope.newClass.styles = StylingFactory.convertToEditableObj(className);
-            // StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
           } else {
             $(".lasso-editing-class").removeClass("lasso-editing-class");
             self.addClass("lasso-editing-class");

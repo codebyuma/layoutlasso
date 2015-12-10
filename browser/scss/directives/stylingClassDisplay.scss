@@ -10,38 +10,41 @@
 }
 
 class-display {
-  top: 300px;
+  top: 500px;
   right: 0px;
-  padding: 10px;
   z-index: 51;
   box-sizing: border-box;
 
-  .cls-field {
-    position: relative;
-    margin-bottom: 10px;
-    &:hover {
-      background-color: purple;
-      color: orange;
-    }
-    &:active {
-      background-color: purple;
-      color: white;
-    }
-    .right-align-btn {
-      float: right;
-      height: 40px;
-      width: 40px;
-    }
-    .class-selector {
-      float: left;
-      color: white;
-      cursor: pointer;
-      margin: 0px;
-      padding: 10px;
-    }
 
-    .lasso-editing-class {
-      @include class-selector-hover-selected;
+  .pageClassMenu {
+    padding: 10px;
+    .cls-field {
+      position: relative;
+      margin-bottom: 10px;
+      &:hover {
+        background-color: purple;
+        color: orange;
+      }
+      &:active {
+        background-color: purple;
+        color: white;
+      }
+      .right-align-btn {
+        float: right;
+        height: 40px;
+        width: 40px;
+      }
+      .class-selector {
+        float: left;
+        color: white;
+        cursor: pointer;
+        margin: 0px;
+        padding: 10px;
+      }
+
+      .lasso-editing-class {
+        @include class-selector-hover-selected;
+      }
     }
   }
 
