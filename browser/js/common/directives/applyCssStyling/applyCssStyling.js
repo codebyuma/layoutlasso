@@ -81,7 +81,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         var updateToApply = StylingFactory.updateSpecificClass(updatedCssObj, stylingObj.name);
         scope.styleGroup = StylingFactory.findClassElements(stylingObj.name)
         StylingFactory.applyUpdatedStyling(scope.styleGroup, updateToApply)
-        // Remove the stylign on the current edited class.
+        // Remove the styling on the current edited class.
         $(".lasso-editing-class").removeClass("lasso-editing-class");
         scope.classEditMode = false;
         resetScopeStyleObjs();

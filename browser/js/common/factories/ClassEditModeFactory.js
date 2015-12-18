@@ -24,5 +24,9 @@ app.factory("ClassEditModeFactory", function(){
     $("class-display").off("click", ".class-selector");
   }
 
+  ClassEditModeFactory.getElementClassData = function(element){
+    return element[0].dataset.className;
+  }
+
   return ClassEditModeFactory;
 })
