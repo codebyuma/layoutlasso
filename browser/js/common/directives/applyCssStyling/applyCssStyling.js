@@ -14,7 +14,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         scope.styleGroup = {};
         scope.classEditMode = false;
         scope.styleMenuOpen = false;
-        $(".lasso-editing-class").removeClass("lasso-editing-class");
+        scope.currentClassInEdit = null;
         return;
       }
 

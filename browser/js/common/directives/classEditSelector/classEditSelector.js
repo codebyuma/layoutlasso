@@ -7,6 +7,7 @@ app.directive("classEditSelector", function(ClassEditModeFactory, ClassToEditFac
 
       scope.toggleClassForEditing = function(className){
         if(!layoutScope.classEditMode){
+          layoutScope.classEditMode = true;
           layoutScope.currentClassInEdit = ClassEditModeFactory.getElementClassData(element);
           ClassToEditFactory.loadClassToEdit(layoutScope, className);
         } else {
@@ -14,6 +15,7 @@ app.directive("classEditSelector", function(ClassEditModeFactory, ClassToEditFac
             // Deactivate edit mode and remove styling from staging menu.
             StyleModeFactory.resetScopeStyleObjs(layoutScope, true);
             layoutScope.classEditMode = false;
+            layoutScope.currentClassInEdit = null;
           } else {
             layoutScope.currentClassInEdit = ClassEditModeFactory.getElementClassData(element);
             ClassToEditFactory.loadClassToEdit(layoutScope, className);
