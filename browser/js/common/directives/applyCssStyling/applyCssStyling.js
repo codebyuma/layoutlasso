@@ -52,11 +52,15 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         return;
       }
 
-      /* Removes a style field from this directive (will work on empty string keys too.) May also be extended to allow removal from an existing class*/
+      /* Removes a style field from this directive (will work on empty string keys too.)  Extended to allow removal from an existing class when in class edit mode and remove inline styles automatically */
 
       scope.removeStyle = function(style){
           var toRemoveIdx = _.findIndex(scope.newClass.styles, style);
           scope.newClass.styles.splice(toRemoveIdx, 1);
+          /* */
+          if(scope.classEditMode){
+            scope.updateClass(scope.newClass);
+          }
           return;
       }
 
@@ -81,8 +85,7 @@ app.directive("cssApplicator", function(StylingFactory, GridFactory, StyleModeFa
         var updateToApply = StylingFactory.updateSpecificClass(updatedCssObj, stylingObj.name);
         scope.styleGroup = StylingFactory.findClassElements(stylingObj.name)
         StylingFactory.applyUpdatedStyling(scope.styleGroup, updateToApply)
-        // Remove the styling on the current edited class.
-        $(".lasso-editing-class").removeClass("lasso-editing-class");
+        scope.currentClassInEdit = null;
         scope.classEditMode = false;
         resetScopeStyleObjs();
       }

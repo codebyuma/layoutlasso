@@ -23,14 +23,9 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     delete scope.styleGroup[element.data("styling-ref")];
   }
 
-  StyleModeFactory.resetElementClassDisplay = function(classToRemove){
-    /* Use jQuery selector to select all elements with the class to remove, and remove it using jQuery .removeClass method. */
-    $("." + classToRemove).removeClass(classToRemove);
-  }
-
   /* Display elements in the class to be edited and add to currently being styled object */
   StyleModeFactory.displayElementsInStyledClass = function(scope, className){
-    StyleModeFactory.resetElementClassDisplay("lasso-styling-in-progress");
+    StyleModeFactory.removeIdentityClass("lasso-styling-in-progress");
     var elementsInClass = $("." + className);
     elementsInClass.each(function(idx, el){
       addSelectedElementToStyleGroup(scope, $(el)); /* Need to convert element back into jQuery object to allow application of styling */
@@ -59,7 +54,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     });
   }
 
-  /* Reset and rescan GRID for editable layers on adding new elements or widgets or any other GRID actions */
+  /* Reset and rescan GRID for elements in editable layer (not nested, or top of their nested stack) on adding new elements or widgets or any other GRID actions */
 
   StyleModeFactory.resetEditableLayers = function(scope){
     if(scope.stylingModeActive){

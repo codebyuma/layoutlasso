@@ -138,8 +138,6 @@ app.factory("StylingFactory", function(){
       return;
     },
 
-
-
     getRemovedStyles: function(){
       return removedStyles;
     },
@@ -156,14 +154,6 @@ app.factory("StylingFactory", function(){
       delete scope.styleGroup[element.data("styling-ref")];
       return;
     },
-
-    /* Add class on a single element when in class editing mode */
-
-    addClassOnSelectedElement: function(element, className, scope){
-      var stylesToAdd = pageStyleSheet[className];
-
-    },
-
 
     /* reset objects that hold styling objects when in Styling Mode */
     resetCurrentStyleSheetObjs: function(){
