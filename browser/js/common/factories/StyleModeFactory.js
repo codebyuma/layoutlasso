@@ -17,13 +17,20 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
     styleRefCounter++;
   }
 
+  /* Removes 'selected for styling' class from a given element and also removes it from the hash of elements in the class.*/
   var removeSelectedElementFromStyleGroup = function(scope, element){
     element.removeClass("lasso-styling-in-progress");
     delete scope.styleGroup[element.data("styling-ref")];
   }
 
+  StyleModeFactory.resetElementClassDisplay = function(classToRemove){
+    /* Use jQuery selector to select all elements with the class to remove, and remove it using jQuery .removeClass method. */
+    $("." + classToRemove).removeClass(classToRemove);
+  }
+
   /* Display elements in the class to be edited and add to currently being styled object */
   StyleModeFactory.displayElementsInStyledClass = function(scope, className){
+    StyleModeFactory.resetElementClassDisplay("lasso-styling-in-progress");
     var elementsInClass = $("." + className);
     elementsInClass.each(function(idx, el){
       addSelectedElementToStyleGroup(scope, $(el)); /* Need to convert element back into jQuery object to allow application of styling */
@@ -84,7 +91,7 @@ app.factory("StyleModeFactory", function(StylingFactory, $compile, $rootScope, N
         }
         /* Check if item is currently part of the elements to be styled */
       } else if(self.hasClass("lasso-styling-in-progress")){
-        /* Check if editing in class mode (updating a class), if so clicking a selected item will remove it from the group and also remove inline styling for a better user experience */
+        /* Check if editing in class mode (updating a class), if so clicking a selected item will remove it from the group and also remove inline styling on that element */
         if(scope.classEditMode){
           StylingFactory.revertClassOnSelectedElement(self, scope.newClass.name, scope);
           removeSelectedElementFromStyleGroup(scope, self);

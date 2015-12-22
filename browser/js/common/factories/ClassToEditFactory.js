@@ -9,7 +9,7 @@ app.factory("ClassToEditFactory", function(ClassEditModeFactory, StyleModeFactor
     StyleModeFactory.displayElementsInStyledClass(scope, scope.newClass.name);
   }
 
-  // Set class edit mode to true and then load css properties. 
+  // Set class edit mode to true and then load css properties.
 
   ClassToEditFactory.setClassAndLoad = function(scope, className){
     scope.classEditMode = true;
