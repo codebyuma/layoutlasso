@@ -12,7 +12,7 @@
         
         <button ng-show="!user" ng-click="launchLogin()" class="btn login-button">Login</button>
         <span ng-show="user" class="welcome">
-            <span> Signed is as: </span>
+            <span> Signed in as: </span>
             <span id="user-email"> {{ user.email }} | </span>
             <a ng-click="logout()">Logout</a>
         </span>
