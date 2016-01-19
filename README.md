@@ -18,5 +18,5 @@ This project was generated with the [Fullstack Academy Generator](https://github
 
 ## Build & development
 
-Run `npm start` for to build and preview on http://localhost:1337/
+Run `npm start` to build and preview the app on http://localhost:1337/
 
