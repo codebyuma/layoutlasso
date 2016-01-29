@@ -27,7 +27,10 @@
     <button ng-click="addNavBar()" class="btn lasso-toolbar-btn elements">
       <span class='glyphicon glyphicon-plus'></span> navbar</button>
 
-    <styling-mode-selector></styling-mode-selector>
+    <button class="btn lasso-toolbar-btn elements" ng-class="{'style-mode-active': stylingModeActive}" ng-click="toggleStyleMode()">
+      <span ng-cloak ng-hide="stylingModeActive">Styling Mode</span>
+      <span ng-cloak ng-show="stylingModeActive">Exit Styling</span>
+    </button>
     <button class="lasso-toolbar-btn" ng-show="stylingModeActive" ng-click="showClassPanel()">Show Classes</button>
 
     <hr>

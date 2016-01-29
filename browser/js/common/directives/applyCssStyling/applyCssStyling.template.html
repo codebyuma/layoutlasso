@@ -1,6 +1,7 @@
 <div class="lasso-menu-heading">
-  <h4>Create a Class</h4>
-  <div class="btn lasso-floating-menu-close" title="Close window and cancel styling"><span class="glyphicon glyphicon-remove"></span></div>
+  <h4 ng-hide="classEditMode">Create a Class</h4>
+  <h4 ng-show="classEditMode">Editing Class: {{ currentClassInEdit }}</h4>
+  <div class="btn lasso-floating-menu-close" ng-click="toggleStyleMode()"title="Close window and cancel styling"><span class="glyphicon glyphicon-remove"></span></div>
   <div class="clearfix"></div>
 </div>
 <section class="style-applicator-form">
@@ -15,7 +16,7 @@
       <button class="label-danger" ng-click="removeStyle(prop)"><span class="glyphicon glyphicon-remove"></span></button>
     </div>
     <button ng-click="addNewCssField()">Add Property</button>
-    <button ng-hide="classEditMode" ng-click="getCssFormData(newClass)">Apply</button>
+    <button ng-cloak ng-hide="classEditMode" ng-click="getCssFormData(newClass)">Apply</button>
     <button ng-cloak ng-show="classEditMode" ng-click="updateClass(newClass)">Update</button>
     <button ng-click="cancelStyling()">Reset</button>
   </form>

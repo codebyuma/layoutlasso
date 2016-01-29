@@ -5,7 +5,7 @@
 
 .clearfix {
   width: 100%;
-  height: 1px;
+  height: 0px;
   clear: both;
 }
 
@@ -36,10 +36,11 @@ class-display {
       }
       .class-selector {
         float: left;
-        color: white;
         cursor: pointer;
         margin: 0px;
         padding: 10px;
+        width: 340px;
+        color: #fff;
       }
 
       .lasso-editing-class {

@@ -22,6 +22,12 @@ app.controller("CreateLayoutCtrl", function($scope, AUTH_EVENTS, AuthService, $r
     // Boolean to indicate whether css styling mode is active
     $scope.stylingModeActive = false;
 
+    $scope.currentClassInEdit = null;
+
+    $scope.isSelectedClassToEdit = function(targetClass){
+      return $scope.currentClassInEdit === targetClass;
+    }
+
 
     // Toggle styling mode on or off. Thsi activates event listeners for style actions.
     $scope.toggleStyleMode = function(){
